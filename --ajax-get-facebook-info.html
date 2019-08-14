@@ -1,0 +1,42 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+{exp:stash:parse process="inline" parse_tags="yes" output="no"}
+
+		{exp:stash:set parse_tags="yes"}
+			{stash:activeSegmentTitle}Facebook Video{/stash:title}
+			{stash:activeSegmentDisplayName}Facebook Video{/stash:activeSegmentDisplayName}
+			{stash:activeSegmentFullDisplayName}Facebook Video{/stash:activeSegmentFullDisplayName}
+			{stash:segmentYouTubeCode}{/stash:segmentYouTubeCode}
+			{stash:segmentFacebookCode}{segment_3}{/stash:segmentFacebookCode}
+			{stash:segmentVimeoCode}{/stash:segmentVimeoCode}
+			{stash:segmentMP3Filename}{/stash:segmentMP3Filename}
+			{stash:segmentSoundSliceCode}{/stash:segmentSoundSliceCode}
+			{stash:segmentPDFFilename}{/stash:segmentPDFFilename}
+			{stash:segmentURL}{/stash:segmentURL}
+			{stash:segmentGPXFilename}{/stash:segmentGPXFilename}
+			{stash:mediaStartTime}0{/stash:mediaStartTime}
+			{stash:activeSegmentEntryID}0{/stash:activeSegmentEntryID}
+		{/exp:stash:set}
+{/exp:stash:parse}
+{
+ 	"segmentVimeoCode"	: "{exp:stash:segmentVimeoCode}",
+ 	"segmentFacebookCode"	: "{exp:stash:segmentFacebookCode}",
+	"segmentYouTubeCode"	: "{exp:stash:segmentYouTubeCode}",
+	"segmentMP3Filename"	: "{exp:stash:segmentMP3Filename}",
+	"segmentSoundSliceCode"	: "{exp:stash:segmentSoundSliceCode}",
+	"segmentPDFFilename"	: "{exp:ce_str:ing rawurlencode}{exp:stash:segmentPDFFilename}{/exp:ce_str:ing}",
+	"segmentURL"	: "{exp:ce_str:ing rawurlencode}{exp:stash:segmentURL}{/exp:ce_str:ing}",
+	"segmentGPXFilename"	 : "{exp:ce_str:ing rawurlencode}{exp:stash:segmentGPXFilename}{/exp:ce_str:ing}",
+	"mediaStartTime": "{exp:stash:mediaStartTime}",
+	"segmentEntryID": "{exp:stash:activeSegmentEntryID}",
+	"segmentTitle": "{exp:stash:activeSegmentTitle}",
+	"segmentDisplayName": "{exp:stash:activeSegmentDisplayName}",
+	"segmentFullDisplayName": "{exp:stash:activeSegmentFullDisplayName}",
+	"chaptersArray": [{exp:stash:get_list name="chapterList" prefix="chapter"}
+	        { "name":"{chapter:name}", "time": {chapter:time} }{if chapter:count != chapter:total_results},{/if}{/exp:stash:get_list}
+    ],
+    "loopsArray": [{exp:stash:get_list name="loopsList" prefix="loop"}
+	        { "name":"{loop:name}", "startTime": {loop:startTime}, "endTime": {loop:endTime} }{if loop:count != loop:total_results},{/if}{/exp:stash:get_list}
+    ]
+}

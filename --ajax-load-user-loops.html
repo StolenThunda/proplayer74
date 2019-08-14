@@ -1,0 +1,22 @@
+{
+{exp:channel:entries  entry_id="{get:segment_id}"
+						limit="1" dynamic="no"
+						disable="categories|category_fields|member_data|pagination" }
+	{parents field="cf_member_segment_data_entry" author_id="{logged_in_member_id}" limit="1"}
+		"memberSegmentDataID" : {parents:entry_id},
+		"userLoops" : {parents:cf_member_segment_data_loops}
+		
+		{if parents:no_results}
+			"memberSegmentDataID" : -1,	
+			"userLoops" : []
+		{/if}
+
+	{/parents}
+	
+	{if no_results}
+		"memberSegmentDataID" : -1,	
+		"userLoops" : []
+	{/if}
+
+{/exp:channel:entries}
+}

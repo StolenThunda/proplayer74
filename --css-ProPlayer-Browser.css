@@ -1,0 +1,855 @@
+/*****************************************
+*************   Main Browser Components  ************
+*****************************************/
+#contentBrowser
+{
+	position: absolute;
+	top: 2.5rem;
+	width: 100%;
+	bottom: 0;
+	background: #222;
+	z-index: 100;
+}
+
+#browser-title-bar
+{
+	display: none;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 2rem;
+	text-transform: uppercase;
+	font-weight: 900;
+	font-size: .7rem;
+	line-height: 2rem;
+	background: #555;
+	letter-spacing: .1rem;
+	border-bottom: 1px solid #777;
+}
+#browser-close-button
+{
+	position: absolute;
+	top: .25rem;
+	right: .25rem;
+	z-index: 100;
+	font-size: .85rem;
+	background: #09f;;
+	font-weight: 600;
+	line-height: 2em;
+	height: 2.1em;
+	padding: 0 .75em;
+	border-radius: .2em;
+	color: white;
+}
+
+#top-level-filters
+{
+	position: absolute;
+	top: 0rem;
+	width: 100%;
+	height: 2.5rem;
+	background: #555;
+	border-bottom: 1px solid #777;
+}
+
+#browser-bottom
+{
+	position: absolute;
+	top: 2.5rem;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#sidebar-filters
+{
+	position: absolute;
+	top: 0;
+	width: 25rem;
+	left: 0;
+	bottom: 0;
+	background: #363636;
+	border-right: 1px solid #555;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+#resultsWrapper
+{
+	position: absolute;
+	left: 25rem;
+	top: 0rem;
+	right: 0;
+	width: auto;
+	background: #222;
+	border: none;
+	bottom: 0;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+#results-heading
+{
+	position: fixed;
+	box-shadow: 15px 5px 20px #000;
+}
+
+/*****************************************
+*************   Top Filter List  ************
+*****************************************/
+
+ul.browser-top-filter-list
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: .85rem;
+	font-weight: 600;
+	line-height: 1em;
+	font-size: 0;
+	width: 100%;
+}
+
+ul.browser-top-filter-list li
+{
+	display: inline-block;
+}
+
+ul.browser-top-filter-list li a
+{
+	padding: 0 1em;
+    box-sizing: border-box;
+    display: block;
+    color: #ddd;
+    font-family: Oswald, Open Sans, Helvetica, Sans-Serif;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    font-size: .8rem;
+    height: 2.3em;
+    font-weight: 600;
+    line-height: 2.3em;
+    background: #222;
+    border-radius: 2.3em;
+    margin: .5em .125em 0 .125em;
+    border: none;
+    text-align: center;
+}
+
+
+ul.browser-top-filter-list li a.active
+{
+	color: white;
+	background: #09f;
+	
+}
+/*****************************************
+*************   Favorites List Item  ************
+*****************************************/
+.fav-item
+{	
+	float: left;
+	position: relative;
+	width: 100%;
+	font-size: .75rem;
+	line-height: 1em;
+	padding: .75em .5em;
+}
+
+.fav-item .fav-item-fav-icon
+{
+	position: absolute;
+	right: .5rem;
+	top: 50%;
+	font-size: 1.5em;
+	transform: translateY(-50%);
+	color: red;
+}
+.fav-item .fav-item-title
+{
+	margin-left: 3em;
+	width: 75%;
+	padding: 0;
+	text-transform: uppercase;
+	font-weight: 600;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	line-height: 1.1em;
+}
+.fav-item .fav-item-play-icon
+{	
+	float: left;
+	font-size: 2em;
+}
+
+
+.browser-title-wrapper
+{
+	font-size: .9rem;
+	line-height: 2em;
+	font-family: Oswald;
+	text-transform: uppercase;
+	color: white;
+	letter-spacing: .03rem;
+	padding: 0 .5rem;
+}
+
+
+
+/*****************************************
+*************   Misc  ************
+*****************************************/
+.browser-message
+{
+	padding: 2rem;
+	text-align: center;
+	margin: 1rem auto;
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+		
+#spinner
+{
+	clear: both;
+	text-align: center;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}	
+			
+			
+
+/*****************************************
+*************   Browser Results List w/Fav  ************
+*****************************************/
+
+/*******   Image Block ****************/
+.browser-result-wrapper
+{
+	position: relative;
+	width: 100%;
+	float: left;
+	padding: .5em .25em;
+	border-bottom: 1px solid #444
+}
+
+.browser-result-fav-wrapper
+{
+	float: none;
+	position: absolute;
+	transform: none;
+}
+
+.browser-result-image
+{
+	border: 1px solid #555;
+	float: left;
+	margin-left: 2.5rem;
+	width: 6rem;
+	border: 1px solid #555;
+	position: relative;
+}
+
+.browser-result-image img
+{
+	width: 100%;
+}
+
+.browser-result-text-wrapper
+{
+	position: relative;
+	text-align: left;
+	line-height: 1em;
+	left: 0;
+	margin-right: 1rem;
+	margin-left: 9rem;
+	
+}
+
+.browser-result-title
+{	
+	font-size: 1.1rem;	
+	font-family: inherit;
+	text-align: left;	
+	line-height: 1.1em;
+	margin-top: 0;
+	color: white;
+	font-weight: 600;
+}
+
+.browser-result-description
+{
+	font-size: .85rem;
+	color: #888;
+	font-weight: 600;
+	line-height: 1.25em;
+	margin: .25em 0 .5em 0;
+}
+
+.browser-result-meta
+{
+  font-size: .85em;
+  color: #bbb;
+}
+
+.browser-result-meta .meta-wrapper
+{
+  white-space: nowrap;
+  margin-right: .5em;
+}
+
+.browser-result-meta .meta-key
+{
+  text-transform: uppercase;
+  color: white;
+  font-weight: 900;
+  margin-right: .25em;
+}
+
+.browser-result-wrapper .meta-wrapper.chapters-meta,
+.browser-result-wrapper .meta-wrapper.loops-meta,
+.browser-result-wrapper .meta-wrapper.user-loops-meta
+{
+ 	display: none;
+}
+
+.browser-result-wrapper.has-chapters .meta-wrapper.chapters-meta,
+.browser-result-wrapper.has-loops .meta-wrapper.loops-meta,
+.browser-result-wrapper.has-user-loops .meta-wrapper.user-loops-meta
+{
+ 	display: initial;
+}
+
+
+
+
+
+/****** More Misc********/
+.has-tip
+{
+	cursor: pointer !important;
+	border-bottom: inherit;
+	font-weight: inherit;
+}
+
+.browser-result-meta
+{
+	font-size: .7em;
+	font-weight: 700;
+	color: #aaa;
+	margin-top: .25em;
+	
+}
+				
+				
+/*****************************************
+*************   Various Row Styles  ************
+*****************************************/
+.row.lined .column-block
+{
+	margin: 0;
+	border-top: 1px solid #555;
+	padding-top: .5rem !important;
+	padding-bottom: .5rem !important;
+
+}
+.row.lined .column-block:last-child
+{
+}
+.row.tight .column-block
+{
+	padding: 0 .5rem;
+}
+
+.row.stacking .columns
+{
+	padding-bottom: .5rem;
+}
+
+	
+	
+
+/*****************************************/
+/******** Badge Buttons *********/
+/*****************************************/
+			
+button.badge-button,
+a.badge-button,
+.badge-button
+{
+	background: none;
+	line-height: 1.4em;
+	font-size: 1rem;
+	color: #0099ff;
+	font-size: .6rem;
+	display: inline-block;
+	outline: none;
+}
+
+button.badge-button,
+a.badge-button
+{
+	cursor: pointer;
+	transition: transform .1s;
+}
+.badge-button:active
+{
+	outline: none;
+	text-shadow: 0px 0px 20px white;
+}
+
+button.badge-button:disabled,
+button.badge-button:disabled:hover,
+a.badge-button.disabled,
+a.badge-button.disabled:hover,
+.badge-button.disabled,
+.badge-button.disabled:hover
+{
+	color: red;
+	cursor: inherit;
+	transition: none;
+	transform: none;
+	
+}
+
+button.badge-button.red,
+button.badge-button.red:hover,
+a.badge-button.red,
+a.badge-button.red:hover,
+.badge-button.red,
+.badge-button.red:hover
+{	
+	color: red;
+}
+button.badge-button.delete,
+a.badge-button.delete,
+.badge-button.delete
+{
+	color: red;
+}
+
+button.badge-button.medium,
+a.badge-button.medium,
+.badge-button.medium
+{
+	font-size: .85rem;
+}
+
+
+button.badge-button.large,
+a.badge-button.large,
+.badge-button.large
+{
+	font-size: 1rem;
+}
+
+button.badge-button.huge,
+a.badge-button.huge,
+.badge-button.huge
+{
+	font-size: 1.5rem;
+}
+
+button.badge-button i.base-icon,
+a.badge-button i.base-icon,
+.badge-button i.base-icon
+{
+	text-shadow: 0px 0px 10px #000;
+}
+
+
+.badge-button.green i.base-icon
+{
+	color: #2ff065;
+}
+
+
+button.badge-button:hover,
+a.badge-button:hover
+{
+	transform: scale(1.25);
+}
+
+
+button.badge-button.gray,
+button.badge-button.gray:hover,
+a.badge-button.gray,
+a.badge-button.gray:hover,
+.badge-button.gray,
+.badge-button.gray:hover 
+{
+	color: #888;
+}
+
+
+.badge-button.gray i.fa-inverse 
+{
+	color: #ccc;
+}
+
+
+#browser-results-header
+{
+	float: left;
+	width: 100%;
+	background: #333;
+	padding: .5rem .5rem;
+	
+}
+
+#sidebar-instructions
+{
+	text-align: center;
+	padding: 1rem;
+	font-size: .9rem;
+	font-weight: 600;
+	color: #ccc;
+}
+
+button:focus; a:focus
+{
+	outline: none;
+}
+.hidden
+{
+	display: none !important;
+}
+
+
+/*****************************************
+*************  Filter Checkboxes Styles  ************
+*****************************************/ 
+	
+ul.filter-list
+{
+  list-style: none;
+  margin: 0;
+  padding: .5rem;
+}
+
+ul.filter-list li.filter
+{
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  margin-bottom: .25rem;
+}
+
+li.filter a.filter-check:before
+{
+  font-family: FontAwesome;
+  content: "\f0c8";
+  color: white;
+  margin-right: .25em;
+}
+
+li.filter.checked a.filter-check:before
+{
+  content: "\f14a";
+}
+
+li.filter.checked a.filter-button
+{
+  color: white;
+  font-weight: 900;
+}
+
+input[type="checkbox"].filter-checkbox+label.check-button,
+a.filter-item
+{
+  background: #555;
+  white-space: nowrap;
+  line-height: 2em;
+  display: block;  
+  font-size: .85rem;
+  padding: 0 1em;
+  border-radius: 1em;
+  cursor: pointer;
+  color: #eee;
+  font-weight: 600;
+}
+
+input.filter-checkbox
+{
+  display: none;
+}
+
+input[type="checkbox"].filter-checkbox:checked+label,
+a.filter-item.active
+{
+  background: #09f !important;
+  color: white;
+  
+}
+
+button[type="button"]
+{
+  background: #09f;
+  color: white;
+  line-height: 1.5em;
+  font-size: .9rem;
+  padding: 0 1em;
+  
+}
+
+
+ul.pagination-links
+{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 0;
+  font-size: 0;
+  background: none;
+}
+
+ul.pagination-links li
+{
+  font-size: 1rem;
+  display: inline-block;
+  margin-right: .25em;
+}
+
+ul.pagination-links li a
+{
+  font-size: .9rem;
+  background: #09f;
+  color: white;
+  line-height: 1.8em;
+  display: block;
+  width: 1.8em;
+  text-align: center;
+  font-weight: 600;
+  border-radius: 3px;
+}
+
+
+ul.pagination-links li a.active
+{
+  background: #777;
+  pointer-events: none;
+}
+
+
+
+li.accordion-item.has-filters a
+{
+	color: #0af !important;
+}
+
+
+.browser-results-header
+{
+	background: #333;
+	border-bottom: 1px solid #555;
+	padding: .25em;
+	clear: both;
+	float: left;
+	width: 100%;
+}
+.active-filter-group
+{
+  display: inline-block;
+  font-size: .75rem;
+  margin: .25em;
+}
+
+
+.active-filter-group-title
+{
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 2em;
+  display: inline-block;
+}
+
+.active-filter-item
+{
+  display: inline-block;
+  background: #09f;
+  color: white;
+  font-weight: 600;
+  line-height: 2em;
+  padding: 0 .75em 0 .75em;
+  border-radius: 1em;
+  margin: 0 .125em;
+}
+
+
+li.accordion-item#filterSection-keywords a.accordion-title
+{
+	display: none;
+}
+
+.keyword-search-wrapper
+{
+   padding: .5rem .25rem;
+}
+
+
+.keyword-search-wrapper input#browserSearchKeywords
+{
+  font-size: .8rem;
+  line-height: 2em;
+  background: #333;
+  color: white;
+  padding: 0 .25em;
+  border: 1px solid #777;
+  display: inline-block;
+  width: 80%;
+  margin: 0;
+}
+
+a.keyword-search-button,
+button.keyword-search-button
+{
+  display: inline-block;
+  text-align: center;
+  background: #09f;
+  color: white;
+  margin-top: .5rem;
+  border-radius: 4px;
+  font-size: .8rem;
+  font-weight: 600;
+  width: 18%;
+  line-height: 1.8rem;
+  padding: 0;
+  margin: 0;
+}
+
+#browserSearchKeywordsReset
+{
+  position: absolute;
+  margin-left: -1.5rem;
+  line-height: 1.8em;
+}
+
+a.reset-button
+{
+  float: right;
+  text-align: right;
+  display: block;
+  margin-right: .5rem;
+  margin-bottom: .5rem;
+  color: #aaa;
+  font-size: .9rem !important;
+  text-shadow: none;
+}
+
+#browser-wrapper
+{
+	transition: opacity .1s;
+}
+
+#browser-wrapper.updating
+{
+	pointer-events: none;
+	opacity: .5;
+}
+
+
+@media only screen and (max-width: 64em)
+{
+	
+	#sidebar-filters
+	{
+		width: 20rem;
+	}
+	
+	#resultsWrapper
+	{
+		left: 20rem;
+	}
+
+	
+}
+/*****************************************
+*************   Small Styles  ************
+*****************************************/
+@media only screen and (max-width: 40em)
+{
+
+	#browser-title-bar
+	{
+		display: none;
+		position: inherit;
+		display: block;
+	}
+	#top-level-filters
+	{
+		height: 3rem;
+		border-bottom: none;
+		top: 0;
+		box-shadow: 0px 2px 5px #111;
+		z-index: 1;
+		overflow-x: auto;
+		overflow-y: hidden;
+		scroll-behavior: smooth;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	#browser-bottom
+	{
+		top: 3rem;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+		border-top: 1px solid #aaa;
+	}
+
+	#sidebar-filters
+	{	
+		position: relative;
+		top: 0;
+		width: 100%;
+		height: auto;
+	}
+
+	#resultsWrapper
+	{
+		position: relative;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: auto;
+	}
+
+	ul.browser-top-filter-list
+	{
+		padding: 0;
+		width: 70rem;
+	}
+
+	ul.browser-top-filter-list li
+	{
+		width: 10rem;
+	}
+
+	ul.browser-top-filter-list li a
+	{
+		line-height: 3em;
+		border-radius: 3em;
+		height: 3em;
+	}
+	
+	::-webkit-scrollbar 
+	{ 
+		width: 0px;
+		background: none;
+		opacity: 0;
+	}
+	.browser-list ul.browser-list-items li a
+	{
+		font-size: .95rem;
+		line-height: 2em;
+	}
+
+	#browser-close-button
+	{
+		font-size: .75rem;
+		top: .1rem;
+		right: .1rem;
+	}
+
+}	

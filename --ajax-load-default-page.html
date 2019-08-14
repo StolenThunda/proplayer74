@@ -1,0 +1,116 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+
+{exp:stash:parse process="inline" parse_conditionals="yes" parse_tags="yes"}
+
+{exp:stash:set_list name="notifications" parse_tags="yes"}
+	{exp:channel:entries channel="notifications" dynamic="no" limit="10"
+						disable="category_fields|member_data|pagination" }
+		{stash:title}{title}{/stash:title}
+		{stash:body}{exp:markdown}{cf_notification_body}{/exp:markdown}{/stash:body}
+		{categories limit="1"}
+			{stash:category}{category_id}{/stash:category}
+		{/categories}
+	{/exp:channel:entries}
+{/exp:stash:set_list}
+
+{/exp:stash:parse}
+<div class='media-content-wrapper'>
+	
+	<div class="row collapse"> 
+		<div class="columns small-12 medium-11 large-8 medium-centered"> 
+			<br/>
+			<div class="max-large">
+
+				<div class="row margin-bottom stacking"> 
+					<div class="columns small-12 medium-6 large-6 small-text-center medium-text-left"> 
+						{exp:member:custom_profile_data}
+							{if first_name}
+								<h5>Welcome {first_name}</h5>
+							{if:else}
+								<h5>Welcome</h5>
+							{/if}
+						{/exp:member:custom_profile_data}
+					</div>
+					<div class="columns small-12 medium-6 large-6 small-text-center medium-text-right"> 
+						<a class="basic-button small-button green" onClick="thePlayer.openPackage('5882'); return false;"><i class="fa fa-play-circle-o"></i> Orientation</a> 
+						<a class="basic-button small-button blue" onClick="thePlayer.openFavoritesSidebar(); return false;"><i class="fa fa-heart"></i> Favorites</a> 
+						<a class="basic-button small-button blue" onClick="thePlayer.toolsShowBrowser(); return false;"><i class="fa fa-search"></i> Browse</a> 
+					</div>
+				</div>
+				<div id="resume" style="display: none" class="dark-pane padded bordered rounded text-center"></div>
+				<div class="margin-top"> 
+					<div class="notifications-tabs-wrapper"> 
+						<ul class="tabs content-tabs centered" data-deep-link="false" data-update-history="false" data-tabs id="notificationTabs">
+							<li class="tabs-title narrow is-active"><a href="#announcements" aria-selected="true">Announcements</a></li>
+							<li class="tabs-title narrow"><a href="#course-updates">Course Updates</a></li>
+						</ul>
+						<div class="tabs-content" data-tabs-content="notificationTabs">
+							<div id="announcements" class="tabs-panel is-active">
+								<ul class="notification-list">
+									{exp:stash:get_list name="notifications" match="#216#" against="category"}
+										<li class="notification category-{category}">
+											<div class="notification-title">
+												<span class="heavy bright">{title}</span>	
+											</div>
+											<div class="notification-body">
+												{body}				 
+											</div>
+										</li>
+										
+										{if no_results}
+											<div class="smaller text-center">There are no announcements at this time.</div>
+										{/if}
+									{/exp:stash:get_list}
+								</ul>
+							</div>
+							<div id="course-updates" class="tabs-panel">
+								<ul class="notification-list">
+									{exp:stash:get_list name="notifications" match="#217#" against="category"}
+										<li class="notification  category-{category}">
+											<div class="notification-title">
+												<span class="heavy bright">{title}</span>	
+											</div>
+											<div class="notification-body">
+												{body}				 
+											</div>
+										</li>
+										{if no_results}
+											<div class="smaller text-center">There are no content update notifications at this time.</div>
+										{/if}
+									{/exp:stash:get_list}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+	var theItem = thePlayer.historyManager.getLastHistoryItem();
+	if(theItem !== null && typeof theItem !== "undefined")
+	{
+		
+		var packageTitle = theItem.packageTitle;
+		var segmentTitle = theItem.segmentTitle;
+		var packageID = theItem.packageID;
+		var segmentID = theItem.segmentID;
+								
+		var resumeText = "<a class='basic-button small-button blue' onClick='thePlayer.openPackageWithSegment(\"" + packageID + "\",\"" + segmentID + "\", true); return false;'><i class='fa fa-play-circle'></i> Resume</a>";
+		
+		resumeText += "<br/><p class='smaller short'><strong>" + packageTitle  + ":</strong> " + segmentTitle + "</p>";
+		
+		$("#resume").html(resumeText);
+		$("#resume").fadeIn();
+	}
+	
+	$(function() {
+		$('#notificationTabs').foundation();
+	}); 
+
+</script> 

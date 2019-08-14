@@ -1,0 +1,60 @@
+{exp:stash:parse process="inline" output="no"}
+	
+	{exp:reel:youtube 	query="{segment_3}" 
+							limit="10" 
+							page="{segment_4}"
+							parse="inward"}
+
+			{if count == 1}
+				{exp:stash:set name="paginationLinks" parse_tags="yes" parse_depth="4" parse_conditionals="yes"}
+					<ul class="pagination-links">
+						{if prev_page}
+							<li><a onClick="thePlayer.browserTool.nextYouTubeResultsPage('{segment_3}','{prev_page}'); return false;"><i class="fa fa-step-backward"></i></a></li>
+						{if:else}
+							<li><a class="disabled"><i class="fa fa-step-backward"></i></a></li>
+						{/if}
+						{if next_page}
+							<li><a onClick="thePlayer.browserTool.nextYouTubeResultsPage('{segment_3}','{next_page}'); return false;"><i class="fa fa-step-forward"></i></a></li>
+						{if:else}
+							<li><a class="disabled"><i class="fa fa-step-forward"></i></a></li>
+						{/if}
+					</ul>
+				{/exp:stash:set}
+			{/if}
+    
+    		
+			{exp:stash:append_list name="items"
+								parse_conditionals="yes"  
+								parse_tags="yes" parse="inward"}
+				{stash:title}{title}{/stash:title}
+				{stash:entryID}{video_id}{/stash:entryID}
+				{stash:date}{/stash:date}
+				{stash:image}{thumbnail_1}{/stash:image}
+				{stash:skillLevels}{/stash:skillLevels}
+				{stash:caption}{description}{/stash:caption}
+				{stash:enableFavorite}false{/stash:enableFavorite}
+				{stash:author}{author}{/stash:author}
+				{stash:type}youtube{/stash:type}
+				{stash:enableFavorites}false{/stash:enableFavorites}
+			{/exp:stash:append_list}
+		{/exp:reel:youtube}
+	
+{/exp:stash:parse}
+	
+	
+	
+{if {exp:stash:not_empty name="paginationLinks"}}
+	<div class="browser-results-header" id="browserPaginationWrapperTop">
+		{exp:stash:paginationLinks}
+	</div>
+{/if}
+
+{exp:stash:get_list name="items" prefix="course"}
+	{lv_proplayer_browser_result}
+{/exp:stash:get_list}
+
+{if {exp:stash:not_empty name="paginationLinks"}}
+	<div class="browser-results-header" id="browserPaginationWrapperBottom">
+		{exp:stash:paginationLinks}
+	</div>
+{/if}

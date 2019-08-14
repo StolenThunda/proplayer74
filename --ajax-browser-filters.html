@@ -1,0 +1,340 @@
+{!-- URL Structure /watch/--browser-filters/channel/<filter-type>/<filter-group-id> --}
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+{if segment_3 == 'courses'}
+	{preload_replace:channels="pro_player_packages"}
+{if:else}
+	{preload_replace:channels="{segment_3}"}
+{/if}
+
+{exp:ce_cache:it url_override="watch/v7.3/browser/filters/{segment_3}" for="1 month"}
+{if "{segment_3}" == "courses"}
+	{exp:stash:collectionID}12{/exp:stash:collectionID}
+	{exp:stash:channel}pro_player_packages{/exp:stash:channel}
+	{exp:stash:channelID}40{/exp:stash:channelID}
+	{exp:stash:set_list name="filter-sections"}
+		{stash:sectionID}collections{/stash:sectionID}
+		{stash:sectionTitle}Collections{/stash:sectionTitle}
+		{stash:sectionType}category-group{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}12{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:set_list}	
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}artists{/stash:sectionID}
+		{stash:sectionTitle}Artists{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}6{/stash:sectionGroupID}
+		{stash:sectionStackable}yes{/stash:sectionStackable}
+		{stash:sectionDependencies}collections{/stash:sectionDependencies}
+	{/exp:stash:append_list}	
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}songs{/stash:sectionID}
+		{stash:sectionTitle}Songs{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}27{/stash:sectionGroupID}
+		{stash:sectionStackable}yes{/stash:sectionStackable}
+		{stash:sectionDependencies}collections|artists{/stash:sectionDependencies}
+	{/exp:stash:append_list}	
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}difficulty{/stash:sectionID}
+		{stash:sectionTitle}Difficulty{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}10{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}	
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}tunings{/stash:sectionID}
+		{stash:sectionTitle}Tuning{/stash:sectionTitle}
+		{stash:sectionType}category-group{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}14{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}	
+	
+{if:elseif "{segment_3}" == "free_lesson_friday"}
+
+	{exp:stash:collectionID}1{/exp:stash:collectionID}
+	{exp:stash:channel}free_lesson_friday{/exp:stash:channel}
+	{exp:stash:channelID}4{/exp:stash:channelID}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}blues-licks{/stash:sectionID}
+		{stash:sectionTitle}Blues Licks{/stash:sectionTitle}
+		{stash:sectionType}category-parent{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}212{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}	
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}artists{/stash:sectionID}
+		{stash:sectionTitle}Artists{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}6{/stash:sectionGroupID}
+		{stash:sectionStackable}yes{/stash:sectionStackable}
+		{stash:sectionDependencies}blues-licks{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}difficulty{/stash:sectionID}
+		{stash:sectionTitle}Difficulty{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}4{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}topics{/stash:sectionID}
+		{stash:sectionTitle}Topics{/stash:sectionTitle}
+		{stash:sectionType}category-parent{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}198{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}	
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}technique{/stash:sectionID}
+		{stash:sectionTitle}Technique Lessons{/stash:sectionTitle}
+		{stash:sectionType}category-parent{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}213{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}tunings{/stash:sectionID}
+		{stash:sectionTitle}Tuning{/stash:sectionTitle}
+		{stash:sectionType}category-group{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}14{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}series{/stash:sectionID}
+		{stash:sectionTitle}Series{/stash:sectionTitle}
+		{stash:sectionType}category-parent{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}193{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}	
+	
+{if:elseif "{segment_3}" == "tone_tuesday"}
+
+	{exp:stash:channelID}26{/exp:stash:channelID}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}topics{/stash:sectionID}
+		{stash:sectionTitle}Topics{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}5{/stash:sectionGroupID}
+		{stash:sectionStackable}yes{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}series{/stash:sectionID}
+		{stash:sectionTitle}Series{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}7{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	
+{if:elseif "{segment_3}" == "performances"}
+
+	{exp:stash:channelID}27{/exp:stash:channelID}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}style{/stash:sectionID}
+		{stash:sectionTitle}Style{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}25{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+
+{if:elseif "{segment_3}" == "backing_tracks"}
+	
+	{exp:stash:channelID}28{/exp:stash:channelID}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}collections{/stash:sectionID}
+		{stash:sectionTitle}Collection{/stash:sectionTitle}
+		{stash:sectionType}category-group{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}12{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}songs{/stash:sectionID}
+		{stash:sectionTitle}Songs{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}27{/stash:sectionGroupID}
+		{stash:sectionStackable}yes{/stash:sectionStackable}
+		{stash:sectionDependencies}collections{/stash:sectionDependencies}
+	{/exp:stash:append_list}	
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}style{/stash:sectionID}
+		{stash:sectionTitle}Style{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}25{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	
+{if:elseif "{segment_3}" == "youtube_videos"}
+	{exp:stash:channelID}49{/exp:stash:channelID}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}collections{/stash:sectionID}
+		{stash:sectionTitle}Collection{/stash:sectionTitle}
+		{stash:sectionType}category-group{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}18{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}artists{/stash:sectionID}
+		{stash:sectionTitle}Artists{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}6{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}collections{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}type{/stash:sectionID}
+		{stash:sectionTitle}Type{/stash:sectionTitle}
+		{stash:sectionType}category-group{/stash:sectionType}
+		{stash:sectionChildType}category{/stash:sectionChildType}
+		{stash:sectionGroupID}19{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}collections|artists{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+	{exp:stash:append_list name="filter-sections"}
+		{stash:sectionID}style{/stash:sectionID}
+		{stash:sectionTitle}Style{/stash:sectionTitle}
+		{stash:sectionType}tags{/stash:sectionType}
+		{stash:sectionChildType}tag{/stash:sectionChildType}
+		{stash:sectionGroupID}25{/stash:sectionGroupID}
+		{stash:sectionStackable}no{/stash:sectionStackable}
+		{stash:sectionDependencies}{/stash:sectionDependencies}
+	{/exp:stash:append_list}
+
+{/if}
+
+<!--
+	<a class="reset-button" onClick="thePlayer.browserTool.resetSearch()"><i class="fa fa-undo"></i> Reset</a>
+-->
+{exp:ce_cache:escape}
+
+{if segment_3 != "youtube"}
+	{exp:low_search:form query="{segment_3}" form_id="searchForm" result_page="{segment_1}/--ajax-browser-search-entries/{channels}/"}
+		<input type="hidden" name="channel" value="{channels}"/>
+{/exp:ce_cache:escape}
+				
+	<ul class="accordion sidebar-accordion" id="filterAccordion" data-responsive-accordion-tabs="accordion large-accordion" data-allow-all-closed="true" data-multi-expand="true" data-slide-speed="100">
+		<li class="accordion-item is-active" data-accordion-item id="filterSection-keywords" data-section-id="keywords">
+			<a href="#" class="accordion-title">Keyword Search</a>
+			<div class="accordion-content" data-tab-content>
+				<div class="keyword-search-wrapper">
+					<input type="search" name="keywords" placeholder="keywords" id="browserSearchKeywords" />
+					<a onClick="thePlayer.browserTool.removeKeywordFilter()" id="browserSearchKeywordsReset" style="display: none;"><i class="fa fa-times-circle"></i></a>
+					<a class="keyword-search-button" onClick="thePlayer.browserTool.applyKeywordFilter(); return false;"><i class="fa fa-search"></i></a>
+				</div>
+			</div>
+		</li>		
+		{exp:stash:get_list name="filter-sections"}
+			<li class="accordion-item is-active"
+				data-accordion-item 
+				id="browserFilterSectionParent-{sectionID}"
+				data-section-id="{sectionID}"
+				data-section-group-id="{sectionGroupID}">
+				<a href="#" class="accordion-title">{sectionTitle}</a>
+				<div class="accordion-content" data-tab-content>
+					<ul class="filter-list" id="browserFilterSection-{sectionID}" 
+						data-section-id="{sectionID}"
+						data-section-group-id="{sectionGroupID}"
+						data-section-stackable="{sectionStackable}" 
+						data-section-dependencies="{sectionDependencies}"
+						data-section-type="{sectionChildType}"
+						data-section-channel-id="{exp:stash:channelID}">
+						{if "{sectionType}" == "category-group"}
+							{exp:channel:categories channel="{channels}" 
+											category_group="{sectionGroupID}"
+											style="linear" 
+											show_empty="no" 
+											parent_only="yes" 
+											parse="inward"}
+									<li class="filter visible">
+									    <input id="category-{category_id}" class="filter-checkbox" onClick="thePlayer.browserTool.toggleSearchFilter('category-{category_id}', '{sectionID}');" type="checkbox" name="category:{sectionGroupID}[]" value="{category_id}">
+										<label class="check-button" for="category-{category_id}">{category_name}</label>
+								    </li>
+							{/exp:channel:categories}
+						{if:elseif "{sectionType}" == "category-parent"}
+							{exp:category_construct:categories channel="{channels}" 
+													direct_parent="{sectionGroupID}"
+													style="linear" 
+													show_empty="false" 
+													nested="false"
+													parse="inward"}
+								    <li class="filter visible">
+									    <input id="category-{construct:cat_id}" class="filter-checkbox" onClick="thePlayer.browserTool.toggleSearchFilter('category-{construct:cat_id}', '{sectionID}');" type="checkbox" name="category:{sectionGroupID}[]" value="{construct:cat_id}">
+										<label class="check-button" for="category-{construct:cat_id}">{construct:cat_name}</label>
+								    </li>
+							{/exp:category_construct:categories}
+						{if:elseif "{sectionType}" == "tags"}
+						
+							{exp:tag:cloud channel="{channels}" 
+											tag_group_id="{sectionGroupID}"
+											rank_by="entries" 
+											parse="inward" limit="100"}
+						  			
+						  			<li class="filter visible" >
+							  			<input id="tag-{tag_id}" class="filter-checkbox" onClick="thePlayer.browserTool.toggleSearchFilter('tag-{tag_id}', '{sectionID}');" type="checkbox" name="tag_id:{sectionGroupID}[]" value="{tag_id}">
+						  				<label class="check-button" for="tag-{tag_id}">{tag}</label>
+						  			</li>
+							{/exp:tag:cloud}
+			
+						{/if}
+					</ul>
+				</div>
+			</li>
+		{/exp:stash:get_list}
+		
+	</ul>
+	<input type="submit" style="display: none;" onClick="return false;" />
+
+{exp:ce_cache:escape}
+{/exp:low_search:form}
+{/exp:ce_cache:escape}
+{if:else}
+	<div class="keyword-search-wrapper">
+		<strong>Search YouTube:</strong>
+		<form onSubmit="thePlayer.browserTool.doYouTubeSearch(); return false;">
+			<input type="search" name="youtube-keywords" placeholder="keywords" id="browserSearchKeywords">
+			<button type="submit" class="keyword-search-button"><i class="fa fa-search"></i></button>
+		</form>
+	</div>	
+{/if}
+
+<script type="text/javascript">
+$("input#browserSearchKeywords").keyup(function (e) {
+    if (e.which == 13) {
+	    thePlayer.browserTool.applyKeywordFilter();
+    }
+ });
+</script> 
+{/exp:ce_cache:it}

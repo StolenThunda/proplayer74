@@ -1,0 +1,133 @@
+/*****************************************
+*************   Settings Panel  ************
+*****************************************/ 
+#videoControlsMenu
+{
+	line-height: 1rem;
+	color: white;
+	position: absolute;
+	text-align: left;
+	display: none;
+	top: 0;
+	bottom: 3rem;
+	background: #222;
+	right: 0;
+	width: 300px;
+	color: #ccc;
+	border: 1px solid #555;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	font-size: .9rem;
+	z-index: 2;
+}
+
+#videoControlsMenu .widget-inner
+{
+	margin: 1rem 0;
+}
+
+#videoControlsMenu .widgetTitle
+{
+	font-size: .7rem;
+	font-weight: bold;
+	color: white;
+	margin-bottom: .75rem;
+	margin-top: 0 !important;
+}
+
+
+#videoControlsMenu ul.widget-list
+{
+	padding: 0;
+	color: #bbb;
+	margin: 0;
+	list-style: none;
+}
+
+
+#videoControlsMenu ul.widget-list li
+{
+	border-bottom: 1px solid #555;
+}
+
+#videoControlsMenu ul.widget-list li a
+{
+	line-height: 1.8em;
+	font-size: .8rem !important;
+	font-weight: 600;
+	padding: 0;
+	margin: 0;
+}
+
+
+#videoControlsMenu ul.widget-list li.selected a
+{
+	background: white;
+	color: #222;
+}
+
+#videoControlsMenu .widget-section
+{
+	margin-bottom: .75rem;
+}
+
+.widget-column-heading
+{
+	white-space: nowrap;
+	font-family: Oswald, 'Lucida Sans Unicode', 'Lucida Grande', Helvetica, Arial, sans-serif;
+	letter-spacing: 0.03em;
+	font-size: 1rem;
+	text-transform: uppercase;
+	font-size: .9em;
+	font-weight: 900;
+	line-height: 1em;
+	margin-bottom: .25rem;
+	color: white;
+}
+.widget-column-heading .slider-indicator
+{
+  display: inline-block;
+  margin-left: .25rem;
+  color: #999;
+}
+.slider-unity-indicator
+{
+  width: 1px;
+  background: #ccc;
+  z-index: 1;
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  pointer-events: none;
+}
+
+.slider-unity-indicator.vimeo
+{
+  left: 58.1%;
+}
+
+.slider-unity-indicator.youtube
+{
+  left: 60%;
+}
+
+.widget-column-heading.list-heading
+{
+	border-bottom: 1px solid #555;
+	padding-bottom: .25rem;
+}
+
+.small-text-center
+{
+	text-align: center;
+}
+
+.small-text-right
+{
+	text-align: right;
+}
+
+.small-text-left
+{
+	text-align: left;
+}

@@ -1,0 +1,113 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+<div id="add-cmt-wrapper" class="sidebar-controls-wrapper">
+	<div class="row tight">
+		<div class="columns small-6"> 
+			{exp:comment:notification_links entry_id="{get:package_id}"}
+		        {if subscribed}
+		            <a class="checkbox-link checked" onClick="thePlayer.commentsManager.subscribeAction(this); return false;" data-action="{unsubscribe_link}">Notify Me</a>
+		        {if:else}
+		            <a class="checkbox-link" onClick="thePlayer.commentsManager.subscribeAction(this); return false;" data-action="{subscribe_link}">Notify Me</a>
+		        {/if}
+			{/exp:comment:notification_links}
+		</div>
+		<div class="columns small-6 text-right"> 
+			{if '{get:author}' != "yes"}
+				<div class="option-buttons">
+					<span class="option-button on">All</span>
+					<a class="option-button" onClick="thePlayer.commentsManager.setAuthorCommentFilter(true); return false;" href="#">Mine</a>
+				</div>
+			{if:else}			
+				<div class="option-buttons">
+					<a class="option-button" onClick="thePlayer.commentsManager.setAuthorCommentFilter(false); return false;" href="#">All</a>
+					<span class="option-button on">Mine</span>
+				</div>
+			{/if}
+		</div>
+	</div>
+</div>
+
+{if '{get:author}' != 'yes'}
+	{preload_replace:authorID=""}
+{if:else}
+	{preload_replace:authorID="{logged_in_member_id}"}
+{/if}
+<div class="comment-screenname-notice">
+	Commenting as <strong>{logged_in_screen_name}</strong>. <a target="_blank" href="/account/dashboard">Change...</a>
+</div>
+						
+<ul class="cmts-list" id="cmts-list" data-offset="0">
+	{exp:comment:entries  orderby="date" sort="desc" 
+							entry_id="{get:package_id}"
+							author_id="{authorID}" status="open"}
+			<li class="cmt-wrapper level-{level} expanded {if thread_start}has-replies{/if}" 
+				id="comment-{comment_id}-wrapper"
+				data-comment-id="{comment_id}" data-parent-id="{parent_id}"
+				data-level="{level}" data-date="{comment_date}">
+					<div class="cmt-inner">
+					
+						{if !thread_start && editable}
+							<a class="cmt-delete-button" onClick="thePlayer.commentsManager.deleteCmt({comment_id},'{exp:comment:ajax_edit_url}'); return false;" href="#">
+								<i class="fa fa-times-circle"></i>
+							</a>
+						{/if}
+						<div class="cmt-text">
+							{exp:markdown}{comment}{/exp:markdown}
+						</div>
+						<div class="cmt-meta">
+							<span class="author-name non-breaking">
+								<i class="fa fa-user-circle"></i> 
+								{exp:member:custom_profile_data member_id="{author_id}"}{screen_name}{/exp:member:custom_profile_data}
+							</span>, 
+							{if '{segment_id}' != '' && '{segment_id}' != '{get:segment_id}'}
+								<span class="cmt-date non-breaking">
+									<a onClick="thePlayer.openSegmentWithinCurrentPackage('{segment_id}', true); return false;">
+										<i class="fa fa-clock-o"></i> {comment_date:relative units="years|months|weeks|days|hours|minutes"}
+									</a>
+								</span>
+							{if:else}
+								<span class="cmt-date non-breaking">
+										<i class="fa fa-clock-o"></i> {comment_date:relative units="years|months|weeks|days|hours|minutes"}
+								</span>
+							{/if}
+						</div>
+						{if {level} == 0}
+							<div class="row cmt-reply-wrapper no-padding" id="cmt-{comment_id}-reply-wrapper">
+								<div class="columns small-5"> 
+									<a class="comment-action-button comment-reply-button"
+										id="comment-{comment_id}-reply-button" 
+										onClick="thePlayer.commentsManager.replyToComment({comment_id});">Reply</a>
+								</div>
+								<div class="columns small-7 text-right"> 
+									{if thread_start}
+										<a class="comment-action-button comment-view-replies-button view" onClick="thePlayer.commentsManager.toggleCmtReplies({comment_id}); return false;"><i class="fa fa-comments fa-fw"></i></a> 
+									{/if}
+								</div>
+							</div>
+						{/if}
+					</div>
+		{if thread_start}
+			<ul class="cmt-replies-wrapper" id="comment-{comment_id}-replies">
+		{if:elseif thread_end}
+			{if {level} == 1}
+				</ul></li>
+			{if:elseif {level} == 2}
+				</ul></li></ul></li>
+			{/if}
+		{if:else}
+			</li>
+		{/if}
+	
+		{if no_results}
+			<li id="no-questions">
+				<div class="margin-top margin-bottom padded slight text-center">
+					<p>Be the first to ask a question about this course or video.</p>
+					<p>
+						<a class="comment-action-button comment-view view" onClick="thePlayer.commentsManager.replyToComment(-1);" ><i class="fa fa-commenting"></i> Ask A Question</a>
+					</p>
+				</div>
+			</li>
+		{/if}
+	{/exp:comment:entries}
+</ul>

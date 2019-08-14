@@ -1,0 +1,29 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+{exp:favorites:info entry_id="{segment_3}" disable_pagination="yes"}
+	{exp:favorites:edit favorite_id="{favorites:favorite_id}"
+						form:id="submitFavorite-{segment_3}"
+						form:data-id="{segment_3}"
+						form:class="submitFavoriteForm" 
+						form:data-action="remove"
+						ajax="yes"}
+	<input type="hidden" name="delete" value="yes" />
+	<button class="badge-button red large" onClick="thePlayer.browserTool.toggleFavoriteInBrowser(this); return false;" name="submit">
+		{lv_elements_heart_badge}
+	</button>
+	{/exp:favorites:edit}
+	{if favorites:no_results}
+		{exp:favorites:form entry_id="{segment_3}"
+						form:id="submitFavorite-{segment_3}"
+						form:data-id="{segment_3}"
+						form:class="submitFavoriteForm"
+						form:data-action="add"
+						ajax="yes"}
+	 		<input name="collection" value="my-courses" type="hidden">
+			<button class="badge-button large gray" onClick="thePlayer.browserTool.toggleFavoriteInBrowser(this); return false;" name="submit">
+	        	{lv_elements_save_fav_badge}
+			</button>
+		{/exp:favorites:form}
+	{/if}
+{/exp:favorites:info}

@@ -1,0 +1,98 @@
+/*****************************************
+*************   Slider Styles  ************
+*****************************************/ 
+.touch-slider.vertical
+{
+	height: 150px;
+	margin: 0 auto;
+}
+.touch-slider.horizontal
+{
+	margin-left: .25em;
+	margin-right: .25em;
+}
+.touch-slider.noUi-target
+{
+	font-size: 1.2rem !important;
+	box-shadow: none;	
+}
+.touch-slider.vertical.noUi-target
+{
+	background: #222;
+	padding-bottom: 1em;
+}
+.touch-slider.horizontal.noUi-target
+{
+	font-size: 1.2rem !important;
+	box-sizing: content-box;
+}
+
+@media (hover: none)
+{
+	.touch-slider.horizontal.noUi-target
+	{
+		font-size: 1.5rem !important;
+	}
+}
+
+
+.touch-slider .noUi-handle
+{
+	font-size: inherit !important;
+	height: 1em;
+	width: 1em;
+	border-radius: 50%;
+	top: 0;
+	left: 0;
+	padding: none;
+	margin: none;
+}
+
+.touch-slider.vertical .noUi-handle
+{
+	top: 0;
+	left: 0;
+	box-shadow: 0px 1px 4px #444;
+}
+
+.touch-slider.horizontal .noUi-handle
+{
+	top: 0;
+	left: 0;
+}
+
+.horizontal-popup-slider .noUi-handle
+{
+	top: -.15em;
+	box-shadow: 0px 0px 7px #222;
+}
+
+.touch-slider.vertical .noUi-origin
+{
+	background: #0099ff;
+	border-radius: 1em;
+	margin-bottom: -1em;
+}
+
+.touch-slider.horizontal .noUi-origin
+{
+	background: #222;
+	border-radius: 0px 1em 1em 0;
+}
+
+
+.touch-slider.horizontal[disabled="disabled"] .noUi-origin,
+.touch-slider.horizontal.noUi-target[disabled="disabled"],
+.touch-slider.vertical[disabled="disabled"] .noUi-origin,
+.touch-slider.vertical.noUi-target[disabled="disabled"]
+{
+	background: #444 !important;
+	cursor: default;
+}
+
+
+.touch-slider.horizontal[disabled="disabled"] .noUi-handle,
+.touch-slider.vertical[disabled="disabled"] .noUi-handle
+{
+	background: #777 !important;
+}

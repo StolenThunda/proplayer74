@@ -1,0 +1,23 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+{if segment_3 != '' && segment_3 != "youtube"}
+	{exp:favorites:info entry_id="{segment_3}" disable_pagination="yes"}	
+			
+		{if favorites:no_results}
+			{exp:favorites:form entry_id="{segment_3}"
+						form:id="submitFavorite-{segment_3}"
+						form:data-id="{segment_3}"
+						form:class="submitFavoriteForm"
+						form:data-action="add"
+						ajax="yes"}
+						
+				<input name="collection" value="my-courses" type="hidden">
+				<button id="favorite-this-button" class="sidebar-heading-button" onClick="thePlayer.favoritesManager.addFavoriteToList(this); return false;" name="submit"><i class="fa fa-plus-circle"></i> <span>Add this</span></button>
+				
+
+			{/exp:favorites:form}
+		{/if}
+
+	{/exp:favorites:info}
+{/if}

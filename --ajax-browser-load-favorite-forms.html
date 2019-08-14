@@ -1,0 +1,48 @@
+{exp:stash:parse process="inline" parse_tags="yes" parse_conditionals="yes" output="no"}
+	{exp:channel:entries entry_id="{segment_3} dynamic="no" disable="categories|category_fields|member_data|pagination" status="open|archived|unlisted|locals"}
+	
+		{exp:stash:append_list name="fav-forms" parse_tags="yes" parse_conditionals="yes" parse_depth="4"}
+
+			{stash:itemID}{entry_id}{/stash:itemID}
+			{exp:favorites:info entry_id="{entry_id}" disable_pagination="yes"}
+				{stash:itemForm}
+					{exp:favorites:edit favorite_id="{favorites:favorite_id}" form:id="submitFavorite-{entry_id}" form:data-id="{entry_id}" form:data-action="remove" form:class="submitFavoriteForm" ajax="yes"}<input type="hidden" name="delete" value="yes" /><button class="badge-button red large" onClick="thePlayer.browserTool.toggleFavoriteInBrowser(this); return false;" name="submit"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-inverse fa-heart fa-stack-1x"></i></span></button>{/exp:favorites:edit}
+				{/stash:itemForm}
+				{if favorites:no_results}
+					{stash:itemForm}
+						{exp:favorites:form entry_id="{entry_id}" form:id="submitFavorite-{entry_id}" form:data-id="{entry_id}" form:class="submitFavoriteForm" form:data-action="add" ajax="yes"}<input name="collection" value="my-courses" type="hidden"><button class="badge-button large gray" onClick="thePlayer.browserTool.toggleFavoriteInBrowser(this); return false;" name="submit"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-inverse fa-heart fa-stack-1x"></i></span></button>{/exp:favorites:form}
+					{/stash:itemForm}
+				{/if}
+			{/exp:favorites:info}
+			
+			{if channel_short_name != "pro_player_packages"}
+			
+				{stash:itemLoops}{cf_media_loops:total_rows}{/stash:itemLoops}
+				{stash:itemChapters}{cf_media_bookmarks:total_rows}{/stash:itemChapters}
+				{parents field="cf_member_segment_data_entry" search:cf_member_segment_data_loops="not IS_EMPTY"}
+					{stash:itemUserLoops}{parents:total_results}{/stash:itemUserLoops}
+					{if parents:no_results}
+						{stash:itemUserLoops}{/stash:itemUserLoops}
+					{/if}
+				{/parents}
+			{if:else}
+				{stash:itemUserLoops}{/stash:itemUserLoops}
+				{stash:itemLoops}{/stash:itemLoops}
+			{/if}
+				
+		{/exp:stash:append_list}
+	{/exp:channel:entries}
+{/exp:stash:parse}
+{
+	"formsArray" : [
+	{exp:stash:get_list name="fav-forms"}
+		{ 
+			"itemID" : {itemID},
+			"itemForm" : {exp:ce_str:ing trim json_encode}{itemForm}{/exp:ce_str:ing},
+			"itemChapters" : "{itemChapters}",
+			"itemLoops" : "{itemLoops}",
+			"itemUserLoops" : "{itemUserLoops}"
+		}{if count < total_results},{/if}
+	{/exp:stash:get_list}
+	]
+}

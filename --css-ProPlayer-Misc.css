@@ -1,0 +1,442 @@
+/*****************************************
+*************   Misc Elements  ************
+*****************************************/ 
+#ie-warning
+{
+	position: absolute;
+	top: 0rem;
+	padding: .5rem;
+	color: black;
+	font-size: .8rem;
+	width: 100%;
+	left: 0;
+	background: #ff8;
+	z-index: 10;
+}
+#error-message
+{
+	position: absolute;
+	top: 20%;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.5rem;
+	padding: 1rem;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	background: red;
+	color: white;
+	z-index: 1000;
+}
+
+
+span.nonbreaking
+{
+	white-space: nowrap;
+}
+
+.margin-bottom
+{
+	padding-bottom: 1rem;
+}
+
+.margin-top
+{
+	padding-top: 1rem;
+}
+
+.non-breaking
+{
+	white-space: nowrap;
+}
+
+.big-padding
+{
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+#speedSelect, #resolutionSelect
+{
+	width: auto;
+	text-align: left;
+	display: inline-block;
+}
+	
+.comment-screenname-notice
+{
+	font-size: .7rem;
+	font-weight: 600;
+	color: #aaa;
+	line-height: 1.1em;
+	padding: .5rem .5rem 0 .5rem;
+	text-align: center;
+	font-style: oblique;
+}
+
+.comment-screenname-notice strong
+{
+	color: #ccc;
+}
+
+.radio-button-wrapper
+{
+	white-space: nowrap;
+}
+
+input[type="radio"],
+input[type="radio"]+label,
+input[type="checkbox"],
+input[type="checkbox"]+label
+{
+	cursor: pointer;
+	font-weight: 600;
+	white-space: nowrap;
+	line-height: 1.7em;
+	padding: 0;
+	vertical-align: middle;
+}				
+	
+input[type="radio"]+label
+{
+	padding-left: .45em;
+}
+
+input[disabled="disabled"]+label
+{
+	cursor: default;
+	color: #777;
+}
+
+
+#noVideoMessage
+{
+	color:white;
+	display: block;
+	text-align: center;
+	position: relative;
+	margin: 3rem auto 0 auto;
+	max-width: 600px;
+	font-size: 1rem;
+	line-height: 1.2rem;
+	font-weight: 600;
+}
+
+textarea
+{
+	font-family: "Open Sans", Helvetica, Sans-Serif !important;
+	border-radius: 0px !important;
+	-webkit-appearance: none !important;
+	-webkit-border-radius: 0px !important;
+	max-width: 100%;
+	width: 100%;	
+	background: #333 !important;
+	box-shadow: inset 1px 1px 3px #000;
+	color: white !important;
+	font-size: .85rem !important;
+	line-height: 1.4em !important;
+	font-weight: 600;
+	border: 1px solid #777 !important;
+}
+
+label.hd:after
+{
+	content: "HD";
+	color: white;
+	font-size: .7em;
+	margin-left: .25em;
+	font-weight: 900;
+}
+
+
+
+.flipped
+{
+	-webkit-transform: rotateY(180deg);
+	transform: rotateY(180deg);
+}
+
+.clickDisabled
+{
+	pointer-events: none;
+}
+
+
+
+
+.widget-close-bar
+{
+	display: block;
+	background: #444;
+	font-size: 1.5rem;
+	color: white;
+	text-align: center;
+	margin: 0;
+	line-height: 1em;
+	border-bottom: 1px solid #555;
+}
+
+.widget-close-bar:hover
+{
+	background: #777;
+	color: white;
+}
+
+
+#keyboardShortcuts
+{
+	position: absolute;
+	top: 2.5rem;
+	color: white;
+	width: auto;
+	max-width: 300px;
+	background: #222;
+	right: 0;
+	border: 1px solid #555;
+	padding: 1rem;
+	font-size: .8rem;
+}
+
+
+a.cta-button
+{
+	font-size: 1rem;
+	background: #0099ff;
+	color: white;
+	display: inline-block;
+	line-height: 2.5em;
+	padding: 0 1em;
+	border-radius: 5px;
+	white-space: nowrap;
+	font-weight: 600;
+	text-align: center;
+}
+
+.form-button,
+.form-button:hover,
+.form-button:visited
+{
+	background: #09f;
+	padding: .5em 1em;
+	font-weight: 600;
+	line-height: 1em;
+	font-size: .9rem;
+	border-radius: 4px;
+	color: white;
+	text-align: center;
+}
+
+.action-button, 
+.action-button:hover
+{
+	font-size: .75rem;
+	display: inline-block;
+	line-height: 1em;
+	color: #09f;
+	padding: .35em 1em;
+	border-radius: 4px;
+	text-align: center;
+}
+
+
+/*****************************************
+*************  End Comment Section ************
+*****************************************/ 
+
+span.key
+{
+	font-family: "Lucida Console", Monaco, monospace;
+	color: #999;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+
+.no-line-height
+{
+	line-height: 1em;
+}
+
+
+
+.checkbox-link,
+.checkbox-link:hover
+{
+	font-size: .8rem;
+	font-weight: 700;
+	color: white;
+}
+
+
+
+.checkbox-link:before
+{
+	font-family: FontAwesome;
+	content: '\f0c8';
+	margin-right: .25em;
+}
+
+.checkbox-link.checked:before
+{
+	content: "\f14a";
+}
+
+
+/*****************************************
+*************  Tab style option buttons   ************
+*****************************************/ 
+
+div.option-buttons
+{
+	background: #555;
+	display: inline-block;
+	overflow: hidden;
+	border-radius: 4px;
+	font-size: .7rem;
+	line-height: 1em;
+	font-weight: 700;
+	float: right;
+}
+
+.option-button,
+.option-button:hover
+{
+	display: inline-block;
+	padding: .5em .75em;
+	color: #ddd;
+}
+
+.option-button.on
+{
+	background: #0af;
+	color: white;
+	box-shadow: none;
+	border: 1px solid #0af;
+}
+
+
+/*****************************************
+*************   Form Buttons  ************
+*****************************************/ 
+.form-button,
+.form-button:hover
+{
+	color: white;
+	display: inline-block;
+	line-height: 2.5em;
+	border-radius: 4px;
+	font-weight: 700;
+	font-size: .8rem;
+	padding: 0em 1em;
+	border: 1px solid transparent;
+}
+
+.form-button:active
+{
+	border: 1px solid white;
+}
+.form-button.full-width
+{
+	width: 100%;
+}
+
+
+
+.submit-button,
+.submit-button:hover
+{
+	background: #0af;
+	color: white;
+	display: inline-block;
+	line-height: 2.5em;
+	border-radius: 4px;
+	font-weight: 600;
+	font-size: .8rem;
+	padding: 0em 1em;
+}	
+
+.cancel-button,
+.cancel-button:hover
+{
+	background: red;
+}
+
+.max-large
+{
+	max-width: 40rem;
+	margin: 0 auto;
+}
+.notifications-tabs-wrapper
+{
+	margin: 0 auto;
+	
+}
+.notification-list
+{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+
+.notification-list li
+{
+  padding: .5rem;
+  margin: 0 0 .5rem 0;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  position: relative;
+  padding-left: 2.5rem;
+  font-weight: 600;
+  font-size: .95rem;
+  color: #ccc;
+}
+
+.notification-list li a
+{
+	font-weight: 900;
+}
+
+li.notification:before
+{
+  font-family: FontAwesome;
+  content: "\f0e0";
+  width: 2rem;
+  position: absolute;
+  line-height: 1em;
+  font-size: 1.5rem;
+  margin-left: -2rem;
+}
+
+.notification-title
+{
+  font-size: .85em;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: white;
+}
+
+.notification-body
+{
+  font-size: .85em;
+  font-weight: 600;
+  line-height: 1.2em;
+}
+.notification-body p
+{
+  margin-top: 0;
+  margin-bottom: .25em;
+}
+
+.notification-body p:last-child
+{
+	margin-bottom: 0px;
+}
+
+
+span.smaller, div.smaller, .smaller
+{
+	font-size: .8em;
+	line-height: 1.3em;
+}

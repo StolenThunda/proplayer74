@@ -1,0 +1,18 @@
+{exp:stash:parse process="inline" parse_tags="yes" parse_conditionals="yes" output="no"}
+	{exp:channel:entries  entry_id="{get:segmentID}"
+						limit="1" dynamic="no"
+						disable="categories|category_fields|member_data|pagination" }
+						
+		{parents field="cf_member_segment_data_entry" author_id="{logged_in_member_id}" limit="1"}
+			{exp:stash:userDataEntryID}{parents:entry_id}{/exp:stash:userDataEntryID}
+		{/parents}
+		
+	{/exp:channel:entries}
+	
+{/exp:stash:parse}
+
+{if {exp:stash:is_empty name="userDataEntryID"}}
+	{embed="pro-player-v7_1/--embed-new-user-loops-form" entry_id="{get:segmentID}"}
+{if:else}
+	{embed="pro-player-v7_1/--embed-edit-user-loops-form" userDataEntryID="{exp:stash:userDataEntryID}"}
+{/if}

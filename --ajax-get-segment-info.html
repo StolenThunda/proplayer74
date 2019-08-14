@@ -1,0 +1,88 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+
+{exp:ce_cache:it url_override="watch/v7.3/segment-info/{segment_3}" for="1 month"}
+{exp:stash:parse process="inline" parse_tags="yes" output="no"}
+	{exp:channel:entries entry_id="{segment_3}" 
+								dynamic="no"
+								disable="categories|member_data|category_fields"
+								status="open|archived|locals|unlisted" parse="inward" show_future_entries="yes"
+								cache="yes" refresh="43200"}
+		{exp:stash:set parse_conditionals="yes"}
+			
+			{stash:segmentVimeoCode}{cf_media_vimeo_code}{/stash:segmentVimeoCode}
+			{stash:segmentYouTubeCode}{cf_media_yt_code}{/stash:segmentYouTubeCode}
+			{stash:segmentMP3Filename}{cf_media_mp3_filename}{/stash:segmentMP3Filename}
+			{stash:segmentSoundSliceCode}{cf_media_soundslice_code}{/stash:segmentSoundSliceCode}
+			{stash:segmentPDFFilename}{cf_media_pdf_filename}{/stash:segmentPDFFilename}
+			{stash:segmentURL}{cf_media_url}{/stash:segmentURL}
+			{stash:segmentGPXFilename}{cf_media_gpx_filename}{/stash:segmentGPXFilename}
+			{stash:segmentShortDescription}{cf_media_short_description}{/stash:segmentShortDescription}
+							
+			{stash:mediaStartTime}0{/stash:mediaStartTime}
+			{if cf_media_start_time}
+				{stash:mediaStartTime}{cf_media_start_time}{/stash:mediaStartTime}
+			{/if}			
+			{stash:activeSegmentEntryID}{entry_id}{/stash:activeSegmentEntryID}
+			{stash:activeSegmentTitle}{title}{/stash:activeSegmentTitle}
+			{stash:activeSegmentDisplayName}{cf_media_short_name}{/stash:activeSegmentDisplayName}
+			{stash:activeSegmentFullDisplayName}{cf_media_display_name}{/stash:activeSegmentFullDisplayName}
+			{stash:activeSegmentHTML}{exp:ce_str:ing markdown format_characters json_encode}{cf_media_description}{/exp:ce_str:ing}{/stash:activeSegmentHTML}
+		{/exp:stash:set}
+		
+		{exp:stash:set_list name="chapterList" parse_tags="yes"  parse_conditionals = "yes"}
+			{cf_media_bookmarks limit="200"}
+				{if cf_media_bookmarks:name != ''}
+					{stash:name}{cf_media_bookmarks:name}{/stash:name}
+					{stash:time}{cf_media_bookmarks:time}{/stash:time}
+				{/if}
+			{/cf_media_bookmarks}
+		{/exp:stash:set_list}
+		
+		{exp:stash:set_list name="loopsList" parse_tags="yes" parse_conditionals="yes"}
+			{cf_media_loops limit="200"}	
+				{if cf_media_loops:name != '' AND cf_media_loops:stop != cf_media_loops:start}
+					{stash:name}{cf_media_loops:name}{/stash:name}
+					{stash:startTime}{cf_media_loops:start}{/stash:startTime}
+					{stash:endTime}{cf_media_loops:end}{/stash:endTime}
+				{/if}
+			{/cf_media_loops}
+		{/exp:stash:set_list}
+		
+		{exp:stash:set name="userLoopEntryIDs" parse_tags="yes" parse_conditionals="yes"}
+			{parents field="cf_member_segment_data_entry"}{if parents:cf_member_segment_data_loops != ""}{parents:entry_id}{if parents:count != parents:total_results}|{/if}{/if}{/parents}
+		{/exp:stash:set}
+				
+	{/exp:channel:entries} 
+{/exp:stash:parse}
+{
+ 	"segmentVimeoCode"	: "{exp:stash:segmentVimeoCode}",
+	"segmentYouTubeCode"	: "{exp:stash:segmentYouTubeCode}",
+	"segmentMP3Filename"	: "{exp:stash:segmentMP3Filename}",
+	"segmentSoundSliceCode"	: "{exp:stash:segmentSoundSliceCode}",
+	"segmentPDFFilename"	: "{exp:ce_str:ing rawurlencode}{exp:stash:segmentPDFFilename}{/exp:ce_str:ing}",
+	"segmentURL"	: "{exp:ce_str:ing rawurlencode}{exp:stash:segmentURL}{/exp:ce_str:ing}",
+	"segmentGPXFilename"	 : "{exp:ce_str:ing rawurlencode}{exp:stash:segmentGPXFilename}{/exp:ce_str:ing}",
+	"mediaStartTime": "{exp:stash:mediaStartTime}",
+	"segmentEntryID": "{exp:stash:activeSegmentEntryID}",
+	"segmentTitle": "{exp:stash:activeSegmentTitle}",
+	"segmentDisplayName": "{exp:ce_str:ing format_characters}{exp:stash:activeSegmentDisplayName}{/exp:ce_str:ing}",
+	"segmentFullDisplayName": "{exp:ce_str:ing format_characters}{exp:stash:activeSegmentFullDisplayName}{/exp:ce_str:ing}",
+	{if {exp:stash:not_empty name="segmentShortDescription"}}
+		"segmentShortDescription": {exp:ce_str:ing markdown format_characters json_encode}{exp:stash:segmentShortDescription}{/exp:ce_str:ing},
+	{if:else}
+		"segmentShortDescription": "",
+	{/if}
+	
+	{if "{exp:stash:activeSegmentHTML}" == ""}"segmentHTML": "",{if:else}"segmentHTML": {exp:stash:activeSegmentHTML},{/if}
+	"chaptersArray": [{exp:stash:get_list name="chapterList" prefix="chapter"}
+				 ["{exp:ce_str:ing format_characters}{chapter:name}{/exp:ce_str:ing}", {chapter:time}]{if chapter:count != chapter:total_results},{/if}{/exp:stash:get_list}
+    ],
+    "loopsArray": [{exp:stash:get_list name="loopsList" prefix="loop"}
+	          	["{exp:ce_str:ing format_characters}{loop:name}{/exp:ce_str:ing}", {loop:startTime}, {loop:endTime}]{if loop:count != loop:total_results},{/if}{/exp:stash:get_list}
+    ],
+	"userLoopEntryIDs": "{exp:ce_str:ing trim}{exp:stash:userLoopEntryIDs}{/exp:ce_str:ing}"
+	
+}
+{/exp:ce_cache:it}

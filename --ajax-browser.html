@@ -1,0 +1,31 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+<div id="browser-wrapper">
+	<div id="browser-title-bar">TXBA Browser</div>
+	<div class="browser-filter-row" id="top-level-filters">
+		<ul class="browser-top-filter-list" id="filter-level-1">
+			<li class="first"><a onClick="thePlayer.browserTool.browserChannelCallback( 'courses', this )"><span>Courses</span></a></li>
+			<li class="second"><a onClick="thePlayer.browserTool.browserChannelCallback( 'free_lesson_friday', this )"><span>Free Lesson Friday</span></a></li>
+			<li class="third"><a onClick="thePlayer.browserTool.browserChannelCallback( 'tone_tuesday', this )"><span>Tone Tuesday</span></a></li>
+			<li class="fourth"><a onClick="thePlayer.browserTool.browserChannelCallback( 'performances', this )"><span>Performances</span></a></li>
+			<li class="fifth"><a onClick="thePlayer.browserTool.browserChannelCallback( 'backing_tracks', this )"><span>Backing Tracks</span></a></li>
+			<li class="fifth"><a onClick="thePlayer.browserTool.browserChannelCallback( 'youtube_videos', this )"><span>Imported</span></a></li>
+			<li class="sixth"><a onClick="thePlayer.browserTool.browserChannelCallback( 'youtube', this )"><span><i class="fa fa-youtube-play"></i> YouTube</span></a></li>
+		</ul>
+	</div>
+	
+	<div id="browser-bottom">
+		
+		<div id="sidebar-filters">
+			<div id="sidebarFiltersWrapper">
+			</div>
+		</div>
+		<div id="resultsWrapper">
+			<div id="activeFiltersWrapper" class="browser-results-header hidden">
+			</div>
+			<div class="browser-results-list" id="results">
+			</div>
+		</div>
+	</div>
+</div>	

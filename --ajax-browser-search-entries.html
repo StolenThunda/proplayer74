@@ -1,0 +1,134 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+{exp:ce_cache:it url_override="watch/v7.3/browser/results/{segment_3}/{segment_4}/{segment_5}" for="1 week"}
+{exp:stash:parse process="inline" output="no"}
+	
+	{exp:low_search:results 
+						query="{segment_4}"
+						limit="10"
+						disable="category_fields|member_data"
+						status="open|archived|locals"}
+
+		{paginate}
+
+			{exp:stash:set name="paginationLinks" parse_tags="yes" parse_depth="4" parse_conditionals="yes"}
+		
+				{pagination_links}
+						<ul class="pagination-links">
+							{first_page}
+								<li><a onClick="thePlayer.browserTool.goToResultsPage('{pagination_url}'); return false;" class="page-first"><i class="fa fa-fast-backward"></i></a></li>
+							{/first_page}
+							
+							{previous_page}
+								<li><a onClick="thePlayer.browserTool.goToResultsPage('{pagination_url}'); return false;" class="page-previous"><i class="fa fa-step-backward"></i></a></li>
+							{/previous_page}
+							
+							{page}
+								<li><a onClick="thePlayer.browserTool.goToResultsPage('{pagination_url}'); return false;" class="page-number {if current_page}active{/if}">{pagination_page_number}</a></li>
+							{/page}
+							
+							{next_page}
+								<li><a onClick="thePlayer.browserTool.goToResultsPage('{pagination_url}'); return false;" class="page-next"><i class="fa fa-step-forward"></i></a></li>
+							{/next_page}
+							
+							{last_page}
+								<li><a onClick="thePlayer.browserTool.goToResultsPage('{pagination_url}'); return false;" class="page-next"><i class="fa fa-fast-forward"></i></a></li>
+							{/last_page}
+						</ul>
+				{/pagination_links}
+			{/exp:stash:set}
+		{/paginate}
+
+		
+		{exp:stash:append_list name="items"
+						parse_conditionals="yes"	 
+						parse_tags="yes" parse_depth="4" parse="inward"}
+					
+			{stash:entryID}{entry_id}{/stash:entryID}
+			{if logged_in_member_id == author_id}
+				{stash:author}mine{/stash:author}
+			{if:else}
+				{stash:author}not-mine{/stash:author}
+			{/if}
+			
+			{stash:channel}{channel_short_name}{/stash:channel}
+			{stash:enableFavorites}true{/stash:enableFavorites}
+			
+			{if channel_short_name == "free_lesson_friday" OR channel_short_name == "tone_tuesday" OR channel_short_name == "performances"}				
+				{cf_media_thumbnail cover_only="yes"}
+					{stash:image}{cdn}/{lv_paths_entry_thumbs}/{entry_id}/{image:filename:small}{/stash:image}
+				{/cf_media_thumbnail}
+				{stash:tunings}
+					{categories show_group="14"}
+						{category_name}{if category_total_results != category_count},{/if}
+					{/categories}
+				{/stash:tunings}
+				{stash:title}{title}{/stash:title}
+				{stash:caption}{cf_media_short_description}{/stash:caption}
+				{stash:key}{/stash:key}
+				{stash:type}entry{/stash:type}
+				
+				{stash:categories}{/stash:categories}
+			{if:elseif channel_short_name == "backing_tracks"}	
+				{stash:image}{cdn}/misc/Waveform-200.png{/stash:image}
+				{stash:tunings}
+					{categories show_group="14"}
+						{category_name}{if category_total_results != category_count},{/if}
+					{/categories}
+				{/stash:tunings}
+				{stash:title}{title}{/stash:title}
+				{stash:caption}{cf_media_short_description}{/stash:caption}
+				{stash:key}{cf_media_key}{/stash:key}
+				{stash:type}entry{/stash:type}
+				{stash:skillLevels}{/stash:skillLevels}
+				{stash:categories}{/stash:categories}
+			{if:elseif channel_short_name == "pro_player_packages"}
+				{cf_proplayer_package_image cover_only="yes"}
+					{stash:image}{lv_url_cdn}/{lv_paths_entry_thumbs}/{entry_id}/{image:filename:small}{/stash:image}
+				{/cf_proplayer_package_image}			
+				{stash:skillLevels}{cf_proplayer_package_skill_level}{item} {/cf_proplayer_package_skill_level}{/stash:skillLevels}
+				{stash:tunings}
+					{categories show_group="14"}
+						{category_name}&nbsp;
+					{/categories}
+				{/stash:tunings}
+				{stash:caption}{cf_ppp_description}{/stash:caption}
+				{stash:title}{title}{/stash:title}
+				{stash:key}{/stash:key}
+				{stash:type}entry{/stash:type}
+				{stash:categories}{/stash:categories}
+			{if:elseif channel_short_name == "youtube_videos"}
+				{stash:title}{cf_media_display_name}{/stash:title}
+				{stash:image}https://img.youtube.com/vi/{cf_media_yt_code}/hqdefault.jpg{/stash:image}
+				{stash:tunings}{/stash:tunings}
+				{stash:categories}{categories show_group="18"}cat-{category_id}{/categories}{/stash:categories}
+				{stash:key}{/stash:key}
+				{stash:caption}{cf_media_short_description}{/stash:caption}
+				{stash:skillLevels}{/stash:skillLevels}
+				{stash:type}entry{/stash:type}
+			{/if}	
+		{/exp:stash:append_list}
+
+	{/exp:low_search:results}
+{/exp:stash:parse}
+	
+	
+	
+{if {exp:stash:not_empty name="paginationLinks"}}
+	<div class="browser-results-header" id="browserPaginationWrapperTop">
+		{exp:stash:paginationLinks}
+	</div>
+{/if}
+
+{exp:stash:get_list name="items" prefix="course"}
+	{lv_proplayer_browser_result}
+{/exp:stash:get_list}
+
+{if {exp:stash:not_empty name="paginationLinks"}}
+	<div class="browser-results-header" id="browserPaginationWrapperBottom">
+		{exp:stash:paginationLinks}
+	</div>
+{/if}
+
+{/exp:ce_cache:it}

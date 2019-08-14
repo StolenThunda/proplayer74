@@ -1,0 +1,911 @@
+
+/*****************************************
+*************	Sidebar Common Styles  ************
+*****************************************/ 
+.sidebar-title
+{
+	text-transform: uppercase;
+	white-space: nowrap;font-family: Oswald, 'Lucida Sans Unicode', 'Lucida Grande', Helvetica, Arial, sans-serif;
+	letter-spacing: .03rem;
+	font-weight: 600;
+	font-size: .75rem;
+	line-height: 2rem;
+	display: inline-block;
+}
+
+
+.sidebar-controls-wrapper
+{
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+}
+
+/*****************************************
+*************	Sidebar Heading Button	************
+*****************************************/ 
+.sidebar-heading-button-wrapper
+{
+	float: right;
+}
+
+.sidebar-heading-button,
+.sidebar-heading-button:hover,
+.sidebar-heading-button:visited
+{
+	display: inline-block;
+	background: #0af;
+	color: white;
+	font-weight: 700;
+	padding: 0 .5em;
+	text-align: center;
+	font-size: .75rem;
+	line-height: 2em;
+	border-radius: 4px;
+}
+
+.sidebar-heading-button:active
+{
+	background: #aaf;
+}
+
+.sidebar-heading-button.disabled
+{
+	background: #555;
+	color: #999;
+	pointer-events: none;
+	cursor: default;
+}
+
+
+
+/*****************************************
+*************	Segments List  ************
+*****************************************/
+
+ul.accordion.sidebar-accordion li.accordion-item:first-child>:first-child
+{
+	border-radius: 0px !important;
+}
+ul.accordion.sidebar-accordion,
+ul.accordion.sidebar-accordion > li,
+ul.accordion.sidebar-accordion > li > a,
+ul.accordion.sidebar-accordion > li:last-child > a,
+ul.accordion.sidebar-accordion > li > div.accordion-content
+{
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border: none;
+}
+
+ul.accordion.sidebar-accordion
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.accordion.sidebar-accordion > li
+{
+}
+
+ul.accordion.sidebar-accordion > li:last-child
+{
+}
+
+
+ul.accordion.sidebar-accordion > li.is-active
+{
+	margin-bottom: -1px;
+}
+
+ul.accordion.sidebar-accordion > li > a,
+ul.accordion.sidebar-accordion > li:last-child > a
+{
+	font-size: .8rem;
+	letter-spacing: .03em;
+	text-transform: uppercase;
+	font-family: Oswald, Open Sans, Helvetica, Sans-serif;
+	color: white;
+	display: inline-block;
+	padding: 1em 0 1em 0;
+	width: 100%; 	 
+	background: #444;
+	border-bottom: 1px solid #242424;
+	border-top: 1px solid #606060;
+}
+
+
+ul.accordion.sidebar-accordion > li:first-child > a
+{
+	border-top: none;
+}
+
+ul.accordion.sidebar-accordion > li > a > sup
+{
+  font-family: Open Sans, Helvetica, Sans-serif;
+  font-weight: 700;
+  color: #aaa;
+  margin-left: .25em;
+  font-size: .9em;
+}
+
+ul.accordion.sidebar-accordion > li > a:before
+{
+  position: relative;
+  display: inline-block;
+  left: 0;
+  font-family: FontAwesome;
+  content: "\f0da";
+  width: 1em;
+  margin-right: .5em;
+  text-align: right; 
+}
+
+ul.accordion.sidebar-accordion > li.is-active > a
+{
+	background: #464646;
+	border-bottom: 1px solid #555;
+}
+ul.accordion.sidebar-accordion > li.is-active > a:before
+{
+  content: "\f0d7";
+}
+ul.accordion.sidebar-accordion > li > div.accordion-content
+{
+  background: #222;
+  padding: 0;
+  box-shadow: inset 0px 2px 2px #111;
+}
+
+ul.accordion.sidebar-accordion > li > div.accordion-content ul.sidebar-list li:last-child
+{
+}
+
+
+
+ul.segment-items
+{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: .8rem;
+}
+ul.segment-items li a
+{
+	padding: .75em 1em;
+	border-bottom: 1px solid #444;
+	font-weight: 600;
+	display: block;
+	color: #00ddff;
+	line-height: 1em;
+	white-space: nowrap;
+}
+
+ul.segment-items li a:before
+{
+	font-family: 'FontAwesome';
+	margin-right: .5em;
+	font-size: 1.1em;
+  color: white;
+}
+ul.segment-items li.video a:before
+{
+	content: "\f16a";
+}
+
+ul.segment-items li.audio a:before
+{
+	content: "\f028";
+}
+
+ul.segment-items li.pdf a:before
+{
+	content: "\f1c1";
+}
+
+ul.segment-items li.tablature a:before
+{
+	content: "\f001";
+}
+
+ul.segment-items li.html a:before 
+{
+	content: "\f05a"; 
+}
+ul.segment-items li.url a:before 
+{
+	content: "\f0ad"; 
+}
+
+ul.sections li ul li.section-item.html a:before 
+{
+	content: "\f05a"; 
+}
+ul.segment-items li a:hover
+{
+	color: white;	
+}
+ul.segment-items li.selected
+{	
+	background: #0099ff;
+}
+
+ul.segment-items li.selected a,
+ul.segment-items li.selected a:before
+{
+	color: white !important;
+}
+
+
+/*****************************************
+*************	Favorites List	************
+*****************************************/
+
+ul.favorites-list
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.favorites-list li.favorites-list-item
+{
+	padding: 0;
+	margin: 0;
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #555;
+}
+
+
+ul.favorites-list li.favorites-list-item.current-item
+{
+	padding: .5em;
+	background: #333;
+	border-bottom: 1px solid #555;
+}
+
+ul.favorites-list li.favorites-list-item.active
+{
+	background: #363636;
+}
+
+ul.favorites-list li.favorites-list-item.active .fav-item .fav-item-title
+{
+	font-weight: 900;
+}
+
+ul.favorites-list li.favorites-list-item.active .fav-item-play-icon
+{
+	visibility: hidden;
+}
+
+li.empty-fav-item
+{
+	padding: 1rem .5rem;
+	text-align: center;
+	font-size: .9rem;
+	font-weight: 600;
+	line-height: 1.2em;
+	color: #ccc;
+}
+
+.big-fav-button
+{
+	background: #0099ff;
+	font-size: .7rem;
+	line-height: 1em;
+	padding: .4em .75em;
+	text-transform: uppercase;
+	font-weight: 900;
+	border-radius: 3px;
+
+}
+
+.big-fav-button.remove
+{
+	background: red;
+}
+
+button.fav-item-button
+{
+  background: none;
+  line-height: 1em;
+  padding: .25em .5em;
+  font-size: 1rem;
+  border: 1px solid #444;
+  color: white;
+  cursor: pointer;
+}
+
+/*****************************************
+*************	Sidebar Lists  ************
+*****************************************/ 
+.sidebar-list-heading
+{
+	font-size: 1rem;
+	line-height: 2em;
+	background: #555;
+	color: white;
+	border-bottom: 1px solid #777;
+	overflow: hidden;
+	padding: 0 .25rem;
+}
+	
+ul.sidebar-list
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: .85rem;
+}
+.dirty ul.sidebar-list,
+.dirty ul.sidebar-list a.sidebar-list-item-button
+{
+  background: #612d2d !important;
+}
+ul.sidebar-list.dark
+{
+	background: #222;
+}
+
+ul.sidebar-list li
+{
+	margin: 0;
+	padding: 0;
+	line-height: 1.4rem;
+	font-weight: 600;
+	border-bottom: 1px solid #555;
+	color: #ddd;
+	
+}
+
+ul.sidebar-list li.focus
+{
+	background: #888;
+}
+
+ul.sidebar-list li > a,
+ul.sidebar-list li > span,
+ul.sidebar-list li a.sidebar-list-item-button
+{
+	color: #ddd;
+	display: block;
+	white-space: nowrap !important;
+	overflow: hidden;
+	outline: none;
+	padding: .4em 0 .4em .5rem;
+	
+}
+
+ul.sidebar-list li.sidebar-list-item.section-heading
+{
+    text-transform: uppercase;
+    font-weight: 900;
+    background: #777;
+    line-height: 1.25em;
+    font-size: .8em;
+}	
+ul.sidebar-list li a:hover
+{
+	color: white;
+}
+	
+ul.sidebar-list li a.active,
+ul.sidebar-list li.active a
+{
+	background: #0099ff;
+	color: white;
+}
+
+
+ul.sidebar-list li a:before
+{
+	
+	font-family: 'FontAwesome';
+	margin-right: .5em;
+}
+ul.sidebar-list li.chapter a:before
+{content: "\f02e";}
+ul.sidebar-list li.loop a:before
+{ content: "\f021";}
+ul.sidebar-list li.video a:before
+{ content: "\f16a"; }
+ul.sidebar-list li.audio a:before
+{ content: "\f028";}
+ul.sidebar-list li.pdf a:before
+{ content: "\f1c1";}
+ul.sidebar-list li.tablature a:before
+{ content: "\f001";}
+ul.sidebar-list li.html a:before 
+{ content: "\f05a"; }
+ul.sidebar-list li.url a:before 
+{ content: "\f0ad"; }
+ul.sidebar-list li.download a:before 
+{ content: "\f0ed"; }
+ul.sidebar-list li.play a:before 
+{ content: "\f01d"; }
+ul.sections li ul li.section-item.html a:before 
+{content: "\f05a"; }
+
+
+li.sidebar-list-item a.selected
+{
+	background: #555;
+	color: #DDD;
+}
+li.sidebar-list-item.chapter a
+{
+  -webkit-transition: background .2s;
+}
+
+.sidebar-list-item.history
+{
+	padding: .5em 0;
+}
+.sidebar-list-item.history a span
+{
+	white-space: normal !important;
+}
+
+.sidebar-list-item.history span.channel
+{
+	display: block;
+	letter-spacing: .1em;
+	color: #999;
+	font-weight: 900;
+	font-size: .7em;
+	line-height: 1.8em;
+	text-transform: uppercase;
+}
+
+.sidebar-list-item.history span.title
+{
+	display: block;
+	color: white;
+	text-transform: uppercase;
+	font-size: .9em;
+	line-height: 1.5em;
+}
+.sidebar-list-item.history span.name
+{
+	display: block;
+	font-size: .85em;
+	color: #bbb;
+	line-height: 1.5em;
+}
+
+
+.empty-list-message
+{
+	text-align: center;
+	font-size: .85rem;
+	color: #aaa;
+	font-weight: 600;
+	padding: 1rem .5rem;
+	clear: both;
+}
+
+/*****************************************
+*********	Comments Sidebar  ************
+*****************************************/ 
+
+
+
+#cmt-form-wrapper
+{
+	border-bottom: 1px solid #555;
+	padding-bottom: .5em;
+	background: #333;
+}
+
+.cmt-form-wrapper textarea
+{
+	font-size: .75rem !important;
+}
+
+#cmt-form-wrapper
+{
+	border-bottom: 1px solid #555;
+	padding-bottom: .5em;
+	background: #333;
+}
+
+
+
+.cmt-restricted
+{
+	padding: 1rem;
+	font-size: .8rem;
+	text-align: center;
+	color: orange;
+	font-weight: 600;
+}
+#add-cmt-wrapper
+{
+	background: #444;
+	border-bottom: 1px solid #111;
+}
+
+.add-cmt-button,
+.add-cmt-button:hover,
+.add-cmt-button:active,
+.add-cmt-button:visited
+{
+	display: inline-block;
+	background: #0af;
+	color: white;
+	font-weight: 700;
+	font-size: .75rem;
+	line-height: 2em;
+	padding: 0 .5em;
+	text-align: center;
+	border-radius: 4px;
+}
+
+ul.cmts-list
+{
+
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: .8rem;
+}
+
+ul.cmts-list > li
+{
+	padding: 0;
+	position: relative;
+	padding: 1rem 0 0 0;
+	
+}
+
+ul.cmts-list > li.level-0 > .cmt-inner
+{
+	position: relative;
+	background: #222;
+	padding: 1rem;
+	margin-right: 1rem;
+	border-radius: 0 5px 5px 0;
+	border: 1px solid #444;
+	border-left: none;
+	
+}
+
+
+ul.cmts-list > li#no-questions
+{
+	text-align: center;
+}
+
+
+ul.cmts-list li ul
+{
+	list-style: none;
+	margin-top: .5rem;
+	margin-left: 1.5rem;
+	margin-bottom: 1rem;
+}
+
+
+ul.cmts-list li ul li
+{
+	position: relative;
+	background: #262626;
+	border: 1px solid #444;
+	border-right: none;
+	padding: .5rem .5rem .5rem .75rem;
+	margin-top: .25rem;
+	border-radius: 5px 0 0 5px;
+}
+
+a.cmt-delete-button
+{
+	position: absolute;
+	right: .25rem;
+	top: .25rem;
+	line-height: 1em;
+	font-size: .85rem;
+}
+.cmt-text
+{
+	line-height: 1.4em;
+	font-size: .9rem;
+	font-weight: 600 !important ;
+}
+
+.level-0 .cmt-text
+{
+	font-size: .82rem;
+}
+.level-1 .cmt-text
+{
+	font-size: .8rem;
+	line-height: 1.4em;
+	font-style: oblique;
+	margin-right: .75rem;
+	color: #ccc;
+}
+
+.cmt-meta
+{
+	font-size: .7rem;
+	color: #999;
+	margin-top: .25rem;
+	font-weight: 600;
+	text-align: right;
+}
+
+
+.cmt-reply-wrapper
+{
+	margin-top: .5em;
+}
+
+
+.comment-action-button,
+.comment-action-button:hover
+
+{
+	display: inline-block;
+	background: #606060;
+	color: #ddd;
+	line-height: 2em;
+	font-weight: 600;
+	font-size: .75rem;
+	padding: 0 1em;
+	border-radius: 1em;
+	white-space: nowrap;
+}
+
+.comment-action-button:active
+{
+	background: #777;
+	color: white;
+}
+.comment-action-button.view
+{
+	background: #0af;
+	color: white;
+}
+
+.comment-action-button.disabled
+{
+	pointer-events: none;
+	color: #999;
+	cursor: default;
+}
+.comment-action-button:active
+{
+	background: #aaa;
+	color: #222;
+}
+.comment-reply-form
+{
+	padding: .5rem;
+	margin-bottom: 5px;
+	border: 1px solid #555;
+}
+
+.comment-reply-form.thread-reply-form
+{
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding: 0;
+	border: none;
+	border-top: 1px solid #555;
+	padding-top: 1em;
+}
+
+.comment-character-counter
+{
+	font-size: .8rem;
+	color: #ccc;
+	line-height: 1em;
+	margin-bottom: .5rem;
+	text-align: right;
+	font-weight: 600;
+}
+ul.cmts-list li.level-0.closed
+{
+	height: 6rem;
+	overflow: hidden;
+	position: relative;
+}
+
+.cmt-wrapper .cmt-replies-wrapper
+{
+	display: none;
+}
+
+.cmt-wrapper.expanded .cmt-replies-wrapper
+{
+	display: inherit;
+	background: #363636;
+}
+
+.cmt-wrapper a.comment-view-replies-button
+{
+	transition: background .5s;
+}
+.cmt-wrapper.expanded a.comment-view-replies-button
+{
+	background: #777;
+}
+
+.cmt-wrapper.expanded a.comment-view-replies-button:after
+{
+	font-family: FontAwesome;
+	content: "\f057";
+	margin-left: .5em;
+	margin-right: -.5em;
+}
+
+/* Sidebar List */
+ul.sidebar-items-list
+{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #222;
+  float: left;
+  width: 100%;
+  border-bottom: 1px solid #555;
+}
+li.sidebar-item
+{
+  float: left;
+  width: 100%;
+  border-bottom: 1px solid #333;
+  padding: .25em;
+  position: relative;
+}
+.sidebar-item-fav-icon
+{
+  font-size: 1rem !important; 
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: .5rem;
+}
+
+.red
+{
+  color: red;
+}
+
+.sidebar-item-image
+{
+	float: left;
+	width: 3rem;
+	border: 1px solid #555;
+}
+
+.sidebar-item-title
+{
+  margin-left: 3.5rem;
+  font-size: .8rem;
+  line-height: 1.2em;
+  margin-right: 2.4rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  
+}
+
+.sidebar-item-title a
+{
+  color: #aaf;
+  font-weight: 600;
+  line-height: 1em;
+}
+li.sidebar-list-item.button
+{
+  position: relative;
+}
+li.sidebar-list-item.button a.sidebar-list-item-link
+{
+  margin-right: 2rem;
+  border-right: 1px solid #333;
+}
+
+li.sidebar-list-item.button a.sidebar-list-item-link.both
+{
+  margin-right: 4rem;
+}
+
+li.sidebar-list-item.button a.sidebar-list-item-button.both.check-button
+{
+  right: 2rem;
+}
+
+li.sidebar-list-item.button a.sidebar-list-item-button
+{
+  position: absolute;
+  top: 0;
+  height: 100%;
+  right: 0;
+  background: #333;
+  text-align: center;
+  width: auto;
+  padding-left: .75em;
+  padding-right: .75em;
+  margin: 0;
+  
+  border-left: 1px solid #444;
+}
+li.sidebar-list-item.button a.sidebar-list-item-button:before
+{
+  padding: 0;
+  margin: 0;
+}
+
+li.sidebar-list-item.button a.sidebar-list-item-button.check-button:before
+{
+  content: "\f055";
+}
+
+
+li.sidebar-list-item.button .sidebar-list-item-button.delete-button:before
+{
+  content: "\f056";
+  color: red;
+}
+
+
+li.sidebar-list-item.button.active a.sidebar-list-item-button
+{
+  background: #09f;
+}
+li.sidebar-list-item.button.active a.sidebar-list-item-button.check-button:before
+{
+  content: "\f058";
+  color: white;
+}
+
+/********* Sidebar Action Buttons (top) *************/
+
+.sidebar-list-action-buttons-wrapper
+{
+  padding: .125em;
+  border-bottom: 1px solid #555;
+  text-align: right;
+  background: #444;
+}		
+
+.sidebar-action-button
+{
+  font-size: .75rem;
+  display: inline-block;
+  line-height: 2.2em;
+  font-weight: 600;
+  padding: 0 .75em;
+  background: #777;
+  border-radius: 3px;
+  color: white;
+}
+
+.sidebar-action-button.add
+{
+  background: #00aaff;
+}
+
+.sidebar-action-button.save
+{
+  background: red;
+}
+
+.sidebar-action-button.disabled
+{
+  background: #555;
+  color: #777;
+  pointer-events: none;
+  cursor: default;
+}
+
+
+
+
+
+

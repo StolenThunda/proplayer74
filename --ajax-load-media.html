@@ -1,0 +1,193 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+<div id="mediaPlayerWrapper" class="{segment_3} paused">
+	<div id="mediaPanZoomWrapper">
+		{if segment_3 == "vimeo"}
+			<video id="videoPlayer" class="" webkit-playsinline playsinline allowfullscreen crossorigin="anonymous">
+			</video> 
+		{if:elseif segment_3 == "audio"}
+			<video id="videoPlayer" class="audioPlayer" controls playsinline crossorigin="anonymous">
+				<source src="{lv_url_cdn}/audio/{segment_4}" type='audio/mp3' />
+			</video> 
+		{if:elseif segment_3 == "youtube"}
+			<video id="videoPlayer" class="" src="https://youtube.com/watch?v={segment_4}" webkit-playsinline playsinline preload="none" crossorigin="anonymous">
+			</video> 
+		{if:elseif segment_3 == "facebook"}
+			<video id="videoPlayer" class="" webkit-playsinline playsinline type="video/facebook"
+					src="https://facebook.com/{segment_4}/videos/{segment_5}" width="100%" height="100%" crossorigin="anonymous">
+			</video> 
+		{if:elseif segment_3 == "instagram"}
+			<video id="videoPlayer" class="" webkit-playsinline playsinline allowfullscreen crossorigin="anonymous">
+			</video> 
+		{/if}
+	</div>
+	<div id="zoomIndicator"></div>
+</div>
+<div id="mediaControlsWrapper">	
+	<div id="progressSliderWrapper">
+		<div id="current-time">0.00</div>
+		<div id="time-left"></div>
+		<div id="progressSlider">
+			<div id="loop-region" style="display: none"></div>
+			<div id="chapters-wrapper">
+			</div>
+		</div>
+	</div>
+			
+	<div id="transportButtonsWrapper">
+		<ul id="transportButtonsList">
+			<li>
+				<button id="playback-play" class="transport-button" onClick="thePlayer.theEngine.onButtonTogglePlayback();" disabled title="Toggle Playback.">
+					<i class="fa fa-play" disabled></i>
+				</button>
+			</li>
+			<li class="">
+				<button id="playback-beginning" class="transport-button" onClick="thePlayer.theEngine.onButtonPlaybackRestart();" disabled title="Back to the beginning.">
+					<i class="fa fa-fast-backward" disabled></i>
+				</button>
+			</li>
+			<li  class="">
+				<button id="playback-rewind" class="transport-button" onClick="thePlayer.theEngine.onButtonPlaybackRewind5();" disabled	title="Rewind 5 Seconds.">
+					<i class="fa fa-backward"></i> <sup>5</sup>
+				</button>
+			</li>
+			<li class="">
+				<button id="playback-forward" class="transport-button" onClick="thePlayer.theEngine.onButtonPlaybackForward5();" disabled title="Forward 5 Seconds.">
+					<i class="fa fa-forward"></i> <sup>5</sup>
+				</button>
+			</li>
+			<li class="">
+				<button id="looping-start" class="transport-button" onClick="thePlayer.theEngine.onButtonSetLoopStart();" disabled title="Set loop starting point.">
+					[ A
+				</button>
+			</li>
+			<li class="">
+				<button id="looping-stop" class="transport-button" onClick="thePlayer.theEngine.onButtonSetLoopEnd();" disabled title="Set loop stopping point.">
+					B ]
+				</button>
+			</li>
+			<li class="">
+				<button id="looping-toggle" class="transport-button" onClick="thePlayer.theEngine.onButtonToggleLooping()" disabled title="Begin/End Looping.">
+					<i class="fa fa-refresh"></i><i class="fa fa-play"></i> 
+				</button>
+			</li>
+			<li>
+				<button id="controls-toggle" class="transport-button" title="Video Settings." onClick="thePlayer.theEngine.toggleVideoControls();">
+					<i class="fa fa-gear"></i>
+				</button>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="videoControlsMenu" class="widget" style="display: none;">
+	<a class="widget-close-bar" onClick="thePlayer.theEngine.toggleVideoControls()"><i class="fa fa-caret-down"></i></a>	
+	<div class="row margin-top margin-bottom" id="volume-row">
+		<div class="columns small-12 text-left ">									
+			<div class="widget-column-heading">Volume</div>
+			<div id="volumeSlider" class="touch-slider horizontal"></div>
+		</div>
+	</div>
+	
+	{if segment_3 != "audio"}
+		<div class="row margin-top margin-bottom video-only">
+			<div class="columns small-12 text-left">
+				<div class="widget-column-heading"><input type="checkbox" id="enableZoom" onClick="thePlayer.theEngine.toggleZoomEnabled()" name="enableZoom"><label for="enableZoom"> Video Zoom</label></div>
+				<div id="zoomSlider" class="touch-slider horizontal"></div>
+	 		</div>
+		</div>
+	{/if}
+	{if segment_3 != "facebook"}
+		<div class="row margin-top margin-bottom" id="speed-row">
+			<div class="columns small-12 text-left ">									
+				<div class="widget-column-heading">Speed <span class="slider-indicator">(<span id="speedIndicator">1.0</span>)</span></div>
+				<div id="speedSlider" class="touch-slider horizontal">
+					<div class="slider-unity-indicator vimeo"></div>
+				</div>
+			</div>
+		</div>
+	{/if}
+	
+	{if segment_3 == "vimeo"}
+		<div class="row margin-top margin-bottom">
+			<div class="columns small-6">
+				<div class="widget-column-heading list-heading">Quality</div>
+				<div id="resolutionSelect">
+				</div>
+			</div>
+		</div>
+	{/if}
+	<div class="row margin-top video-only">
+		<div class="columns small-12 medium-12 large-12 text-left">
+			<div class="widget-column-heading list-heading">Options</div>
+		
+			{if segment_3 != "audio"}
+				<span class="nonbreaking"><input type="checkbox" id="flipPlayer" onClick="thePlayer.theEngine.togglePlayerFlipped()" name="flipPlayer"><label for="flipPlayer"> Lefty View</label></span>
+				<br/>
+			{/if}
+			{if segment_3 == "vimeo" || segment_3 == "audio"}
+				<span class="nonbreaking only-chrome"><input type="checkbox" id="togglePitch" onClick="thePlayer.theEngine.togglePitchShiftActivated()" name="flipPlayer"><label for="togglePitch"> Pitch Shift</label></span>
+			{/if}
+		</div>
+	</div>
+</div>
+					
+<script type="text/javascript">
+	thePlayer.theEngine = new ProPlayerEngine();
+	
+	{if segment_3 == "vimeo"}
+		var videoData = {exp:vimeo_api_utilities:get_video_json}{segment_4}{/exp:vimeo_api_utilities:get_video_json};
+		if( videoData.dataFound == false)
+		{
+			thePlayer.showPlayerError();
+		}
+		else
+		{
+			thePlayer.theEngine.initializeProPlayerEngine( 	'vimeo', 
+															'{segment_4}',
+															0,
+															videoData.thumbnail,
+															videoData.videoSources,
+															thePlayer.theSegment.getChaptersArray());
+		}
+	{if:elseif segment_3 == "youtube"}
+		var poster = "";
+		var sourcesArray = [];	
+		thePlayer.theEngine.initializeProPlayerEngine(	'youtube',
+													'{segment_4}',
+													0,
+													poster,
+													[],
+													thePlayer.theSegment.getChaptersArray());
+	{if:elseif segment_3 == "audio"}
+		var poster =  'https://cdn.texasbluesalley.com/styles/WaveformHuge.jpg';
+		thePlayer.theEngine.initializeProPlayerEngine( 'audio', '{segment_4}',
+												 	0, poster,
+												[],thePlayer.theSegment.getChaptersArray());
+	{if:elseif segment_3 == "facebook"}
+		var poster = "";
+		var sourcesArray = [];
+	
+		thePlayer.theEngine.initializeProPlayerEngine(	'facebook',
+													'{segment_4}/videos/{segment_5}',
+													0,
+													poster,
+													[],
+													[]);
+	{if:elseif segment_3 == "instagram"}
+		var videoData = {exp:vimeo_api_utilities:get_instagram_video_json}{segment_4}{/exp:vimeo_api_utilities:get_instagram_video_json};
+		if( videoData.dataFound == false)
+		{
+			thePlayer.showPlayerError();
+		}
+		else
+		{
+			thePlayer.theEngine.initializeProPlayerEngine( 	'vimeo', 
+															'{segment_4}',
+															0,
+															videoData.thumbnail,
+															videoData.videoSources,
+															thePlayer.theSegment.getChaptersArray());
+		}
+	{/if}
+</script>

@@ -1,0 +1,281 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+{exp:stash:parse process="inline" output="no"}
+
+{exp:stash:set_list name="course-list"
+						parse_conditionals="yes"  
+						parse_tags="yes"}
+	{exp:favorites:entries channel="pro_player_packages|free_lesson_friday|tone_tuesday|performances|backing_tracks|youtube_videos" 
+							member_id="{CURRENT_USER}" orderby="favorited_date"
+							status="open|unlisted|archived|locals"
+							limit="999"}			
+			{stash:title}{title}{/stash:title}
+			
+			{if channel_short_name == "youtube_videos"}	
+				{stash:displayName}{cf_media_display_name}{/stash:displayName}
+			{if:else}
+				{stash:displayName}{title}{/stash:displayName}
+			{/if}
+
+			{stash:channel}{channel_short_name}{/stash:channel}
+			{stash:entryID}{entry_id}{/stash:entryID}
+			{stash:courseCategories}{categories show_group="12"}cat{category_id} {/categories}{/stash:courseCategories}
+	
+	{/exp:favorites:entries}
+{/exp:stash:set_list}
+
+{exp:stash:set_list name="channels"}
+	{stash:channelName}Pro Player Packages{/stash:channelName}
+	{stash:channelSlug}pro_player_packages{/stash:channelSlug}
+{/exp:stash:set_list}
+{exp:stash:append_list name="channels"}
+	{stash:channelName}Free Lesson Friday{/stash:channelName}
+	{stash:channelSlug}free_lesson_friday{/stash:channelSlug}
+{/exp:stash:append_list}
+{exp:stash:append_list name="channels"}
+	{stash:channelName}Tone Tuesday{/stash:channelName}
+	{stash:channelSlug}tone_tuesday{/stash:channelSlug}
+{/exp:stash:append_list}
+{exp:stash:append_list name="channels"}
+	{stash:channelName}Backing Tracks{/stash:channelName}
+	{stash:channelSlug}backing_tracks{/stash:channelSlug}
+{/exp:stash:append_list}
+{exp:stash:append_list name="channels"}
+	{stash:channelName}Performances{/stash:channelName}
+	{stash:channelSlug}performances{/stash:channelSlug}
+{/exp:stash:append_list}
+
+{/exp:stash:parse}					
+							
+
+{if {exp:stash:list_count name="course-list"} == 0}
+			<li class="empty-fav-item">
+				You have not saved any favorites yet.
+			</li>
+{if:else}
+
+	<ul class="accordion sidebar-accordion" id="favoritesListAccordion" data-accordion data-allow-all-closed="true" data-multi-expand="false">
+
+			{exp:stash:get_list name="course-list" prefix="course" 
+								match="#pro_player_packages#" against="channel"}
+				{if course:count == 1}	
+					<li class="accordion-item is-active" data-accordion-item>
+						<a class="accordion-title">Courses <sup>{course:total_results}</sup></a>
+						<div class="accordion-content" data-tab-content>
+							<ul class="sidebar-list">
+				{/if}
+							{!--
+								<li class="sidebar-item  {if '{course:entryID}' == '{segment_3}'}active{/if}">
+									<div class="sidebar-item-fav-icon">
+										{exp:favorites:info entry_id="{course:entryID}" disable_pagination="yes"}
+											{exp:favorites:edit favorite_id="{favorites:favorite_id}"
+														form:id="submitFavorite-{course:entryID}"
+														form:data-id="{course:entryID}"
+														form:data-action="remove"
+														form:class="submitFavoriteForm"
+														ajax="yes"}
+													<input type="hidden" name="delete" value="yes" />
+													<button class="fav-item-button" onClick="thePlayer.favoritesManager.removeFavoriteFromList(this); return false;" name="submit">
+														<i class="fa fa-minus-circle red"></i> 
+													</button>
+											{/exp:favorites:edit}
+										{/exp:favorites:info}
+									</div>
+									<div class="sidebar-item-image">
+										<a onClick="thePlayer.newPackageSelected('{course:entryID}','entry', true); return false;">
+											<img src="{course:image}" />		
+										</a>
+									</div>
+									<div class="sidebar-item-title">
+										<a onClick="thePlayer.newPackageSelected('{course:entryID}','entry', true); return false;">
+											{course:title}
+										</a>
+									</div>				
+								</li>
+							--}
+			
+								<li class="sidebar-list-item button play {if '{course:entryID}' == '{segment_3}'}active{/if}">
+									<a class="sidebar-list-item-link" onClick="thePlayer.openPackage('{course:entryID}', true); return false;">{course:title}</a>
+									{exp:favorites:info entry_id="{course:entryID}" disable_pagination="yes"}
+										{exp:favorites:edit favorite_id="{favorites:favorite_id}"
+													form:id="submitFavorite-{course:entryID}"
+													form:data-id="{course:entryID}"
+													form:data-action="remove"
+													form:class="submitFavoriteForm"
+													ajax="yes"}
+												<input type="hidden" name="delete" value="yes" />
+												<a class="sidebar-list-item-button delete-button" onClick="thePlayer.favoritesManager.removeFavoriteFromList(this); return false;"></a>
+										{/exp:favorites:edit}
+									{/exp:favorites:info}
+								</li>
+				{if course:count == course:total_results}	
+							</ul>
+						</div>
+					</li>
+				{/if}
+			{/exp:stash:get_list}
+			
+			{exp:stash:get_list name="course-list" prefix="course" 
+								match="#free_lesson_friday#" against="channel"}
+				{if course:count == 1}	
+					<li class="accordion-item " data-accordion-item>
+						<a class="accordion-title">Free Lesson Friday <sup>{course:total_results}</sup></a>
+						<div class="accordion-content" data-tab-content>
+							<ul class="sidebar-list">
+				{/if}
+								<li class="sidebar-list-item button play {if '{course:entryID}' == '{segment_3}'}active{/if}">
+									<a class="sidebar-list-item-link" onClick="thePlayer.openPackage('{course:entryID}', true); return false;">{course:title}</a>
+									{exp:favorites:info entry_id="{course:entryID}" disable_pagination="yes"}
+										{exp:favorites:edit favorite_id="{favorites:favorite_id}"
+													form:id="submitFavorite-{course:entryID}"
+													form:data-id="{course:entryID}"
+													form:data-action="remove"
+													form:class="submitFavoriteForm"
+													ajax="yes"}
+												<input type="hidden" name="delete" value="yes" />
+												<a class="sidebar-list-item-button delete-button" onClick="thePlayer.favoritesManager.removeFavoriteFromList(this); return false;"></a>
+										{/exp:favorites:edit}
+									{/exp:favorites:info}
+								</li>
+
+			
+				{if course:count == course:total_results}	
+							</ul>
+						</div>
+					</li>
+				{/if}
+			{/exp:stash:get_list}
+			
+			{exp:stash:get_list name="course-list" prefix="course" 
+								match="#youtube_videos#" against="channel"}
+				{if course:count == 1}	
+					<li class="accordion-item " data-accordion-item>
+						<a class="accordion-title">Imported	 <sup>{course:total_results}</sup></a>
+						<div class="accordion-content" data-tab-content>
+							<ul class="sidebar-list">
+				{/if}
+								<li class="sidebar-list-item button play {if '{course:entryID}' == '{segment_3}'}active{/if}">
+									<a class="sidebar-list-item-link" onClick="thePlayer.openPackage('{course:entryID}', true); return false;">{course:displayName}</a>
+									{exp:favorites:info entry_id="{course:entryID}" disable_pagination="yes"}
+										{exp:favorites:edit favorite_id="{favorites:favorite_id}"
+													form:id="submitFavorite-{course:entryID}"
+													form:data-id="{course:entryID}"
+													form:data-action="remove"
+													form:class="submitFavoriteForm"
+													ajax="yes"}
+												<input type="hidden" name="delete" value="yes" />
+												<a class="sidebar-list-item-button delete-button" onClick="thePlayer.favoritesManager.removeFavoriteFromList(this); return false;"></a>
+										{/exp:favorites:edit}
+									{/exp:favorites:info}
+								</li>
+
+			
+				{if course:count == course:total_results}	
+							</ul>
+						</div>
+					</li>
+				{/if}
+			{/exp:stash:get_list}
+
+			{exp:stash:get_list name="course-list" prefix="course" 
+								match="#backing_tracks#" against="channel"}
+				{if course:count == 1}	
+					<li class="accordion-item" data-accordion-item>
+						<a  class="accordion-title">Backing Tracks <sup>{course:total_results}</sup></a>
+						<div class="accordion-content" data-tab-content>
+							<ul class="sidebar-list">
+				{/if}
+								<li class="sidebar-list-item button play {if '{course:entryID}' == '{segment_3}'}active{/if}">
+									<a class="sidebar-list-item-link" onClick="thePlayer.openPackage('{course:entryID}', true); return false;">{course:title}</a>
+									{exp:favorites:info entry_id="{course:entryID}" disable_pagination="yes"}
+										{exp:favorites:edit favorite_id="{favorites:favorite_id}"
+													form:id="submitFavorite-{course:entryID}"
+													form:data-id="{course:entryID}"
+													form:data-action="remove"
+													form:class="submitFavoriteForm"
+													ajax="yes"}
+												<input type="hidden" name="delete" value="yes" />
+												<a class="sidebar-list-item-button delete-button" onClick="thePlayer.favoritesManager.removeFavoriteFromList(this); return false;"></a>
+										{/exp:favorites:edit}
+									{/exp:favorites:info}
+								</li>
+
+			
+				{if course:count == course:total_results}	
+							</ul>
+						</div>
+					</li>
+				{/if}
+			{/exp:stash:get_list}
+			
+			{exp:stash:get_list name="course-list" prefix="course" 
+								match="#performances#" against="channel"}
+				{if course:count == 1}	
+					<li class="accordion-item" data-accordion-item>
+						<a class="accordion-title">Performances <sup>{course:total_results}</sup></a>
+						<div class="accordion-content" data-tab-content>
+							<ul class="sidebar-list">
+				{/if}
+								<li class="sidebar-list-item button play {if '{course:entryID}' == '{segment_3}'}active{/if}">
+									<a class="sidebar-list-item-link" onClick="thePlayer.openPackage('{course:entryID}', true); return false;">{course:title}</a>
+									{exp:favorites:info entry_id="{course:entryID}" disable_pagination="yes"}
+										{exp:favorites:edit favorite_id="{favorites:favorite_id}"
+													form:id="submitFavorite-{course:entryID}"
+													form:data-id="{course:entryID}"
+													form:data-action="remove"
+													form:class="submitFavoriteForm"
+													ajax="yes"}
+												<input type="hidden" name="delete" value="yes" />
+												<a class="sidebar-list-item-button delete-button" onClick="thePlayer.favoritesManager.removeFavoriteFromList(this); return false;"></a>
+										{/exp:favorites:edit}
+									{/exp:favorites:info}
+								</li>
+
+			
+				{if course:count == course:total_results}	
+							</ul>
+						</div>
+					</li>
+				{/if}
+			{/exp:stash:get_list}
+			
+			{exp:stash:get_list name="course-list" prefix="course" 
+								match="#tone_tuesday#" against="channel"}
+				{if course:count == 1}	
+					<li class="accordion-item" data-accordion-item>
+						<a class="accordion-title">Tone Tuesday <sup>{course:total_results}</sup></a>
+						<div class="accordion-content" data-tab-content>
+							<ul class="sidebar-list">
+				{/if}
+								<li class="sidebar-list-item button play {if '{course:entryID}' == '{segment_3}'}active{/if}">
+									<a class="sidebar-list-item-link" onClick="thePlayer.openPackage('{course:entryID}', true)">{course:title}</a>
+									{exp:favorites:info entry_id="{course:entryID}" disable_pagination="yes"}
+										{exp:favorites:edit favorite_id="{favorites:favorite_id}"
+													form:id="submitFavorite-{course:entryID}"
+													form:data-id="{course:entryID}"
+													form:data-action="remove"
+													form:class="submitFavoriteForm"
+													ajax="yes"}
+												<input type="hidden" name="delete" value="yes" />
+												<a class="sidebar-list-item-button delete-button" onClick="thePlayer.favoritesManager.removeFavoriteFromList(this); return false;"></a>
+										{/exp:favorites:edit}
+									{/exp:favorites:info}
+								</li>
+
+			
+				{if course:count == course:total_results}	
+							</ul>
+						</div>
+					</li>
+				{/if}
+			{/exp:stash:get_list}
+		
+	</ul>
+<script type="text/javascript">
+	$(function() {
+		$('#favoritesListAccordion').foundation();
+	}); 
+</script> 
+
+{/if}

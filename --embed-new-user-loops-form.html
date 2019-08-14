@@ -1,0 +1,9 @@
+{exp:channel:form channel="member_segment_data" 
+					include_jquery="no"
+					include_assets="no"
+					id="userSegmentDataForm"
+					json="yes"}
+	<input type="hidden" name="title" value="member-{logged_in_member_id}-entry-{embed:entry_id}-data">
+	<input type="hidden" name="cf_member_segment_data_entry[data][]" value="{embed:entry_id}">
+	<textarea name="cf_member_segment_data_loops"></textarea>
+{/exp:channel:form}

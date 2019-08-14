@@ -1,0 +1,66 @@
+{!--
+	theURL += theSectionID += "/";			//what is the ID of the section we're updating
+	theURL += theSectionType += "/"; 	//what type of items are we retrieving (cats or tags)
+	theURL += theChannelID + "/";		//what channel are we looking at
+	theURL += theSectionGroupID + "/";	//what is the group (cat or tag) that we are filtering
+	theURL += theCategoryKeys + "/";	//what are the categories we have to match
+	theURL += theTagKeys + "/";			//what are the tags we have to match
+			
+			
+	segment_3 = section ID: ID of section we are refreshing
+	segment_4 = section type: type of items we are getting, category or tag
+	segment_5 = channel ID: id of the channel we are filtering
+	segment_6 = section group ID: the ID of the channel group or tag group this section represents
+	segment_7 = category IDs: the ids of any categories to filter against
+	segment_8 = tag IDs: the IDs of any tags to filter against.
+	
+	{segment_3}: /artists	- Section ID
+	{segment_4}: /tag		- Section Type
+	{segment_5}: /40			- Channel ID
+	{segment_6}: /6			- Group ID
+	{segment_7}: /131		- Category IDs
+	{segment_8}: /-1/		- Tag IDs
+--}
+{exp:ce_cache:it url_override="watch/v7.3/browser/filters/{segment_3}/{segment_4},{segment_5},{segment_6},{segment_7},{segment_8}" for="1 year"}
+{if segment_7 == '-1'}
+	{preload_replace:categoryIDs=""}
+{if:else}
+	{preload_replace:categoryIDs="{segment_7}"}
+{/if}
+{if segment_8 == "-1"}
+	{preload_replace:tagIDs=""}
+{if:else}
+	{preload_replace:tagIDs="{segment_8}"}
+{/if}
+
+{exp:stash:parse process="inline" output="no"}
+{exp:low_search:results 
+		channel_id="{segment_5}"
+		category="{categoryIDs}"
+		tag_id="{tagIDs}"
+		disable="category_fields|member_data|pagination"
+		status="open|archived|locals"}
+		
+	{if segment_4 == "tag"}
+		{exp:tag:tags tag_group_id="{segment_6}" entry_id="{entry_id}"}
+			{exp:stash:append_list name="final-cats" parse_tags="yes" }
+				{stash:name}{tag}{/stash:name}
+				{stash:id}{tag_id}{/stash:id}
+			{/exp:stash:append_list}
+		{/exp:tag:tags}
+	{if:elseif segment_4 == "category"}
+		{categories show_group="{segment_6}"}
+			{exp:stash:append_list name="final-cats" parse_tags="yes" }
+				{stash:name}{category_name}{/stash:name}
+				{stash:id}{category_id}{/stash:id}
+			{/exp:stash:append_list}
+		{/categories}
+	{/if}
+{/exp:low_search:results}
+{/exp:stash:parse}
+{
+	"type": "{segment_4}",
+	"sectionID": "{segment_3}",
+	"ids" : [{exp:stash:get_list name="final-cats" unique="id"}{id}{if count < total_results}, {/if}{/exp:stash:get_list}]
+}
+{/exp:ce_cache:it}

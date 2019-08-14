@@ -1,0 +1,601 @@
+/* Base small screen, device independent */
+
+/* small phones */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px) 
+{
+	
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px) 
+  and (orientation: portrait)
+{
+	#mobileSidebarOpenButton
+	{
+		top: 5rem;
+		transform: none;
+	}
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px) 
+  and (orientation: landscape)
+{
+	
+	#mobileSidebarOpenButton
+	{
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+
+
+/* medium phones */
+
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px)
+{
+	
+}  
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) 
+  and (orientation: portrait)
+{
+	#mobileSidebarOpenButton
+	{
+		top: 5rem;
+		transform: none;
+	}
+}
+
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) 
+  and (orientation: landscape)
+{
+	#mobileSidebarOpenButton
+	{
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}  
+  
+/* large phones */
+
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+{
+	
+}
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 2) 
+  and (orientation: portrait)
+{
+	
+	#mobileSidebarOpenButton
+	{
+		top: 5rem;
+		transform: none;
+	}
+}
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 2) 
+  and (orientation: landscape)
+{
+	
+	#mobileSidebarOpenButton
+	{
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+
+@media only screen 
+  and (min-width: 40rem) 
+{
+	
+	ul#transportButtonsList li
+	{
+		width: 12.5%;
+	}
+	
+	#mediaPlayerWrapper
+	{
+		bottom: 4.9rem;
+	}
+}
+/* Medium Screens */
+@media only screen 
+  and (min-width: 50rem) 
+{
+	
+	
+	#proPlayerWrapper #sidebarWrapper
+	{
+	}
+	
+	#proPlayerWrapper.sidebar-closed #sidebarWrapper
+	{
+		display: inherit;
+		width: 1.5rem;
+		min-width: 1.5rem;
+		box-shadow: none;
+	}
+
+	#proPlayerWrapper.sidebar-closed #mobileSidebarOpenButton
+	{
+		display: none;
+	}
+	
+	#proPlayerWrapper.sidebar-closed #openSidebarButton,
+	#closeSidebarButton
+	{
+		display: inline-block;
+	}
+	#proPlayerWrapper.sidebar-closed #closeSidebarButton,
+	#openSidebarButton
+	{
+		display: none;
+	}
+	#mobileSidebarCloseButton
+	{
+	    border: none;
+	    border-top: 1px solid #777;
+	    left: 0;
+	    top: auto;
+	    bottom: 0;
+	    transform: none;
+	    border-radius: 0;
+	    line-height: 3rem;
+	    height: 3rem;
+	    width: 100%;
+	    background: #444444;
+	    background: -moz-linear-gradient(left, #333 0%, #222 100%);
+	    background: -webkit-linear-gradient(left, #333 0%,#222 100%);
+	    background: linear-gradient(to bottom, #555 0%,#444 100%);
+	    box-shadow: -6px -5px 15px #111;
+	    display: none;
+	}
+
+	#proPlayerWrapper #sidebarWrapper
+	{
+		width: 30%;
+		min-width: 30%;
+		box-shadow: none;
+	}
+	
+
+	#proPlayerWrapper #mainColumn
+	{
+		left: 30%;
+		width: 70%;
+	}
+	#proPlayerWrapper.sidebar-closed #mainColumn
+	{
+		left: 	1.5rem;
+	}
+	
+	
+}
+
+@media only screen 
+  and (min-width: 64rem) 
+{
+	#mainTitleBar
+	{
+		display: inherit;
+	}
+	
+	#mainTitleWrapper
+	{
+		display: block;
+	}
+	
+	    
+	#openSidebarButton i.side-mode,
+	#closeSidebarButton i.side-mode
+	{
+	}
+	
+	#openSidebarButton i.top-mode,
+	#closeSidebarButton i.top-mode
+	{
+		display: none;
+	}
+	
+	
+	.tabs-content.sidebar-tabs-content .tabs-panel
+	{
+		padding-bottom: 3rem;
+	}
+	#proPlayerWrapper #sidebarWrapper
+	{
+		width: 25%;
+		min-width: 25%;
+		top: 0;
+		bottom: 0;
+		box-shadow: none;
+	}
+
+	#proPlayerWrapper #mainColumn
+	{
+		left: 25%;
+		width: 75%;
+		top: 0;		
+	}
+	
+}
+	
+/* tablets */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+{
+
+}
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 2) 
+  and (orientation: portrait)
+{
+	
+}
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 2) 
+  and (orientation: landscape)
+{
+	
+}
+
+/* large tablets*/
+
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px) 
+{
+	
+}
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px) 
+  and (-webkit-min-device-pixel-ratio: 2) 
+  and (orientation: portrait)
+{
+	
+}
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px) 
+  and (-webkit-min-device-pixel-ratio: 2) 
+  and (orientation: landscape)
+{
+	
+}
+
+/*
+@media (min-width:470px) 
+{
+	
+	#proPlayerWrapper #mainToolBar
+	{	
+		height: 2.5rem;
+		top: 0rem;
+	}
+	
+	
+	#mediaPlayerWrapper
+	{
+		bottom: 5rem;
+	}
+	
+	#proPlayerWrapper #sidebarWrapper
+	{
+		top: 5rem;
+	}
+
+	ul.sidebar-list
+	{
+		font-size: .9rem;
+	}
+	
+	ul.block-grid.medium-block-grid-eighths li
+	{
+		width: 12.5%;
+		padding: .1rem;
+	}
+	
+	.toolbar-button
+	{
+		font-size: 1.25rem;
+		padding: 0 .5em;	
+		line-height: 2.5rem;
+	}
+	
+	#openSidebarButton, #closeSidebarButton
+	{
+		line-height: 2rem;
+		margin-top: .2rem;
+	}
+	
+	.overlay-inner-wrapper
+	{
+	  top: 2.5rem;
+	}
+	
+	.overlay-close-button
+	{
+		position: absolute;
+		top: .2rem;
+		line-height: 2rem;
+		padding: 0 .75em;
+		border-radius: .2em;
+	}
+	
+	.overlay-tool-bar
+	{
+	  height: 2.5rem;
+	  bottom: 2.5rem;
+	}
+	#videoControlsMenu
+	{
+		top: 0;
+		bottom: 2.5rem;
+	}
+	#infoPane
+	{
+		top: 2.5rem;	
+	}
+}
+
+@media (min-width: 40.063rem) 
+{
+	#mainTitleBar
+	{
+		display: inherit;
+	}
+	
+	#mobileTitleWrapper-outer
+	{
+		display: none;
+	}
+	#proPlayerWrapper #sidebarWrapper
+	{
+		top: 2.5rem;
+		bottom: 5rem;
+	}
+
+	#proPlayerWrapper #mainColumn
+	{
+		top: 0;
+		background: black;
+		
+		left: 0;
+		width: 100%;
+	}
+
+	#proPlayerWrapper #mediaPlayerWrapper,
+	#proPlayerWrapper.vimeo #mediaPlayerWrapper,
+	#proPlayerWrapper.youtube #mediaPlayerWrapper,
+	#mainColumn.zoomed #zoom-indicator
+	{
+		bottom: 5rem;
+	}
+	
+	#progressSlider
+	{
+		font-size: 2rem;
+	}
+
+	ul.sidebar-list
+	{
+		font-size: .9rem;
+	}
+
+
+	#videoControlsMenu
+	{
+		top: 0;
+		bottom: 2.75rem;
+	}
+	
+	.medium-text-center
+	{
+		text-align: center;
+	}
+	
+	.medium-text-right
+	{
+		text-align: right;
+	}
+	
+	.medium-text-left
+	{
+		text-align: left;
+	}
+	
+}
+@media (min-width:737px) 
+{
+	#mainTitleBar
+	{
+		display: inherit;
+	}
+	
+	#proPlayerWrapper #mainToolBar
+	{	
+		height: 2.5rem;
+	}
+
+	#proPlayerWrapper #sidebarWrapper
+	{
+		top: 0;
+		width: 30%;
+		min-width: 30%;
+		max-width: 30%;		
+		bottom: 0;
+		border-bottom: none;
+		box-shadow: none;
+
+	}
+
+	#proPlayerWrapper #mainColumn
+	{
+		top: 0;
+		left: 30%;
+		width: 70%;
+	}
+
+
+	#proPlayerWrapper #mediaControlsWrapper
+	{
+		display: block;
+	}
+	
+	#proPlayerWrapper.vimeo #mediaControlsWrapper,
+	#proPlayerWrapper.youtube #mediaControlsWrapper
+	{
+		display: inherit;
+	}
+	#proPlayerWrapper #mediaPlayerWrapper,
+	#proPlayerWrapper.vimeo #mediaPlayerWrapper,
+	#proPlayerWrapper.youtube #mediaPlayerWrapper,		
+	#mainColumn.zoomed #zoom-indicator
+	{
+		bottom: 5.3rem;
+	}
+	
+	#progressSlider
+	{
+		font-size: 2rem;
+	}
+	
+	.touch-slider.horizontal.noUi-target
+	{
+		font-size: 1.5rem !important;
+	}
+	
+	ul.sections
+	{
+		font-size: .8rem !important;
+	}
+		
+	.transport-button
+	{
+		font-size: 1rem;
+	}
+	.toolbar-button
+	{
+		font-size: 1.25rem;
+		line-height: 2.5rem;
+		padding: 0 .5em;
+	}
+	
+	
+	ul.tabs.sidebar-tabs li a, 
+	ul.tabs.sidebar-tabs li a:hover
+	{
+	  font-size: 1rem;	  
+	}
+	
+	
+	ul.sidebar-list
+	{
+		font-size: .85rem;
+	}
+
+
+}
+
+@media (min-width:961px) 
+{
+
+		
+	ul.tabs.sidebar-tabs li a, 
+	ul.tabs.sidebar-tabs li a:hover
+	{
+	  font-size: 1.2rem;
+	}
+	
+	.large-text-center
+	{
+		text-align: center;
+	}
+	
+	.large-text-right
+	{
+		text-align: right;
+	}
+	.large-text-left
+	{
+		text-align: left;
+	}
+
+	#progressSlider
+	{
+		font-size: 1.5rem;
+	}
+	
+	.touch-slider.horizontal.noUi-target
+	{
+		font-size: 1.2rem !important;
+	}
+
+}
+
+@media (any-pointer: coarse) 
+{
+	#progressSlider
+	{
+		font-size: 2rem;
+	}
+	
+	
+	.touch-slider.noUi-target
+	{
+		font-size: 1.5rem;
+	}
+
+}
+
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait)
+  
+{
+	#proPlayerWrapper #sidebarWrapper
+	{
+		top: 2.5rem;
+		bottom: 5rem;
+	}
+
+	#proPlayerWrapper #mainColumn
+	{
+		top: 0;
+		background: black;
+		
+		left: 0;
+		width: 100%;
+	}
+
+	
+}
+*/

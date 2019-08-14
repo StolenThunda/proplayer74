@@ -1,0 +1,61 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+
+{exp:stash:parse process="inline" parse_tags="yes" output="no" parse_conditionals="yes"}
+{
+	{exp:video_data:youtube_info video_id="{segment_3}" parse="inward"}
+	
+		{exp:stash:set parse_tags="yes"}
+			{stash:activeSegmentTitle}{title}{/stash:title}
+			{stash:activeSegmentDisplayName}{title}{/stash:activeSegmentDisplayName}
+			{stash:activeSegmentFullDisplayName}{title}{/stash:activeSegmentFullDisplayName}
+			{stash:segmentYouTubeCode}{segment_3}{/stash:segmentYouTubeCode}
+			{stash:segmentShortDescription}{description}{/stash:segmentShortDescription}
+			{stash:segmentVimeoCode}{/stash:segmentVimeoCode}
+			{stash:segmentMP3Filename}{/stash:segmentMP3Filename}
+			{stash:segmentSoundSliceCode}{/stash:segmentSoundSliceCode}
+			{stash:segmentPDFFilename}{/stash:segmentPDFFilename}
+			{stash:segmentURL}{/stash:segmentURL}
+			{stash:segmentGPXFilename}{/stash:segmentGPXFilename}		
+			{stash:mediaStartTime}0{/stash:mediaStartTime}
+			{stash:activeSegmentEntryID}0{/stash:activeSegmentEntryID}
+
+		{/exp:stash:set}
+
+	
+	{/exp:video_data:youtube_info}
+	
+	{exp:channel:entries channel="youtube_videos" search:cf_media_yt_code="{segment_3}" dynamic="no" limit="1"
+					 disable="categories|category_fields|member_data|pagination" status="open|archived|locals" }
+		{exp:stash:matchingEntryID}{entry_id}{/exp:stash:matchingEntryID}
+	{/exp:channel:entries}
+{/exp:stash:parse}
+{
+	"matchingYTEntryID" : "{exp:stash:matchingEntryID}",
+ 	"segmentVimeoCode"	: "{exp:stash:segmentVimeoCode}",
+	"segmentYouTubeCode"	: "{exp:stash:segmentYouTubeCode}",
+	"segmentMP3Filename"	: "{exp:stash:segmentMP3Filename}",
+	"segmentSoundSliceCode"	: "{exp:stash:segmentSoundSliceCode}",
+	"segmentPDFFilename"	: "{exp:ce_str:ing rawurlencode}{exp:stash:segmentPDFFilename}{/exp:ce_str:ing}",
+	"segmentURL"	: "{exp:ce_str:ing rawurlencode}{exp:stash:segmentURL}{/exp:ce_str:ing}",
+	"segmentGPXFilename"	 : "{exp:ce_str:ing rawurlencode}{exp:stash:segmentGPXFilename}{/exp:ce_str:ing}",
+	"mediaStartTime": "{exp:stash:mediaStartTime}",
+	"segmentEntryID": "{exp:stash:activeSegmentEntryID}",
+	"segmentTitle": "{exp:stash:activeSegmentTitle}",
+	"segmentDisplayName": "{exp:stash:activeSegmentDisplayName}",
+	"segmentFullDisplayName": "{exp:stash:activeSegmentFullDisplayName}",
+	{if {exp:stash:not_empty name="segmentShortDescription"}}
+		"segmentShortDescription": {exp:ce_str:ing format_characters json_encode}{exp:stash:segmentShortDescription}{/exp:ce_str:ing},
+	{if:else}
+		"segmentShortDescription": "",
+	{/if}
+	
+	
+	"chaptersArray": [{exp:stash:get_list name="chapterList" prefix="chapter"}
+	        { "name":"{chapter:name}", "time": {chapter:time} }{if chapter:count != chapter:total_results},{/if}{/exp:stash:get_list}
+    ],
+    "loopsArray": [{exp:stash:get_list name="loopsList" prefix="loop"}
+	        { "name":"{loop:name}", "startTime": {loop:startTime}, "endTime": {loop:endTime} }{if loop:count != loop:total_results},{/if}{/exp:stash:get_list}
+    ]
+}

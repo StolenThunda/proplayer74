@@ -1,0 +1,177 @@
+{if !is_ajax_request}
+  {redirect="404"}
+{/if}
+{exp:ce_cache:it url_override="watch/v7.3/package-info/{segment_3}" for="1 month"}
+{exp:stash:parse process="inline" parse_conditionals="yes" parse_tags="yes" unprefix="main" output="no"}
+
+												
+	{exp:channel:entries entry_id="{segment_3}" 
+						 status="open|archived|unlisted|locals" 
+						 channel="free_lesson_friday|tone_tuesday|performances|backing_tracks|pro_player_packages|youtube_videos" 
+						 dynamic="no" 
+						 disable="member_data|category_fields"
+						 show_future_entries="yes"}
+	
+	
+		{if main:no_results}
+			{exp:stash:set name="stashError"}Invalid Package ID{/exp:stash:set}
+		{/if}
+		{exp:stash:set parse_tags="yes" parse_conditionals="yes"}
+			
+			{stash:packageID}{entry_id}{/stash:packageID}
+			{if channel_short_name == "youtube_videos"}
+				{stash:packageTitle}Imported Video{/stash:packageTitle}
+			{if:else}
+				{stash:packageTitle}{title}{/stash:packageTitle}
+			{/if}
+			
+			{if channel_short_name == "pro_player_packages"}
+				{stash:packageChannel}Courses{/stash:packageChannel}
+				
+				{stash:packageTuning}{categories show_group="14" backspace="2"}{category_name}, {/categories}{/stash:packageTuning}
+			{if:else}
+				{stash:packageChannel}{channel}{/stash:packageChannel}
+				
+				{stash:packageTuning}{cf_media_tuning}{/stash:packageTuning}
+			{/if}
+			{stash:packageChannelSlug}{channel_short_name}{/stash:packageChannelSlug}
+			{stash:packageDate}{entry_date}{/stash:packageDate}
+
+		{/exp:stash:set}
+			
+		
+		{if '{channel_short_name}' == 'free_lesson_friday' OR '{channel_short_name}' == 'tone_tuesday' OR '{channel_short_name}' == 'performances' OR '{channel_short_name}' == 'backing_tracks' OR '{channel_short_name}' == 'youtube_videos'}
+	
+			{exp:stash:set parse_tags="yes" parse_conditionals="yes"}
+		
+				{stash:packageDefaultSegmentID}{entry_id}{/stash:packageDefaultSegmentID}
+				{cf_media_thumbnail cover_only="yes"}
+					{stash:packageImage}{cdn}/{lv_paths_entry_thumbs}/{entry_id}/{image:filename:medium}{/stash:packageImage}
+				{/cf_media_thumbnail}
+			{/exp:stash:set}
+			
+			{exp:stash:set_list name="sections" parse_conditionals="yes" parse_tags="yes"}
+				
+				{stash:sectionTitle}Segments{/stash:sectionTitle}
+				{stash:sectionID}1{/stash:sectionID}
+				{exp:stash:append_list:nested name="sectionSegments" context="1" 
+													parse_tags="yes" parse_depth="2"}
+													
+					{if '{cf_media_short_name}' != ''}
+						{stash:segmentTitle}{cf_media_short_name}{/stash:segmentTitle}
+					{if:elseif '{channel_short_name}' == 'backing_tracks'}
+						{stash:segmentTitle}Backing Track{/stash:segmentTitle}
+						{stash:segmentFullTitle}Backing Track{/stash:segmentFullTitle}
+					{if:else}
+						{stash:segmentTitle}Video{/stash:segmentTitle}
+						{stash:segmentFullTitle}Video{/stash:segmentFullTitle}
+					{/if}
+					{stash:segmentID}{entry_id}{/stash:segmentID}
+					{stash:segmentVimeoCode}{cf_media_vimeo_code}{/stash:segmentVimeoCode}
+					{stash:segmentYouTubeCode}{cf_media_yt_code}{/stash:segmentYouTubeCode}
+					{stash:segmentMP3Filename}{cf_media_mp3_filename}{/stash:segmentMP3Filename}
+					{stash:segmentSoundSliceCode}{cf_media_soundslice_code}{/stash:segmentSoundSliceCode}
+					{stash:segmentPDFCode}{cf_media_pdf_filename}{/stash:segmentPDFCode}
+					{stash:segmentURL}{cf_media_url}{/stash:segmentURL}
+					{stash:segmentGPXFilename}{cf_media_gpx_filename}{/stash:segmentGPXFilename}
+				{/exp:stash:append_list:nested}		
+	
+				{cf_media_related_segments}
+					{exp:stash:append_list:nested name="sectionSegments" context="1" 
+													parse_tags="yes" }
+						{stash:segmentTitle}{cf_media_related_segments:cf_media_short_name}{/stash:segmentTitle}
+						{stash:segmentID}{cf_media_related_segments:entry_id}{/stash:segmentID}
+						{stash:segmentVimeoCode}{cf_media_related_segments:cf_media_vimeo_code}{/stash:segmentVimeoCode}
+						{stash:segmentYouTubeCode}{cf_media_related_segments:cf_media_yt_code}{/stash:segmentYouTubeCode}
+						{stash:segmentMP3Filename}{cf_media_related_segments:cf_media_mp3_filename}{/stash:segmentMP3Filename}
+						{stash:segmentSoundSliceCode}{cf_media_related_segments:cf_media_soundslice_code}{/stash:segmentSoundSliceCode}
+						{stash:segmentPDFCode}{cf_media_related_segments:cf_media_pdf_filename}{/stash:segmentPDFCode}
+						{stash:segmentURL}{cf_media_related_segments:cf_media_url}{/stash:segmentURL}
+						{stash:segmentGPXFilename}{cf_media_related_segments:cf_media_gpx_filename}{/stash:segmentGPXFilename}
+					{/exp:stash:append_list:nested}		
+	
+				{/cf_media_related_segments}
+			{/exp:stash:set_list} 
+
+		{if:elseif '{channel_short_name}' == 'pro_player_packages'}
+				
+			{exp:stash:set parse_tags="yes" parse_conditionals="yes" }
+		
+				{stash:packageDefaultSegmentID}{/stash:packageDefaultSegmentID}
+				{stash:packageDescription}{cf_ppp_description}{/stash:packageDescription}
+				{stash:packageOverview}{cf_ppp_overview}{/stash:packageOverview}
+				{cf_proplayer_package_image cover_only="yes"}
+					{stash:packageImage}{lv_url_cdn}/{lv_paths_entry_thumbs}/{entry_id}/{image:filename:medium}{/stash:packageImage}
+				{/cf_proplayer_package_image}			
+			{/exp:stash:set}
+			
+			{cf_proplayer_package_sections}
+				{exp:stash:append_list name="sections" parse_conditionals="yes" parse_tags="yes" parse_depth="2"}
+					{stash:sectionTitle}{cf_proplayer_package_sections:name}{/stash:sectionTitle}
+					{stash:sectionID}{cf_proplayer_package_sections:row_id}{/stash:sectionID}
+					
+					{cf_proplayer_package_sections:segments}
+						{exp:stash:append_list:nested name="sectionSegments" context="{cf_proplayer_package_sections:row_id}" 
+														parse_tags="yes"}
+							{stash:segmentTitle}{cf_proplayer_package_sections:segments:cf_media_short_name}{/stash:segmentTitle}
+							{stash:segmentFullTitle}{cf_proplayer_package_sections:segments:cf_media_display_name}{/stash:segmentFullTitle}
+							{stash:segmentID}{cf_proplayer_package_sections:segments:entry_id}{/stash:segmentID}
+							{stash:segmentVimeoCode}{cf_proplayer_package_sections:segments:cf_media_vimeo_code}{/stash:segmentVimeoCode}
+							{stash:segmentYouTubeCode}{cf_proplayer_package_sections:segments:cf_media_yt_code}{/stash:segmentYouTubeCode}
+							{stash:segmentMP3Filename}{cf_proplayer_package_sections:segments:cf_media_mp3_filename}{/stash:segmentMP3Filename}
+							{stash:segmentSoundSliceCode}{cf_proplayer_package_sections:segments:cf_media_soundslice_code}{/stash:segmentSoundSliceCode}
+							{stash:segmentPDFCode}{cf_proplayer_package_sections:segments:cf_media_pdf_filename}{/stash:segmentPDFCode}
+							{stash:segmentURL}{cf_proplayer_package_sections:segments:cf_media_url}{/stash:segmentURL}
+							{stash:segmentGPXFilename}{cf_proplayer_package_sections:segments:cf_media_gpx_filename}{/stash:segmentGPXFilename}
+						{/exp:stash:append_list:nested}
+					{/cf_proplayer_package_sections:segments}
+				{/exp:stash:append_list}
+			{/cf_proplayer_package_sections} 
+		{/if}
+	{/exp:channel:entries} 
+{/exp:stash:parse}
+{ 		
+		"packageError" : "{exp:stash:stashError}",
+		"packageID": "{exp:stash:packageID}", 
+		"packageTitle": "{exp:ce_str:ing format_characters}{exp:stash:packageTitle}{/exp:ce_str:ing}",
+		"packageChannel": "{exp:ce_str:ing format_characters}{exp:stash:packageChannel}{/exp:ce_str:ing}",
+		"packageChannelSlug": "{exp:stash:packageChannelSlug}",
+		"packageDate": "{exp:stash:packageDate}",
+		"packageDefaultSegmentID": "{exp:stash:packageDefaultSegmentID}",
+		"packageTuning" : "{exp:stash:packageTuning}",
+		{if {exp:stash:not_empty name="packageDescription"}}
+			"packageDescription": {exp:ce_str:ing markdown format_characters json_encode}{exp:stash:packageDescription}{/exp:ce_str:ing},
+		{if:else}
+			"packageDescription": "",
+		{/if}
+		{if {exp:stash:not_empty name="packageOverview"}}
+			"packageOverview": {exp:ce_str:ing markdown format_characters json_encode}{exp:stash:packageOverview}{/exp:ce_str:ing},
+		{if:else}
+			"packageOverview": "",
+		{/if}
+		"packageImage": "{exp:stash:packageImage}",
+		"sections": [
+			{exp:stash:get_list name="sections" prefix="section"}
+	        {	
+	        		"sectionTitle":"{section:sectionTitle}",
+	        		"sectionID": {section:sectionID},
+	        		"segments" : [
+		        		{exp:stash:get_list:nested name="sectionSegments" context="{section:sectionID}" prefix="segment"}
+						{ "segmentTitle" : "{exp:ce_str:ing format_characters}{segment:segmentTitle}{/exp:ce_str:ing}",
+						"segmentFullTitle"	: "{exp:ce_str:ing format_characters}{segment:segmentFullTitle}{/exp:ce_str:ing}",
+						"segmentID"	: 	"{segment:segmentID}",
+						"segmentVimeoCode"	: "{segment:segmentVimeoCode}",
+						"segmentYouTubeCode"	: "{segment:segmentYouTubeCode}",
+						"segmentMP3Filename"	: "{segment:segmentMP3Filename}",
+						"segmentSoundSliceCode"	: "{segment:segmentSoundSliceCode}",
+						"segmentPDFCode"	: "{exp:ce_str:ing rawurlencode}{segment:segmentPDFCode}{/exp:ce_str:ing}",
+						"segmentURL"	: "{exp:ce_str:ing rawurlencode}{segment:segmentURL}{/exp:ce_str:ing}",
+						"segmentGPXFilename"	 : "{exp:ce_str:ing rawurlencode}{segment:segmentGPXFilename}{/exp:ce_str:ing}" }
+						{if segment:count != segment:total_results},{/if}
+					{/exp:stash:get_list:nested}
+				]
+			}{if section:count != section:total_results},{/if}
+			{/exp:stash:get_list}
+		]
+}
+{/exp:ce_cache:it}

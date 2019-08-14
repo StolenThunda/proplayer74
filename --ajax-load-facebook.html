@@ -1,0 +1,115 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+
+<div id="video-player-wrapper">
+	<div id="video-pan-zoom">
+		<video id="videoPlayer" class="" webkit-playsinline playsinline type="video/facebook"
+				src="https://facebook.com/{segment_3}/videos/{segment_4}" width="100%" height="100%" crossorigin="anonymous">
+		</video> 
+	</div>
+</div>
+<div id="zoom-indicator"></div>
+
+<div id="video-controls-wrapper">	
+	<div id="slider-wrapper">
+		<div id="current-time">0.00</div>
+		<div id="time-left"></div>
+		<div id="slider">
+			<div id="loop-region" style="display: none"></div>
+			<div id="chapters-wrapper">
+			</div>
+		</div>
+	</div>
+			
+	<div id="control-buttons-wrapper">
+		<ul id="control-buttons-list" class="block-grid small-block-grid-quarters medium-block-grid-eighths">
+			<li>
+				<button id="playback-play" class="transport-button" onClick="thePlayer.theEngine.onButtonTogglePlayback();" disabled title="Toggle Playback.">
+					<i class="fa fa-play" disabled></i>
+				</button>
+			</li>
+			<li class="">
+				<button id="playback-beginning" class="transport-button" onClick="thePlayer.theEngine.onButtonPlaybackRestart();" disabled title="Back to the beginning.">
+					<i class="fa fa-fast-backward" disabled></i>
+				</button>
+			</li>
+			<li  class="">
+				<button id="playback-rewind" class="transport-button" onClick="thePlayer.theEngine.onButtonPlaybackRewind5();" disabled	title="Rewind 5 Seconds.">
+					<i class="fa fa-backward"></i> <sup>5</sup>
+				</button>
+			</li>
+			<li class="">
+				<button id="playback-forward" class="transport-button" onClick="thePlayer.theEngine.onButtonPlaybackForward5();" disabled title="Forward 5 Seconds.">
+					<i class="fa fa-forward"></i> <sup>5</sup>
+				</button>
+			</li>
+			<li class="">
+				<button id="looping-start" class="transport-button" onClick="thePlayer.theEngine.onButtonSetLoopStart();" disabled title="Set loop starting point.">
+					[ A
+				</button>
+			</li>
+			<li class="">
+				<button id="looping-stop" class="transport-button" onClick="thePlayer.theEngine.onButtonSetLoopStop();" disabled title="Set loop stopping point.">
+					B ]
+				</button>
+			</li>
+			<li class="">
+				<button id="looping-toggle" class="transport-button" onClick="thePlayer.theEngine.onButtonToggleLooping()" disabled title="Begin/End Looping.">
+					<i class="fa fa-refresh"></i><i class="fa fa-play"></i> 
+				</button>
+			</li>
+			<li>
+				<button id="controls-toggle" class="transport-button" title="Video Settings." onClick="thePlayer.theEngine.toggleVideoControls();">
+					<i class="fa fa-gear"></i>
+				</button>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="videoControlsMenu" class="widget" style="display: none;">
+	<a class="widget-close-bar" onClick="thePlayer.theEngine.toggleVideoControls()"><i class="fa fa-caret-down"></i></a>	
+	<div class="row margin-top margin-bottom" id="volume-row">
+		<div class="columns small-12 text-left ">									
+			<div class="widget-column-heading">Volume</div>
+			<div id="volumeSlider" class="touch-slider horizontal"></div>
+		</div>
+	</div>
+	<div class="row margin-top margin-bottom video-only">
+		<div class="columns small-12 text-left">
+			<div class="widget-column-heading"><input type="checkbox" id="enableZoom" onClick="thePlayer.theEngine.toggleZoomEnabled()" name="enableZoom"><label for="enableZoom"> Video Zoom</label></div>
+			<div id="zoomSlider" class="touch-slider horizontal"></div>
+ 		</div>
+	</div>
+	
+	{!-- Facebook doesn't support speed controls at the moment.
+	<div class="row margin-top margin-bottom" id="speed-row">
+		<div class="columns small-12 text-left ">									
+			<div class="widget-column-heading">Speed <span class="slider-indicator">(<span id="speedIndicator">1.0</span>)</span></div>
+			<div id="speedSlider" class="touch-slider horizontal">
+				<div class="slider-unity-indicator youtube"></div>
+			</div>
+		</div>
+	</div>
+	--}
+	<div class="row margin-top video-only">
+		<div class="columns small-12 medium-12 large-12 text-left">
+			<div class="widget-column-heading list-heading">Options</div>
+			<span class="nonbreaking"><input type="checkbox" id="flipPlayer" onClick="thePlayer.theEngine.togglePlayerFlipped()" name="flipPlayer"><label for="flipPlayer"> Lefty View</label></span>
+		</div>
+	</div>
+</div>
+			
+					
+<script type="text/javascript">
+	thePlayer.theEngine = new ProPlayerEngine();
+	var poster = "";
+	var sourcesArray = [];
+	
+	thePlayer.theEngine.initializeProPlayerEngine(	'facebook',
+													'{segment_3}/videos/{segment_4}',
+													0,
+													poster,
+													[],
+													[]);
+</script>

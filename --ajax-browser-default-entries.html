@@ -1,0 +1,118 @@
+{!-- 
+
+URL Structure:
+
+/watch/--browser-entries/<channel>/category/<category_id>/<pagination>
+/watch/--browser-entries/<channel>/tag/<tag_id>/<pagination>
+
+
+/watch/--browser-entries/<channel>/all
+
+--}
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+{exp:stash:parse process="inline"}
+	
+		{exp:channel:entries channel="pro_player_packages"
+						status="open|archived|locals"
+						limit="5"
+						paginate="top"
+						disable="member_data|category_fields|pagination" 
+						parse="inward"}
+			
+			{exp:stash:append_list name="courses"
+							parse_conditionals="yes"  
+							parse_tags="yes" parse="inward"}
+			
+				{if logged_in_member_id == author_id}
+					{stash:author}mine{/stash:author}
+				{if:else}
+					{stash:author}not-mine{/stash:author}
+				{/if}
+				
+				{stash:channel}{channel_short_name}{/stash:channel}
+				{stash:enableFavorites}true{/stash:enableFavorites}
+				
+				{stash:title}{title}{/stash:title}
+				{stash:entryID}{entry_id}{/stash:entryID}
+				{stash:entryDate}{entry_date format="%m/%d/%y"}{/stash:entryDate}
+				{cf_proplayer_package_image cover_only="yes"}
+					{stash:image}{lv_url_cdn}/{lv_paths_entry_thumbs}/{entry_id}/{image:filename:small}{/stash:image}
+				{/cf_proplayer_package_image}			
+				{stash:skillLevels}{cf_proplayer_package_skill_level}{item} {/cf_proplayer_package_skill_level}{/stash:skillLevels}
+				{stash:tunings}
+					{categories show_group="14"}
+						{category_name}&nbsp;
+					{/categories}
+				{/stash:tunings}
+				{stash:caption}{cf_ppp_description}{/stash:caption}
+				{stash:title}{title}{/stash:title}
+				{stash:key}{/stash:key}
+				{stash:type}entry{/stash:type}	
+				{stash:enableFavorites}true{/stash:enableFavorites}					
+			{/exp:stash:append_list}
+		{/exp:channel:entries}
+
+		{exp:channel:entries channel="free_lesson_friday"
+						status="open|archived|locals"
+						limit="5"
+						paginate="top"
+						disable="member_data|category_fields|pagination" 
+						parse="inward"}
+						
+			{exp:stash:append_list name="freelessons"
+							parse_conditionals="yes"  
+							parse_tags="yes" parse="inward"}
+						
+				{if logged_in_member_id == author_id}
+					{stash:author}mine{/stash:author}
+				{if:else}
+					{stash:author}not-mine{/stash:author}
+				{/if}
+				
+				{stash:channel}{channel_short_name}{/stash:channel}
+				{stash:enableFavorites}true{/stash:enableFavorites}
+				
+
+				{stash:title}{title}{/stash:title}
+				{stash:entryID}{entry_id}{/stash:entryID}
+				{stash:entryDate}{entry_date format="%m/%d/%y"}{/stash:entryDate}
+				{cf_media_thumbnail cover_only="yes"}
+					{stash:image}{cdn}/{lv_paths_entry_thumbs}/{entry_id}/{image:filename:small}{/stash:image}
+				{/cf_media_thumbnail}
+				{stash:tunings}
+					{categories show_group="14"}
+						{category_name}{if category_total_results != category_count},{/if}
+					{/categories}
+				{/stash:tunings}
+				{stash:title}{title}{/stash:title}
+				{stash:caption}{cf_media_short_description}{/stash:caption}
+				{stash:key}{/stash:key}
+				{stash:type}entry{/stash:type}
+				{stash:categories}{/stash:categories}
+				{stash:enableFavorites}true{/stash:enableFavorites}
+					
+			{/exp:stash:append_list}
+			
+		{/exp:channel:entries}
+	
+{/exp:stash:parse}
+
+{exp:stash:get_list name="courses" prefix="course"}
+	{if course:count == 1 && course:total_results != 0}
+		<div class="browser-result-wrapper">
+			<h5>Newest Courses</h5>
+		</div>
+	{/if}
+	{lv_proplayer_browser_result}
+{/exp:stash:get_list}
+
+{exp:stash:get_list name="freelessons" prefix="course"}
+	{if course:count == 1 && course:total_results != 0}
+		<div class="browser-result-wrapper">
+			<h5>Newest Free Lessons</h5>
+		</div>
+	{/if}
+	{lv_proplayer_browser_result}				
+{/exp:stash:get_list}

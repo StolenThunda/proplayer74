@@ -1,0 +1,16 @@
+{
+	"memberLoopCollections" : [
+		
+
+		{exp:low_search:results channel="member_segment_data"
+								dynamic="no"
+								child:cf_member_segment_data_entry="{segment_3}"
+								disable="categories|category_fields|member_data|pagination"
+								author_id="NOT_CURRENT_USER"}
+			{
+				"memberName": "{exp:ce_str:ing format_characters}{screen_name}{/exp:ce_str:ing}",
+				"memberLoops": {cf_member_segment_data_loops}
+			}{if count < total_results},{/if}
+		{/exp:low_search:results}
+	]
+}

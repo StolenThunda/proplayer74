@@ -1,0 +1,28 @@
+{if ! is_ajax_request}
+  {redirect="404"}
+{/if}
+{exp:comment:form entry_id="{get:entry_id}" return="watch/{get:entry_id}"}
+	<div class="cmt-form-wrapper">
+		<textarea name="comment" onkeyup="thePlayer.commentsManager.updateCommentFormCharacterCount(this);" 
+			cols="70" rows="4" autofocus placeholder="Comment or question about this course or video">{comment}</textarea>
+		<div class="comment-character-counter">500 characters remaining.</div>
+		{if '{get:comment_id}' != ''}
+			<input type="hidden" name="parent_id" value="{get:comment_id}"/>
+		{/if}
+		{if '{get:segment_id}' != '' && '{get:segment_id}' != '{get:entry_id}'}
+			<input type="hidden" name="segment_id" value="{get:segment_id}"/>
+		{/if}
+		<div class="row text-center tight">
+			<div class="columns small-6"> 
+				<a onClick="thePlayer.commentsManager.deleteCmtForm({get:comment_id}); return false;" class="form-button cancel-button full-width">Cancel</a>
+			</div>
+			<div class="columns small-6"> 
+				<a onClick="thePlayer.commentsManager.submitThreadedCmt(this); return false;" class="form-button submit-button full-width">Submit</a>
+			</div>
+		</div>
+	</div>
+{/exp:comment:form}
+
+<script type="text/javascript">
+	$('form input[name=URI]').val('watch/{segment_3}');
+</script> 
