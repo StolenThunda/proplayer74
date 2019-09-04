@@ -1,16 +1,5 @@
-// {
-    
-//     "rules": {
-//         "semi" :"warn"
-//     },
-//     "env": {
-//         "es6": true
-//     },
-//     "parserOptions": {
-//         "sourceType": "module",
-//     }
-// }
 {
+    "validThis": true, 
     "ecmaFeatures": {
         "modules": true,
         "spread" : true,
@@ -23,7 +12,8 @@
     },
     "rules" : {
         "no-unused-vars" : 2,
-        "no-undef" : 2
+        "no-undef" : 2,
+        "semi" : "warn"
     },
     "parserOptions": {
         "sourceType": "module"

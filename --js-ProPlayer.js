@@ -1,19 +1,3 @@
-// import MobileDetect from 'mobile-detect';
-import $ = require('jquery');
-import ProPlayerBrowser from './--js-ProPlayerBrowser';
-import ProPlayerFavoritesManager from './--js-ProPlayerFavoritesManager';
-import ProPlayerHistoryManager from './--js-ProPlayerHistoryManager';
-import ProPlayerCommentsManager from './--js-ProPlayerCommentManager';
-import ProPlayerLoopsManager from './--js-ProPlayerLoopsManager';
-import ProPlayerUserDataManager from './--js-ProPlayerUserDataManager';
-import ProPlayerPackage from './--js-ProPlayerPackage';
-import ProPlayerSegment from './--js-ProPlayerSegment';
-let window = {
-    "navigator": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36"
-    }
-};
-
 class ProPlayer {
     constructor() {
         'use strict';
@@ -61,6 +45,7 @@ class ProPlayer {
             if (bUpdateURL) {
                 this.updateURL();
             }
+            console.log(this);
         };
         /******************************/
         /***    All Reset Functions **/
@@ -215,6 +200,8 @@ class ProPlayer {
                     this.openSidebar();
                 }
             }
+            console.log(this);
+            debugger
         };
         /*****************************************
          *************   Begin Loading Functions  ************
@@ -902,6 +889,7 @@ class ProPlayer {
             $('#chaptersTab').toggleClass('enabled', this.theSegment.allowChapters());
             $('#loopsTab').toggleClass('enabled', this.theSegment.allowLoops());
             $('#commentsTab').toggleClass('enabled', this.thePackage.isLoaded());
+            
             $("#importTab").toggleClass('enabled', this.theSegment.allowImport());
             $('#sidebarPanelTabs li.enabled:first a').trigger('click');
         };
@@ -1319,7 +1307,7 @@ class ProPlayer {
             $('#mediaPlayerWrapper').toggleClass('paused', !bIsPlaying);
             $('#mediaPlayerWrapper').toggleClass('playing', bIsPlaying);
         };
+      
     }
+    
 }
-let a = new ProPlayer();
-console.log(a);
