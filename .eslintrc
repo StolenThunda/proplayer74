@@ -17,5 +17,8 @@
     },
     "parserOptions": {
         "sourceType": "module"
+    },
+    "devDependencies": {
+  "eslint-utils": ">=1.4.1"
     }
 }
