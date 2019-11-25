@@ -41,7 +41,7 @@ class ProPlayer {
             this.reattachKeyboardEvents();
             this.enableSidebarTabs();
             this.pushPackageTitle("TXBA Pro Player");
-            this.pushSegmentTitle("Version 7.4 (Tony Branch)");
+            this.pushSegmentTitle("Version 7.4 (Thunda Branch)");
             if (bUpdateURL) {
                 this.updateURL();
             }
@@ -200,9 +200,7 @@ class ProPlayer {
                     this.openSidebar();
                 }
             }
-            console.log(this);
-            debugger
-        };
+                };
         /*****************************************
          *************   Begin Loading Functions  ************
          *****************************************/
@@ -1309,5 +1307,7 @@ class ProPlayer {
         };
       
     }
-    
+    }
+if (module !== 'undefined' && module.exports !== 'undefined'){
+    module.exports = ProPlayer;
 }
