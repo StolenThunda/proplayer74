@@ -1,0 +1,396 @@
+<!-- {preload_replace:branch_path="proplayer74-tony.css -->
+	
+<!DOCTYPE html>
+<html class="proPlayerApp">
+	<head>
+
+	<!-- Page Meta Setup -->
+		<title>TXBA Pro Player - THUNDCLAP </title>
+		<meta charset="UTF-8">
+		<link rel="apple-touch-icon" sizes="152x152" href="https://texasbluesalley.com/TXBA-Icon-152.png">
+		<link rel="icon" type="image/png" href="https://texasbluesalley.com/TXBA-Icon-48.png">
+		<!--<meta name="viewport" content="initial-scale=1">-->
+		<meta name="description" content="TXBA Pro Player">
+		<meta name="robots" content="noindex">	
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-title" content="TXBA Pro Player">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+			<link href="https://texasbluesalley.com/includes/foundation-6.4.2-ProPlayer/css/foundation.css" rel="stylesheet">	
+			<link href="https://texasbluesalley.com/includes/noUiSlider/14.0.2/nouislider.custom.css" rel="stylesheet">	
+			<link href="https://texasbluesalley.com/includes/mediaelement/4.2.9/mediaelementplayer.min.css" rel="stylesheet">
+			
+			<link href="/--css-ProPlayer-MainWindow.852338fd.css" rel="stylesheet" type="text/css">
+			<link href="/--css-ProPlayer-PlayerControls.a248476b.css" rel="stylesheet" type="text/css">		
+			<link href="/--css-ProPlayer-Sidebar.030bd404.css" rel="stylesheet" type="text/css">
+			<link href="/--css-ProPlayer-SettingsPanel.621566be.css" rel="stylesheet" type="text/css">
+			<link href="/--css-ProPlayer-FoundationOverrides.e4db82d8.css" rel="stylesheet" type="text/css">		
+			<link href="/--css-ProPlayer-TabStyles.846ded0a.css" rel="stylesheet" type="text/css">		
+			<link href="/--css-ProPlayer-SliderOverrides.beb67975.css" rel="stylesheet" type="text/css">		
+			<link href="/--css-ProPlayer-VideoPlayerOverrides.02df3c32.css" rel="stylesheet" type="text/css">
+			<link href="/--css-ProPlayer-Misc.e1dd4afb.css" rel="stylesheet" type="text/css">
+			<link href="/--css-ProPlayer-Browser.4271c38d.css" rel="stylesheet" type="text/css">
+			<link href="/--css-ProPlayer-ResponsiveOverrides.2ec87f0e.css" rel="stylesheet" type="text/css">
+			
+			<link href="https://texasbluesalley.com/includes/font-awesome-4.7.1/css/font-awesome.css" rel="stylesheet" type="text/css">
+			<link href="https://texasbluesalley.com/includes/fonts/Oswald/Oswald.css" rel="stylesheet" type="text/css">
+			<link href="https://texasbluesalley.com/includes/fonts/OpenSans/OpenSans.css" rel="stylesheet" type="text/css">
+
+	<script src="/--css-ProPlayer-MainWindow.852338fd.js"></script><script src="/--css-ProPlayer-PlayerControls.a248476b.js"></script><script src="/--css-ProPlayer-Sidebar.030bd404.js"></script><script src="/--css-ProPlayer-SettingsPanel.621566be.js"></script><script src="/--css-ProPlayer-FoundationOverrides.e4db82d8.js"></script><script src="/--css-ProPlayer-TabStyles.846ded0a.js"></script><script src="/--css-ProPlayer-SliderOverrides.beb67975.js"></script><script src="/--css-ProPlayer-VideoPlayerOverrides.02df3c32.js"></script><script src="/--css-ProPlayer-Misc.e1dd4afb.js"></script><script src="/--css-ProPlayer-Browser.4271c38d.js"></script><script src="/--css-ProPlayer-ResponsiveOverrides.2ec87f0e.js"></script></head>
+	<body> 
+		
+		<div id="proPlayerWrapper" class="sidebar-closed">
+			
+			<div id="mobileTitleBar">
+				<div id="mobileTitleWrapper" onClick="thePlayer.toggleInfoPane(); return false;">
+					<span class="title packageTitle"></span>
+					<span class="subtitle segmentTitle"></span>
+				</div>
+			</div>
+			
+			<div id="sidebarWrapper">
+				
+				<a id="sidebarToggle" onmouseenter="thePlayer.startSidebarToggleHover(); return false;" onmouseleave="thePlayer.cancelSidebarToggleHover(); return false;" onClick="thePlayer.toggleSidebar(); return false;"><i class="fa fa-ellipsis-v  close-icon"></i><i class="fa fa-ellipsis-v open-icon"></i></a>
+				<div id="sidebarContentWrapper">
+					<ul class="tabs sidebar-tabs" data-tabs="" id="sidebarPanelTabs">
+						<li class="tabs-title is-active" id="sectionsTab"><a href="#segmentsPanel" aria-selected="true"><i class="fa fa-bars"></i></a></li>
+						<li class="tabs-title" id="importTab"><a href="#importPanel"><i class="fa fa-cloud-download"></i></a></li>
+						<li class="tabs-title" id="chaptersTab"><a href="#chaptersPanel"><i class="fa fa-bookmark"></i></a></li>
+						<li class="tabs-title" id="loopsTab"><a href="#loopsPanel"><i class="fa fa-refresh"></i></a></li>
+						<li class="tabs-title enabled" id="favoritesTab"><a href="#favoritesPanel"><i class="fa fa-heart"></i></a></li>
+						<li class="tabs-title" id="commentsTab"><a href="#commentsPanel"><i class="fa fa-comments"></i></a></li>
+						<!--<li class="tabs-title"><a href="#historyPanel"><i class="fa fa-history"></i></a></li>-->
+					</ul>
+					<div class="tabs-content sidebar-tabs-content" data-tabs-content="sidebarPanelTabs">
+						<div id="segmentsPanel" class="tabs-panel is-active">
+							<div class="sidebar-list-heading">
+								<span class="sidebar-title">Segments</span>
+							</div>
+							<div class="tabs-inner-panel">
+								<div class="sections" id="sectionList">
+								</div>
+								<div class="empty-list-message" id="sectionListEmpty">
+								</div>
+							</div>
+						</div>
+						
+						<div id="chaptersPanel" class="tabs-panel">
+							<div class="sidebar-list-heading">
+								<span class="sidebar-title">Chapters</span>
+							</div>
+							<div class="tabs-inner-panel">
+								<ul class="sidebar-list dark" id="chapterList">
+								</ul>
+								<div class="empty-list-message" id="chapterListEmpty">
+								</div>
+							</div>
+						</div>
+						<div id="loopsPanel" class="tabs-panel">
+							<div class="sidebar-list-heading">
+								<span class="sidebar-title">Instant Loops</span>
+							</div>
+							<div class="tabs-inner-panel">
+								<ul class="tabs sidebar-panel-tabs triple" data-tabs="" id="loopsPanelTabs">
+									<li class="tabs-title is-active"><a href="#systemLoops" aria-selected="true">TXBA</a></li>
+									<li class="tabs-title"><a href="#userLoops" aria-selected="false">Yours</a></li>
+									<li class="tabs-title"><a href="#communityLoops" aria-selected="false">Locals</a></li>
+								</ul>
+								<div class="tabs-content sidbar-panel-tabs-content" id="loopListsTabsContent" data-tabs-content="loopsPanelTabs">
+									<div id="systemLoops" class="tabs-panel is-active">
+									<!--
+										<div class="sidebar-list-action-buttons-wrapper">
+											<div class="sidebar-list-action-buttons-title">TXBA Loops</div>
+										</div>
+									-->
+										<div id="loopList">
+										</div>
+										<div class="empty-list-message" id="loopListEmpty">
+											This item does not have any Instant Loops.
+										</div>
+									</div>
+									<div id="userLoops" class="tabs-panel">
+										<div class="sidebar-list-action-buttons-wrapper">
+											<!--
+												<div class="sidebar-list-action-buttons-title">Your Loops</div>
+											-->
+											<a id="addUserLoopButton" class="sidebar-action-button add" onClick="thePlayer.loopsManager.addUserLoop();"><i class="fa fa-plus"></i> Add</a>
+											<a id="saveUserLoopsButton" class="sidebar-action-button save" onClick="thePlayer.triggerSaveUserData();"><i class="fa fa-floppy-o"></i> Save</a>
+										</div>
+										<div id="userLoopsFormWrapper" style="display: none;">
+										</div>
+										<div id="userLoopList">
+										</div>
+										<div class="empty-list-message" id="userLoopListEmpty">
+											You have not created any custom loops for this item.
+										</div>
+									</div>
+									<div id="communityLoops" class="tabs-panel">
+										<!--
+										<div class="sidebar-list-action-buttons-wrapper">
+											<div class="sidebar-list-action-buttons-title">Locals Loops</div>
+										</div>
+										-->
+										<div id="communityLoopList">
+										</div>
+										<div class="empty-list-message" id="communityLoopListEmpty">
+											There are no community loops for this item.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="favoritesPanel" class="tabs-panel">
+							<div class="sidebar-list-heading">
+								<span class="sidebar-title">Favorites</span>
+								<div class="sidebar-heading-button-wrapper" id="favthis-button">
+								</div>
+							</div>
+							<div class="tabs-inner-panel">
+								<div class="favorites-list" id="favoritesList">
+								</div>
+								<div class="empty-list-message" id="favListEmpty">
+								</div>
+							</div>
+						</div>
+						<div id="commentsPanel" class="tabs-panel">
+							<div class="sidebar-list-heading">
+								<span class="sidebar-title">Questions</span>
+								<div class="sidebar-heading-button-wrapper" id="ask-button-wrapper">
+									<a class="sidebar-heading-button disabled" id="ask-button" onClick="thePlayer.commentsManager.replyToComment(-1); return false;">
+										<i class="fa fa-commenting"></i> Ask
+									</a>
+								</div>
+	
+							</div>
+							<div class="tabs-inner-panel">
+								<div class="cmt-list" id="cmtList">
+								</div>
+								
+								<div class="empty-list-message" id="sectionListEmpty">
+								</div>
+							</div>
+						</div>
+						<div id="importPanel" class="tabs-panel">
+							<div class="sidebar-list-heading">
+								<span class="sidebar-title">Import Video</span>
+							</div>
+							<div class="tabs-inner-panel">
+								<div class="" id="importText">
+									<h5>Would you like to add this YouTube video to the TXBA Library?</h5>
+									<p><strong>Rules:</strong></p>
+									 <ul id="importRules">
+										 <li>Videos can be seen by all Locals members (they are not private)</li>
+										 <li class="hey">Videos must be guitar related.</li>
+										 <li>We reseve the right to remove videos that don't meet these guidelines.</li>
+									 </ul>
+									 <br>
+									 <div class="text-center">
+									 	<a class="basic-button medium-button blue" onClick="thePlayer.submitSaveYouTubeForm()"><i class="fa fa-plus-circle"></i> Add To Library</a>
+									 </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a id="mobileSidebarOpenButton" onClick="thePlayer.openSidebar(); return false;"><i class="fa fa-ellipsis-v"></i></a>
+				
+			<div id="mainColumn" class="">
+				<div id="mainToolBar">
+					<div class="toolbar-button-group left-button-group">	
+						<a id="openSidebarButton" class="toolbar-button" onClick="thePlayer.toggleSidebarButtonCallback(); return false;">
+							<i class="fa fa-chevron-circle-right side-mode"></i>
+						</a>				
+						<a id="closeSidebarButton" class="toolbar-button" onClick="thePlayer.toggleSidebarButtonCallback(); return false;">
+							<i class="fa fa-chevron-circle-left side-mode"></i>
+						</a>	
+						<a id="resetPlayerButton" class="toolbar-button" onClick="thePlayer.initializeWithoutPackage(true); return false;">
+							<i class="fa fa-home"></i> 
+						</a>
+						<a id="infoPaneButton" class="toolbar-button" onClick="thePlayer.toggleInfoPane(); return false;">
+							<i class="fa fa-info-circle"></i> 
+						</a>
+						
+					</div>
+
+					<div id="mainTitleBar">
+						<div id="mainTitleWrapper" onClick="thePlayer.toggleInfoPane(); return false;">
+							<span class="title packageTitle"></span>
+							<span class="subtitle segmentTitle"></span>
+						</div>
+					</div>
+					<div class="toolbar-button-group right-button-group">	
+						<a id="downloadsToggle" class="toolbar-button" data-toggle="downloadsDropdown" style="display: none">
+							<i class="fa fa-cloud-download"></i>
+						</a>				
+						<a id="toggleBrowserButton" class="toolbar-button" href="#" onClick="thePlayer.toolsShowBrowser(); return false;">
+							<i class="fa fa-search"></i>
+						</a>				
+						<a id="toolsButton" class="toolbar-button" data-toggle="toolsDropdown">
+							<i class="fa fa-cogs"></i> 
+						</a>
+						<a id="fullscreenButton" class="toolbar-button" onClick="thePlayer.fullscreenToggle(); return false;">
+							<i class="fa fa-arrows-alt"></i> 
+						</a>				
+					</div>
+				</div>
+				<div id="mediaWrapper">
+				</div>
+				<div id="infoPane" style="display: none">
+					<div id="infoWrapper">
+						<div class="text-center"><a class="basic-button small-button blue" onClick="thePlayer.toggleInfoPane(); return false;"><i class="fa fa-times-circle"></i> Close</a></div>
+						<hr>
+						<h2 id="info-package-name"></h2>
+						<h3 id="info-segment-name"></h3>
+						<hr>
+						<h5 id="info-package-tuning"></h5>
+						<h5 id="info-package-description"></h5>
+						<div id="info-segment-overview"></div>
+					</div>
+				</div>
+			</div>
+				
+		</div>
+		
+		
+		<!-- From here on out it's widgets and dropdown wrappers -->
+		<div class="dropdown-pane dropdown-menu dark small" id="downloadsDropdown" data-dropdown="" data-auto-focus="true" data-close-on-click="true">
+			<ul class="sidebar-list" id="downloads-list">
+			</ul>
+		</div>
+		<div class="dropdown-pane dropdown-menu dark small" id="toolsDropdown" data-dropdown="" data-auto-focus="true" data-close-on-click="true">
+			<ul class="sidebar-list" id="tools-list">
+				<li class="sidebar-list-item section-heading"><span>Tools</span></li>
+				<li class="sidebar-list-item"><a onClick="thePlayer.toolsShowTuner()"><i class="fa fa-music"></i> Guitar Tuner</a></li>
+				<li class="sidebar-list-item"><a onClick="thePlayer.toolsShowSpiderTool()"><i class="fa fa-bug"></i> Spider Drills Tool</a></li>
+				{if logged_in_group_id == 1}
+					<li class="sidebar-list-item testing"><a onClick="thePlayer.toolsShowFretboardTool()"><i class="fa fa-sliders"></i> Fretboard</a></li>
+				{/if}
+				<li class="sidebar-list-item section-heading"><span>Import</span></li>
+				<li class="sidebar-list-item"><a onClick="thePlayer.showYouTubeLinkPrompt()"><i class="fa fa-youtube"></i> Load YouTube Video</a></li>
+				{if logged_in_group_id == 1}
+					<li class="sidebar-list-item testing"><a onClick="thePlayer.showFacebookLinkPrompt()"><i class="fa fa-facebook-official"></i> Load Facebook Video</a></li>
+					<li class="sidebar-list-item testing"><a onClick="thePlayer.showInstagramLinkPrompt()"><i class="fa fa-instagram"></i> Load Instagram Video</a></li>
+				{/if}
+				
+				<li class="sidebar-list-item section-heading"><span>Account</span></li>
+				<li class="sidebar-list-item segment">
+					<a href="/account" target="_blank"><i class="fa fa-user-circle"></i> Account Dashboard <sup><i class="fa fa-external-link"></i></sup></a>
+				</li>
+				<li class="sidebar-list-item segment">
+					<a href="/forums" target="_blank"><i class="fa fa-users"></i> Locals Forums <sup><i class="fa fa-external-link"></i></sup></a>
+				</li>
+				<li class="sidebar-list-item section-heading"><span>Update</span></li>
+				<li class="sidebar-list-item segment">
+					<a onClick="window.location.reload(true);"><i class="fa fa-refresh"></i> Force Refresh</a>
+				</li>
+
+			</ul>
+		</div>
+		
+		
+		<div id="contentBrowser" style="display: none">
+		</div>
+		<div id="toolWindowOuterWrapper" class="overlay-outer-wrapper" style="display: none">
+			<div id="toolWindowToolBar" class="overlay-tool-bar">
+				<a class="overlay-close-button" onClick="thePlayer.toolsCloseToolWindow()"><i class="fa fa-times-circle"></i> Close</a> 
+				<div id="toolWindowTitle" class="overlay-title-wrapper"></div>
+			</div>
+			<div id="toolWindowInnerWrapper" class="overlay-inner-wrapper">
+			</div>
+		</div>
+		<div id="packageOverviewWrapper" class="media-content-wrapper" style="display: none">
+			<div class="row"> 
+				<div class="columns small-12">
+					<div id="packageTitle"></div>
+				</div>
+			</div>
+			<div class="row"> 
+				<div class="columns small-7"> 
+					<h5 id="packageDescription"></h5>
+					<div id="packageOverview"></div>
+				</div>
+				<div class="columns small-5">
+					<div id="packageImage"></div>   
+				</div>
+			</div>
+		</div>
+		<div id="userSegmentDataFormWrapper" style="display: none">
+		</div>
+		<div id="saveYTSegmentFormWrapper" style="display: none">
+		</div>
+	
+		<div id="error-message">
+			Our video host is being a jerk right now, so we're working with them to solve the problem. Check back again later...
+		</div>
+	
+			<script src="https://texasbluesalley.com/includes/foundation-6.4.2-ProPlayer/js/vendor/jquery.js"></script>
+			<script src="https://texasbluesalley.com/includes/foundation-6.4.2-ProPlayer/js/vendor/foundation.js"></script>
+			<script src="https://texasbluesalley.com/includes/fastclick-1.0.6/fastclick.js"></script>
+			
+			<script src="/--js-ProPlayer.31b654ee.js"></script>
+			<script src="/--js-ProPlayerEngine.d6529f27.js"></script>
+			<script src="/--js-ProPlayerBrowser.7b64e2ff.js"></script>
+			<script src="/--js-ProPlayerCommentManager.6690890a.js"></script>
+			<script src="/--js-ProPlayerFavoritesManager.0ecb3784.js"></script>
+			<script src="/--js-ProPlayerHistoryManager.912b9c28.js"></script>
+			<script src="/--js-ProPlayerLoopsManager.bb0644f3.js"></script>
+			<script src="/--js-ProPlayerUserDataManager.31c354f8.js"></script>
+			<script src="/--js-ProPlayerPackage.afbd595b.js"></script>
+			<script src="/--js-ProPlayerSegment.7193e39c.js"></script>
+			
+			<script src="https://texasbluesalley.com/includes/js-cookie/js.cookie-2.0.3.min.js"></script>	
+			<script src="https://texasbluesalley.com/includes/mousetrap/mousetrap.1.6.2.js"></script>	
+			<script src="https://texasbluesalley.com/includes/panzoom/panzoom-3.2.2/jquery.panzoom.js"></script>
+			<script src="https://texasbluesalley.com/includes/mobile-detect/mobile-detect.js"></script>
+			<script src="https://texasbluesalley.com/includes/jquery-mousewheel-3.1.13/jquery.mousewheel.js"></script>			
+			<script src="https://texasbluesalley.com/includes/mediaelement/4.2.9/mediaelement-and-player.js"></script>	
+			<script src="https://texasbluesalley.com/includes/mediaelement/4.2.9/renderers/facebook.js"></script>
+			<script src="https://texasbluesalley.com/includes/PitchShiftJS/content_script.js"></script>
+			<script src="https://texasbluesalley.com/includes/PitchShiftJS/jungle.js"></script>
+			<script src="https://texasbluesalley.com/includes/PitchShiftJS/AudioContextMonkeyPatch.js"></script>
+			<script src="https://texasbluesalley.com/includes/noUiSlider/14.0.2/nouislider.js"></script>
+			<script src="https://texasbluesalley.com/includes/tinysort/tinysort.js"></script>
+
+<script>var gc_BranchPath = '/' + '{branch_path}';
+var thePlayer;
+
+if (isIE()) {
+  showIEWarning();
+}
+
+;
+$(function () {
+  thePlayer = new ProPlayer();
+  $(document).foundation();
+  new FastClick(document.body);
+  thePlayer.openUnknownPackageFromSegments('{segment_2}', '{segment_3}', '{segment_4}', false);
+});
+
+function isIE() {
+  strUserAgent = window.navigator.userAgent;
+  return strUserAgent.indexOf('MSIE') > -1 || strUserAgent.indexOf('Trident') > -1;
+}
+
+function showIEWarning() {
+  var theButtons = document.getElementsByClassName('toolbar-button');
+
+  for (i = 0; i < theButtons.length; i++) {
+    theButtons[i].style.display = 'none';
+  }
+
+  var warningString = "<div class='media-content-wrapper'><div class='text-center' style='max-width: 500px; margin: 0 auto;'>";
+  warningString += "<h2>Internet Explorer is not supported</h2>";
+  warningString += "<p>It looks like you're using Internet Explorer. Microsoft has abandoned IE in favor of their newer Edge browser. ";
+  warningString += "Because they're no longer updating it, certain features in the Pro Player do not work in Internet Explorer. ";
+  warningString += "We suggest using <strong><a href='https://www.google.com/chrome/'>Google Chrome</a></strong> or ";
+  warningString += "<strong><a href='https://www.mozilla.org/firefox/'>Mozilla Firefox</a></strong> ";
+  warningString += "because both of those browsers are updated regularly.</p></div></div>";
+  document.getElementById("mediaWrapper").innerHTML = warningString;
+}</script>
+
+
+
+	</body>
+</html>

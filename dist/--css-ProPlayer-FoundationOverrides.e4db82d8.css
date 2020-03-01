@@ -1,0 +1,80 @@
+/*****************************************
+*************   Foundation Overrides   ************
+*****************************************/ 
+.row.no-padding .columns
+{
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.row.small-padding .columns
+{
+	padding: 0 .1rem;
+}
+.row.tight .columns
+{
+	padding: 0 .5em;
+}
+.row.vertical-tight .columns
+{
+	padding-top: .5em;
+	padding-bottom: .5em;
+}
+
+.text-left
+{
+	text-align: left;
+}
+
+.text-right
+{
+	text-align: right;
+}
+
+.text-center
+{
+	text-align: center;
+}
+
+ul.block-grid
+{
+	float: left;
+	width: 100%;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.block-grid li
+{
+	float: left;
+	padding: .1rem;
+}
+
+ul.block-grid.small-block-grid-quarters li
+{
+	width: 25%;
+}
+
+ul.block-grid.small-block-grid-halves li
+{
+	width: 50%;
+}
+
+.dropdown-menu
+{
+  padding: 0px;
+  border: 1px solid #777;
+  border-radius: none;
+}
+
+.dropdown-pane.dark
+{
+  background: #444;
+  color: white;
+}
+
+
+
+
+/*# sourceMappingURL=/--css-ProPlayer-FoundationOverrides.e4db82d8.css.map */

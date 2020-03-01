@@ -2,18 +2,20 @@
     "name": "proplayer74",
     "version": "7.4.0",
     "description": "TXBA ProPlayer Code for testing and familiarization",
-    "main": "--js-ProPlayer.js",
+    "main": "./pro-player.html", 
     "dependencies": {
-        "eslint": "^6.1.0",
+        "core-js": "^3.6.4",
+        "eslint": "^6.8.0",
         "jquery": "^3.4.1",
         "js2flowchart": "^1.3.2",
-        "mobile-detect": "^1.4.3"
+        "mobile-detect": "^1.4.4",
+        "parcel": "^1.12.4"
     },
     "devDependencies": {
         "chai": "^4.2.0",
         "chai-cheerio": "^1.0.0",
         "http": "0.0.0",
-        "mocha": "^6.2.0"
+        "mocha": "^6.2.2"
     },
     "scripts": {
         "test": "mocha --reporter=spec --colors --recursive --watch ./spec/**/*.js",

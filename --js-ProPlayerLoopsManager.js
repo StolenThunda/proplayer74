@@ -1,28 +1,27 @@
-function ProPlayerLoopsManager() {
-    this.a_Collections = [];
-    this.n_LastActiveCollectionID = -1;
-    this.hasLists = function() {
+class ProPlayerLoopsManager {
+    constructor() {
+        this.a_Collections = [];
+        this.n_LastActiveCollectionID = -1;
+    }
+    hasLists() {
         return this.a_Collections.length > 0;
-    };
-    this.setLastActiveCollectionID = function(nCollectionID) {
+    }
+    setLastActiveCollectionID(nCollectionID) {
         this.n_LastActiveCollectionID = nCollectionID;
         //console.log("Setting last active list to:" + nListID);
-    };
-    this.getLastActiveListID = function() {
+    }
+    getLastActiveListID() {
         return this.n_LastActiveCollectionID;
-    };
-    this.resetAll = function() {
+    }
+    resetAll() {
         for (let i = 0; i < this.a_Collections.length; i++) {
             this.a_Collections[i].reset();
         }
-
         this.a_Collections.length = 0;
-
         $('#addUserLoopButton').toggleClass('disabled', true);
         $('#saveUserLoopsButton').toggleClass('disabled', true);
-    };
-
-    this.createNewCollection = function(strUIParentID, strCollectionRole, bEditable) {
+    }
+    createNewCollection(strUIParentID, strCollectionRole, bEditable) {
         var theCollection = this.getCollectionByRole(strCollectionRole);
         if (theCollection == null) {
             var newCollectionID = this.a_Collections.length;
@@ -33,9 +32,8 @@ function ProPlayerLoopsManager() {
             this.pushUserLoopInterfaceState();
         }
         return theCollection;
-    };
-
-    this.addListToCollectionFromArray = function(aLoopsArray, strCollectionRole, strListTitle, bResetCollection) {
+    }
+    addListToCollectionFromArray(aLoopsArray, strCollectionRole, strListTitle, bResetCollection) {
         //The collection must already exist before calling this method.
         var theCollection = this.getCollectionByRole(strCollectionRole);
         if (theCollection !== null) {
@@ -47,17 +45,14 @@ function ProPlayerLoopsManager() {
             theCollection.rebuildLoopsUIList();
         }
         this.pushUserLoopInterfaceState();
-    };
-
-    this.appendCollection = function(newCollection) {
+    }
+    appendCollection(newCollection) {
         this.a_Collections.push(newCollection);
-    };
-
-    this.getCollectionAt = function(nIndex) {
+    }
+    getCollectionAt(nIndex) {
         return this.a_Collections[nIndex];
-    };
-
-    this.getCollectionByID = function(nCollectionID) {
+    }
+    getCollectionByID(nCollectionID) {
         let theCollection = null;
         for (let i = 0; i < this.a_Collections.length; i++) {
             if (this.a_Collections[i].getID() == nCollectionID) {
@@ -66,9 +61,8 @@ function ProPlayerLoopsManager() {
             }
         }
         return theCollection;
-    };
-
-    this.getCollectionByRole = function(strCollectionRole) {
+    }
+    getCollectionByRole(strCollectionRole) {
         let theCollection = null;
         for (let i = 0; i < this.a_Collections.length; i++) {
             if (this.a_Collections[i].getRole() == strCollectionRole) {
@@ -76,55 +70,46 @@ function ProPlayerLoopsManager() {
             }
         }
         return theCollection;
-    };
-
-    this.loopSelected = function(nCollectionID, nListIndex, nLoopIndex) {
+    }
+    loopSelected(nCollectionID, nListIndex, nLoopIndex) {
         //console.log("Loop Selected: " + nListID + "," + nLoopIndex);
         this.clearActiveLoopsExcept(nCollectionID, nListIndex);
         this.setLastActiveCollectionID(nCollectionID);
         let theCollection = this.getCollectionByID(nCollectionID);
         theCollection.loopSelected(nListIndex, nLoopIndex);
-    };
-
-    this.loopToggleSelected = function(nCollectionID, nListIndex, nLoopIndex) {
+    }
+    loopToggleSelected(nCollectionID, nListIndex, nLoopIndex) {
         this.clearActiveLoopsExcept(nCollectionID, nListIndex);
         this.setLastActiveCollectionID(nCollectionID);
         this.getCollectionByID(nCollectionID).loopToggleSelected(nListIndex, nLoopIndex);
-    };
-
-    this.activateNextLoop = function() {
+    }
+    activateNextLoop() {
         let theID = -1;
         if (this.hasCollections()) {
             theID = this.getLastActiveCollectionID();
-
             if (theID == -1) {
                 theID = this.getCollectionListWithLoops();
             }
-
             if (theID !== -1) {
                 this.getCollectionByID(theID).activateNextLoop();
             }
         }
         return theID;
-    };
-
-    this.activatePreviousLoop = function() {
+    }
+    activatePreviousLoop() {
         let theID = -1;
         if (this.hasCollections()) {
             theID = this.getLastActiveCollectionID();
-
             if (theID == -1) {
                 theID = this.getFirstCollectionWithLoops();
             }
-
             if (theID !== -1) {
                 this.getCollectionByID(theID).activatePreviousLoop();
             }
         }
         return theID;
-    };
-
-    this.clearActiveLoopsExcept = function(nCollectionID, nListIndex) {
+    }
+    clearActiveLoopsExcept(nCollectionID, nListIndex) {
         //console.log("Clearing active loops");
         //Step 1: clear other lists.
         for (let i = 0; i < this.a_Collections.length; i++) {
@@ -136,25 +121,21 @@ function ProPlayerLoopsManager() {
                 theCollection.clearAllActiveLoops();
             }
         }
-    };
-
-    this.clearAllActiveLoops = function() {
+    }
+    clearAllActiveLoops() {
         //Step 1: clear other lists.
         for (let i = 0; i < this.a_Collections.length; i++) {
             this.a_Collections[i].clearAllActiveLoops();
         }
-    };
-
-    this.addUserLoop = function() {
+    }
+    addUserLoop() {
         let theLoop = thePlayer.getEngineLoop();
-
         if (theLoop !== null) {
             let bWasPlaying = thePlayer.theEngine.isPlaying();
             if (bWasPlaying) {
                 thePlayer.theEngine.stopPlayback();
             }
             let loopName = prompt('Enter loop name.', theLoop.getName());
-
             if (bWasPlaying) {
                 thePlayer.theEngine.startPlayback();
             }
@@ -166,19 +147,17 @@ function ProPlayerLoopsManager() {
                 this.pushUserLoopInterfaceState();
             }
         }
-    };
-    this.removeLoopFromList = function(nCollectionID, nListIndex, nLoopIndex) {
+    }
+    removeLoopFromList(nCollectionID, nListIndex, nLoopIndex) {
         let theCollection = this.getCollectionByID(nCollectionID);
         theCollection.removeLoop(nListIndex, nLoopIndex);
         theCollection.rebuildLoopsUIList();
         this.pushUserLoopInterfaceState();
-    };
-
-    this.getUserLoopsArray = function() {
+    }
+    getUserLoopsArray() {
         return this.getCollectionByRole('user').getLoopsArray();
-    };
-
-    this.pushUserLoopInterfaceState = function() {
+    }
+    pushUserLoopInterfaceState() {
         let bAddButtonEnabled = false;
         let bSaveButtonEnabled = false;
         let userLoopsCollection = this.getCollectionByRole('user');
@@ -189,21 +168,18 @@ function ProPlayerLoopsManager() {
         } else {
             $('#userLoopList').toggleClass('dirty', userLoopsCollection.isDirty());
             bSaveButtonEnabled = userLoopsCollection.isDirty();
-
             let theLoop = thePlayer.getEngineLoop();
             if (theLoop !== null) {
                 bAddButtonEnabled = !userLoopsCollection.findMatchingLoop(theLoop);
             }
         }
-
         $('#addUserLoopButton').toggleClass('disabled', !bAddButtonEnabled);
         $('#saveUserLoopsButton').toggleClass('disabled', !bSaveButtonEnabled);
-    };
-    this.savingUserData = function() {
+    }
+    savingUserData() {
         this.getCollectionByRole('user').showLoadingIndicator();
-    };
-
-    this.getFirstListWithLoops = function() {
+    }
+    getFirstListWithLoops() {
         let nIndex = -1;
         for (let i = 0; i < this.a_Collections.length; i++) {
             if (this.a_Collections[i].getCollectionLoopCount() > 0) {
@@ -212,57 +188,56 @@ function ProPlayerLoopsManager() {
             }
         }
         return nIndex;
-    };
+    }
 }
 
-function ProPlayerLoopsCollection(nCollectionID, strListWrapperID, strCollectionRole, bEditable) {
-    this.str_UIWrapperID = '#' + strListWrapperID;
-    this.b_Editable = bEditable;
-    this.n_CollectionID = nCollectionID;
-    this.str_Role = strCollectionRole;
-    this.a_Lists = [];
-    this.b_IsDirty = false;
-    this.getListCount = function() {
+class ProPlayerLoopsCollection {
+    constructor(nCollectionID, strListWrapperID, strCollectionRole, bEditable) {
+        this.str_UIWrapperID = '#' + strListWrapperID;
+        this.b_Editable = bEditable;
+        this.n_CollectionID = nCollectionID;
+        this.str_Role = strCollectionRole;
+        this.a_Lists = [];
+        this.b_IsDirty = false;
+    }
+    getListCount() {
         return this.a_Lists.length;
-    };
-    this.getID = function() {
+    }
+    getID() {
         return this.n_CollectionID;
     };
-    this.getRole = function() {
+    getRole() {
         return this.str_Role;
-    };
-    this.getEditable = function() {
+    }
+    getEditable() {
         return this.b_Editable;
-    };
-    this.isDirty = function() {
+    }
+    isDirty() {
         return this.b_IsDirty;
     };
-    this.setDirty = function(bDirty) {
+    setDirty(bDirty) {
         this.b_IsDirty = bDirty;
-    };
-    this.clearLoopsUIList = function() {
+    }
+    clearLoopsUIList() {
         $(this.str_UIWrapperID).empty();
-    };
-    this.showLoadingIndicator = function() {
+    }
+    showLoadingIndicator() {
         thePlayer.spinner(this.str_UIWrapperID);
-    };
-
-    this.getListAt = function(nIndex) {
+    }
+    getListAt(nIndex) {
         let theList = null;
         if (this.validListIndex(nIndex)) {
             theList = this.a_Lists[nIndex];
         }
-
         return theList;
-    };
-    this.reset = function() {
+    }
+    reset() {
         this.clearLoopsUIList();
         this.a_Lists.length = 0;
         this.setDirty(false);
         $(this.str_UIWrapperID + 'Empty').toggle(true);
-    };
-
-    this.getLoopsArray = function() {
+    }
+    getLoopsArray() {
         let loopsArray = [];
         for (let i = 0; i < this.a_Lists.length; i++) {
             let theLoops = this.a_Lists[i].getLoopsArray();
@@ -270,47 +245,40 @@ function ProPlayerLoopsCollection(nCollectionID, strListWrapperID, strCollection
                 loopsArray.push(theLoops[j]);
             }
         }
-
         console.log(loopsArray);
         return loopsArray;
-    };
-    this.getCollectionLoopCount = function() {
+    }
+    getCollectionLoopCount() {
         let theTotal = 0;
         for (let i = 0; i < this.a_Lists.length; i++) {
             theTotal += this.a_Lists[i].getListLoopCount();
         }
         return theTotal;
-    };
-    this.setNewLoopName = function(nListIndex, nLoopIndex, strNewName) {
+    }
+    setNewLoopName(nListIndex, nLoopIndex, strNewName) {
         var theLoop = this.getLoopAt(nListIndex, nLoopIndex);
-
         if (theLoop !== null) {
             theLoop.setName(strNewName);
             this.setDirty(true);
         }
-    };
-
-    this.getLoopAt = function(nListIndex, nLoopIndex) {
+    }
+    getLoopAt(nListIndex, nLoopIndex) {
         if (this.validListIndex(nListIndex)) {
             return this.a_Lists[nListIndex].getLoopAt(nLoopIndex);
         } else {
             return null;
         }
-    };
-
-    this.validListIndex = function(nListIndex) {
+    }
+    validListIndex(nListIndex) {
         return nListIndex < this.a_Lists.length ? true : false;
-    };
-
-    this.rebuildLoopsUIList = function() {
+    }
+    rebuildLoopsUIList() {
         thePlayer.spinner(this.str_UIWrapperID);
         $(this.str_UIWrapperID + 'Empty').toggle(false);
-
         //this function assumes the loop list has already been reset
         let strListHTML = '';
         let bEditable = this.getEditable();
         let collectionID = this.getID();
-
         let bUseAccordion = this.a_Lists.length > 1;
         if (bUseAccordion) {
             // strListHTML += '<ul class="accordion sidebar-accordion" id="loopsListAccordion-' + this.getRole() + '" ';
@@ -318,29 +286,24 @@ function ProPlayerLoopsCollection(nCollectionID, strListWrapperID, strCollection
             strListHTML = `<ul class="accordion sidebar-accordion" id="loopsListAccordion-${this.getRole()}
 			data-accordion data-allow-all-closed="true" data-multi-expand="false">`;
         }
-
         for (let listIndex = 0; listIndex < this.a_Lists.length; listIndex++) {
             let theList = this.a_Lists[listIndex];
             if (bUseAccordion) {
                 // strListHTML += '<li class="accordion-item" data-accordion-item>';
                 // strListHTML += '<a class="accordion-title">' + theList.getListTitle() + '</a>';
                 // strListHTML += '<div class="accordion-content" data-tab-content>';
-
                 strListHTML = `<li class="accordion-item" data-accordion-item>
 					<a class="accordion-title">${theList.getListTitle()}</a>
 					<div class="accordion-content" data-tab-content>
 				`;
             }
-
             strListHTML += '<ul class="sidebar-list dark">';
-
             for (let loopIndex = 0; loopIndex < theList.getLoopsArray().length; loopIndex++) {
                 let theLoop = theList.getLoopAt(loopIndex);
                 theLoop.setChecked(false);
                 var loopItem = '<li class="sidebar-list-item loop button" id="loopItem-';
                 loopItem += collectionID + '-' + listIndex + '-' + loopIndex + '">';
                 let bStacking = theList.enableLoopStacking(loopIndex);
-
                 if (bStacking || bEditable) {
                     let theClass = '';
                     if (bStacking && bEditable) {
@@ -368,10 +331,8 @@ function ProPlayerLoopsCollection(nCollectionID, strListWrapperID, strCollection
                     loopItem += '</a>';
                 }
                 loopItem += '</li>';
-
                 strListHTML += loopItem;
             }
-
             strListHTML += '</ul>';
             if (bUseAccordion) {
                 strListHTML += '</div></li>';
@@ -382,17 +343,15 @@ function ProPlayerLoopsCollection(nCollectionID, strListWrapperID, strCollection
             //console.log("Showing error message for empty list.");
             $(this.str_UIWrapperID + 'Empty').toggle(true);
         }
-
         if (bUseAccordion) {
             let accordionID = '#loopsListAccordion-' + this.getRole();
             $(accordionID).foundation();
         }
-    };
-
-    this.appendList = function(newList) {
+    }
+    appendList(newList) {
         this.a_Lists.push(newList);
-    };
-    this.addListFromLoopArray = function(aLoopsArray, strListTitle) {
+    }
+    addListFromLoopArray(aLoopsArray, strListTitle) {
         //array must elements assumed to be in [name, start, end] format\
         //Clear this collection before calling this if you don't want the new
         // list appended.
@@ -401,9 +360,8 @@ function ProPlayerLoopsCollection(nCollectionID, strListWrapperID, strCollection
         theList.createFromLoopArray(aLoopsArray);
         this.appendList(theList);
         this.setDirty(false);
-    };
-
-    this.findMatchingLoop = function(loopToMatch) {
+    }
+    findMatchingLoop(loopToMatch) {
         bMatchFound = false;
         for (let i = 0; i < this.a_Lists.length; i++) {
             if (this.a_Lists[i].findMatchingLoop(loopToMatch)) {
@@ -412,109 +370,101 @@ function ProPlayerLoopsCollection(nCollectionID, strListWrapperID, strCollection
             }
         }
         return bMatchFound;
-    };
-
-    this.clearActiveLoopsExcept = function(nListIndex) {
+    }
+    clearActiveLoopsExcept(nListIndex) {
         for (let i = 0; i < this.a_Lists.length; i++) {
             if (i !== nListIndex) {
                 this.a_Lists[i].clearActiveLoops();
                 this.a_Lists[i].refreshLoopCheckedStates();
             }
         }
-    };
-
-    this.clearAllActiveLoops = function() {
+    }
+    clearAllActiveLoops() {
         for (let i = 0; i < this.a_Lists.length; i++) {
             this.a_Lists[i].clearActiveLoops();
             this.a_Lists[i].refreshLoopCheckedStates();
         }
-    };
-
-    this.loopSelected = function(nListIndex, nLoopIndex) {
+    }
+    loopSelected(nListIndex, nLoopIndex) {
         if (this.validListIndex(nListIndex)) {
             this.getListAt(nListIndex).loopSelected(nLoopIndex);
         }
-    };
-
-    this.loopToggleSelected = function(nListIndex, nLoopIndex) {
+    }
+    loopToggleSelected(nListIndex, nLoopIndex) {
         if (this.validListIndex(nListIndex)) {
             this.getListAt(nListIndex).loopToggleSelected(nLoopIndex);
         }
-    };
-
-    this.addInstantLoop = function(theLoop) {
+    }
+    addInstantLoop(theLoop) {
         let theList = this.getListAt(0);
         if (theList == null) {
             theList = new ProPlayerLoopsList(this.getID(), 0);
             this.appendList(theList);
         }
-
         theList.addInstantLoop(theLoop);
         this.setDirty(true);
-    };
-
-    this.addInstantLoopToList = function(nListIndex, theLoop) {
+    }
+    addInstantLoopToList(nListIndex, theLoop) {
         if (this.validListIndex(nListIndex)) {
             this.getListAt(nListIndex).addInstantLoop(theLoop);
             this.setDirty(true);
         }
-    };
-
-    this.removeLoop = function(nListIndex, nLoopIndex) {
+    }
+    removeLoop(nListIndex, nLoopIndex) {
         if (this.validListIndex(nListIndex)) {
             this.getListAt(nListIndex).removeLoop(nLoopIndex);
             this.setDirty(true);
         }
-    };
+    }
+
 }
 
-function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
-    this.a_Loops = [];
-    this.n_CollectionID = nCollectionID;
-    this.n_ListID = nListID;
-    this.str_ListTitle = strListTitle;
-    this.getCollectionID = function() {
+
+class ProPlayerLoopsList {
+    constructor(nCollectionID, nListID, strListTitle) {
+        this.a_Loops = [];
+        this.n_CollectionID = nCollectionID;
+        this.n_ListID = nListID;
+        this.str_ListTitle = strListTitle;
+    }
+    getCollectionID() {
         return this.n_CollectionID;
-    };
-    this.getListID = function() {
+    }
+    getListID() {
         return this.n_ListID;
-    };
-    this.getListTitle = function() {
+    }
+    getListTitle() {
         return this.str_ListTitle;
-    };
-    this.setLoopsList = function(a_newLoopsList) {
+    }
+    setLoopsList(a_newLoopsList) {
         this.a_Loops = a_newLoopsList;
-    };
-    this.getLoopAt = function(nIndex) {
+    }
+    getLoopAt(nIndex) {
         return this.a_Loops[nIndex];
-    };
-    this.getLoopStart = function(nIndex) {
+    }
+    getLoopStart(nIndex) {
         return this.getLoopAt(nIndex).getLoopStart();
-    };
-    this.getLoopEnd = function(nIndex) {
+    }
+    getLoopEnd(nIndex) {
         return this.getLoopAt(nIndex).getLoopEnd();
-    };
-    this.getListLoopCount = function() {
+    }
+    getListLoopCount() {
         return this.a_Loops.length;
-    };
-    this.reset = function() {
+    }
+    reset() {
         this.a_Loops.length = 0;
-    };
-
-    this.addLoopFromValues = function(strName, fLoopStart, fLoopEnd) {
+    }
+    addLoopFromValues(strName, fLoopStart, fLoopEnd) {
         this.a_Loops.push(new InstantLoop(strName, fLoopStart, fLoopEnd));
-    };
-
-    this.addInstantLoop = function(theLoop) {
+    }
+    addInstantLoop(theLoop) {
         this.a_Loops.push(theLoop);
         return this.a_Loops.length - 1;
-    };
-
-    this.setNewLoopName = function(nLoopIndex, strNewName) {
+    }
+    setNewLoopName(nLoopIndex, strNewName) {
         this.getLoopAt(nLoopIndex).setName(strNewName);
-    };
-
-    this.activateNextLoop = function() {
+    }
+    activateNextLoop() {
         var currentIndex = this.getFirstActiveLoop();
         if (currentIndex > -1) {
             if (currentIndex < this.a_Loops.length - 1) {
@@ -523,9 +473,8 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                 this.loopSelected(0);
             }
         }
-    };
-
-    this.activatePreviousLoop = function() {
+    }
+    activatePreviousLoop() {
         var currentIndex = this.getFirstActiveLoop();
         if (currentIndex > -1) {
             if (currentIndex > 0) {
@@ -534,11 +483,9 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                 this.loopSelected(this.a_Loops.length - 1);
             }
         }
-    };
-
-    this.getFirstActiveLoop = function() {
+    }
+    getFirstActiveLoop() {
         let nIndex = -1;
-
         if (this.a_Loops.length > 0) {
             nIndex = 0;
             for (let i = 0; i < this.a_Loops.length; i++) {
@@ -549,43 +496,37 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
             }
         }
         return nIndex;
-    };
-
-    this.removeLoop = function(nIndex) {
+    }
+    removeLoop(nIndex) {
         //console.log('Current List: ' + this.a_Loops);
         //console.log('Removing Loop at: ' + nIndex);
         this.a_Loops.splice(nIndex, 1);
         //console.log('New List: ' + this.a_Loops);
-    };
-    this.createFromLoopArray = function(aLoopsArray) {
+    }
+    createFromLoopArray(aLoopsArray) {
         //array must elements assumed to be in [name, start, end] format
         for (let i = 0; i < aLoopsArray.length; i++) {
             this.addLoopFromValues(aLoopsArray[i][0], aLoopsArray[i][1], aLoopsArray[i][2]);
         }
-    };
-
-    this.appendFromLoopArray = function(aLoopsArray) {
+    }
+    appendFromLoopArray(aLoopsArray) {
         //array must elements assumed to be in [name, start, end] format
         for (let i = 0; i < aLoopsArray.length; i++) {
             this.addLoopFromValues(aLoopsArray[i][0], aLoopsArray[i][1], aLoopsArray[i][2]);
         }
-    };
-
-    this.findMatchingLoop = function(loopToMatch) {
+    }
+    findMatchingLoop(loopToMatch) {
         let bMatchFound = false;
         for (let i = 0; i < this.a_Loops.length; i++) {
             let myLoop = this.a_Loops[i];
-            if (
-                Math.abs(loopToMatch.getLoopStart() - myLoop.getLoopStart()) < 0.1 &&
-                Math.abs(loopToMatch.getLoopEnd() - myLoop.getLoopEnd()) < 0.1
-            ) {
+            if (Math.abs(loopToMatch.getLoopStart() - myLoop.getLoopStart()) < 0.1 &&
+                Math.abs(loopToMatch.getLoopEnd() - myLoop.getLoopEnd()) < 0.1) {
                 bMatchFound = true;
             }
         }
         return bMatchFound;
-    };
-
-    this.getLoopsArray = function() {
+    }
+    getLoopsArray() {
         let newArray = [];
         //array must elements assumed to be in [name, start, end] format
         for (let i = 0; i < this.a_Loops.length; i++) {
@@ -596,35 +537,27 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
             ]);
         }
         return newArray;
-    };
-
-    this.loopSelected = function(nLoopIndex) {
+    }
+    loopSelected(nLoopIndex) {
         this.clearActiveLoops();
         this.toggleLoopCheckedState(nLoopIndex);
         this.refreshLoopCheckedStates();
         //console.log("Activating Loop At: " + nLoopIndex);
         var theLoop = this.getLoopAt(nLoopIndex);
         //console.log('Activating Loop:' + theLoop);
-        thePlayer.theEngine.loadLoop(
-            this.getLoopAt(nLoopIndex).getLoopStart(),
-            this.getLoopAt(nLoopIndex).getLoopEnd()
-        );
-    };
-
-    this.loopToggleSelected = function(nLoopIndex) {
+        thePlayer.theEngine.loadLoop(this.getLoopAt(nLoopIndex).getLoopStart(), this.getLoopAt(nLoopIndex).getLoopEnd());
+    }
+    loopToggleSelected(nLoopIndex) {
         //console.log('Loop Toggle Selected: ' + nLoopIndex);
         this.processLoopToggle(nLoopIndex);
         this.refreshLoopCheckedStates();
         var theLoop = this.computeStackedLoop();
-
         if (theLoop !== null) {
             thePlayer.theEngine.loadLoop(theLoop.getLoopStart(), theLoop.getLoopEnd());
         }
-    };
-
-    this.toggleLoopCheckedState = function(nLoopIndex) {
+    }
+    toggleLoopCheckedState(nLoopIndex) {
         var isLoopAlreadyChecked = this.getLoopAt(nLoopIndex).getChecked();
-
         if (isLoopAlreadyChecked && this.isLoopAMiddle(nLoopIndex)) {
             // If this loop is already checked, and user clicks check again,
             // clear all checked loops and turn this one back
@@ -632,7 +565,6 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
             this.getLoopAt(nLoopIndex).setChecked(true);
         } else {
             var previousLoopChecked = this.getLoopAt(nLoopIndex).toggleChecked();
-
             if (previousLoopChecked) {
                 for (let i = nLoopIndex - 1; i >= 0; i--) {
                     if (!this.getLoopAt(nLoopIndex).getChecked() || !this.getLoopAt(nLoopIndex).getStackable()) {
@@ -640,9 +572,7 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                     }
                     this.getLoopAt(nLoopIndex).setChecked(previousLoopChecked);
                 }
-
                 previousLoopChecked = true;
-
                 for (let i = nLoopIndex + 1; i < this.a_Loops.length; i++) {
                     if (!this.getLoopAt(i).getChecked() || !this.getLoopAt(i).getStackable()) {
                         previousLoopChecked = false;
@@ -651,46 +581,38 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                 }
             }
         }
-    };
-
-    this.previousLoopConnected = function(i) {
+    }
+    previousLoopConnected(i) {
         bConnected = false;
         if (i > 0) {
             var myStartTime = this.getLoopStart(i);
             var myEndTime = this.getLoopEnd(i);
             var previousStartTime = this.getLoopStart(i - 1);
             var previousEndTime = this.getLoopEnd(i - 1);
-
             if (myStartTime > previousStartTime && myEndTime > previousEndTime && myStartTime - previousEndTime < 2) {
                 bConnected = true;
             }
         }
         return bConnected;
-    };
-
-    this.nextLoopConnected = function(i) {
+    }
+    nextLoopConnected(i) {
         bConnected = false;
         if (i < this.a_Loops.length - 1) {
             var myStartTime = this.getLoopStart(i);
             var myEndTime = this.getLoopEnd(i);
             var nextStartTime = this.getLoopStart(i + 1);
             var nextEndTime = this.getLoopEnd(i + 1);
-
             if (myStartTime < nextStartTime && myEndTime < nextEndTime && nextStartTime - myEndTime < 2) {
                 bConnected = true;
             }
         }
-
         return bConnected;
-    };
-
-    this.enableLoopStacking = function(nLoopIndex) {
+    }
+    enableLoopStacking(nLoopIndex) {
         var bEnableStacking = false;
-
         if (!this.previousLoopConnected(nLoopIndex) &&
             this.nextLoopConnected(nLoopIndex) &&
-            this.nextLoopConnected(nLoopIndex + 1)
-        ) {
+            this.nextLoopConnected(nLoopIndex + 1)) {
             //Is this the first loop in a series,
             //meaning i, i+1, and i+2 are stackable, but i-1 is not
             bEnableStacking = true;
@@ -703,34 +625,27 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
             //meaning i-2, i-1 and i are stackable, but i+1 is not.
             bEnableStacking = true;
         }
-
         this.getLoopAt(nLoopIndex).setStackable(bEnableStacking);
         return bEnableStacking;
-    };
-
-    this.clearActiveLoops = function() {
+    }
+    clearActiveLoops() {
         for (let i = 0; i < this.a_Loops.length; i++) {
             this.getLoopAt(i).setChecked(false);
         }
-
         this.refreshLoopCheckedStates();
-    };
-
-    this.refreshLoopCheckedStates = function() {
+    }
+    refreshLoopCheckedStates() {
         for (let i = 0; i < this.a_Loops.length; i++) {
             $(this.getLoopParentID(i)).toggleClass('active', this.getLoopAt(i).getChecked());
         }
-    };
-
-    this.getLoopParentID = function(nIndex) {
+    }
+    getLoopParentID(nIndex) {
         return '#loopItem-' + this.getCollectionID() + '-' + this.getListID() + '-' + nIndex;
-    };
-
-    this.processLoopToggle = function(nSelectedIndex) {
+    }
+    processLoopToggle(nSelectedIndex) {
         //console.log("Processing Loop Toggle At: " + nSelectedIndex);
         var bLoopAlreadyChecked = this.getLoopAt(nSelectedIndex).getChecked();
         var bLoopIsMiddle = this.isLoopAMiddle(nSelectedIndex);
-
         //Case 1: Loop is already checked and is between two other checked loops.
         //Action: clear all checked loops, toggle selected one back on.
         if (bLoopAlreadyChecked && bLoopIsMiddle) {
@@ -758,41 +673,33 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                 this.getLoopAt(nSelectedIndex).setChecked(true);
             }
         }
-    };
-
-    this.setStackableLoopRange = function(nLowerIndex, nHigherIndex) {
+    }
+    setStackableLoopRange(nLowerIndex, nHigherIndex) {
         for (let i = nLowerIndex; i <= nHigherIndex; i++) {
             this.getLoopAt(i).setChecked(true);
         }
-    };
-
-    this.findPreviousStackableCheckedLoop = function(startIndex) {
+    }
+    findPreviousStackableCheckedLoop(startIndex) {
         nFoundIndex = -1;
         for (let i = startIndex - 1; i >= 0; i--) {
             if (this.getLoopAt(i).getChecked() && this.getLoopAt(i).getStackable()) {
                 nFoundIndex = i;
             }
         }
-
         return nFoundIndex;
-    };
-
-    this.findNextStackableCheckedLoop = function(startIndex) {
+    }
+    findNextStackableCheckedLoop(startIndex) {
         nFoundIndex = -1;
         var nLength = this.a_Loops.length;
-
         for (let i = startIndex + 1; i < nLength; i++) {
             if (this.getLoopAt(i).getChecked() && this.getLoopAt(i).getStackable()) {
                 nFoundIndex = i;
             }
         }
-
         return nFoundIndex;
-    };
-
-    this.toggleLoopCheckedState = function(nLoopIndex) {
+    }
+    toggleLoopCheckedState(nLoopIndex) {
         var isLoopAlreadyChecked = this.getLoopAt(nLoopIndex).getChecked();
-
         if (isLoopAlreadyChecked && this.isLoopAMiddle(nLoopIndex)) {
             // If this loop is already checked, and user clicks check again,
             // clear all checked loops and turn this one back
@@ -801,7 +708,6 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
         } else {
             this.getLoopAt(nLoopIndex).setChecked(!this.getLoopAt(nLoopIndex).getChecked());
             var previousLoopChecked = this.getLoopAt(nLoopIndex).getChecked();
-
             if (previousLoopChecked) {
                 for (let i = nLoopIndex - 1; i >= 0; i--) {
                     if (!this.getLoopAt(i).getChecked() || !this.getLoopAt(i).getStackable()) {
@@ -809,9 +715,7 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                     }
                     this.getLoopAt(i).setChecked(previousLoopChecked);
                 }
-
                 previousLoopChecked = true;
-
                 for (let i = nLoopIndex + 1; i < this.a_Loops.length; i++) {
                     if (!this.getLoopAt(i).getChecked() || !this.getLoopAt(i).getStackable()) {
                         previousLoopChecked = false;
@@ -820,12 +724,10 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                 }
             }
         }
-    };
-
-    this.isLoopAMiddle = function(nLoopIndex) {
+    }
+    isLoopAMiddle(nLoopIndex) {
         var lowerLoop = false;
         var higherLoop = false;
-
         for (let i = 0; i < this.a_Loops.length; i++) {
             if (this.getLoopAt(i).getChecked() && this.getLoopAt(i).getStackable()) {
                 if (i < nLoopIndex) {
@@ -837,17 +739,14 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                 }
             }
         }
-
         //console.log('Loop is middle: ' + (lowerLoop && higherLoop));
         return lowerLoop && higherLoop;
-    };
-
-    this.computeStackedLoop = function() {
+    }
+    computeStackedLoop() {
         var loopStart = 0;
         var loopEnd = 0;
         var loopInitialized = false;
         var nLength = this.a_Loops.length;
-
         for (let i = 0; i < nLength; i++) {
             var theLoop = this.getLoopAt(i);
             if (theLoop.getChecked()) {
@@ -861,7 +760,6 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
                 }
             }
         }
-
         //console.log("New Loop calculated: " + loopStart + "," + loopEnd);
         if (this.validateLoop(loopStart, loopEnd)) {
             return new InstantLoop('Combined Loop', loopStart, loopEnd);
@@ -870,74 +768,73 @@ function ProPlayerLoopsList(nCollectionID, nListID, strListTitle) {
             return null;
             //this.theEngine.stopLooping();
         }
-    };
-
-    this.validateLoop = function(loopStart, loopEnd) {
+    }
+    validateLoop(loopStart, loopEnd) {
         var loopValid = true;
         if (loopStart < 0 || loopStart > loopEnd || loopEnd <= 0 || loopStart == loopEnd) {
             loopValid = false;
         }
-
         return loopValid;
-    };
+    }
 }
 
-function InstantLoop(strName, fStartTime, fStopTime) {
-    this.str_Name = strName;
-    this.f_StartTime = parseFloat(fStartTime);
-    this.f_EndTime = parseFloat(fStopTime);
-    this.b_Stackable = false;
-    this.b_Checked = false;
 
-    if (strName == '') {
-        this.str_Name = this.f_StartTime.toFixed(2) + ' - ' + this.f_EndTime.toFixed(2);
+class InstantLoop {
+    constructor(strName, fStartTime, fStopTime) {
+        this.str_Name = strName;
+        this.f_StartTime = parseFloat(fStartTime);
+        this.f_EndTime = parseFloat(fStopTime);
+        this.b_Stackable = false;
+        this.b_Checked = false;
+        if (strName == '') {
+            this.str_Name = this.f_StartTime.toFixed(2) + ' - ' + this.f_EndTime.toFixed(2);
+        }
     }
     //Setters
-    this.setLoopStart = function(fStartTime) {
+    setLoopStart(fStartTime) {
         this.f_StartTime = parseFloat(fStartTime);
-    };
-    this.setLoopEnd = function(fEndTime) {
+    }
+    setLoopEnd(fEndTime) {
         this.f_EndTime = parseFloat(fStopTime);
-    };
-    this.setStackable = function(bStackable) {
+    }
+    setStackable(bStackable) {
         this.b_Stackable = bStackable;
-    };
-    this.setChecked = function(bChecked) {
+    }
+    setChecked(bChecked) {
         this.b_Checked = bChecked;
-    };
-    this.setName = function(strName) {
+    }
+    setName(strName) {
         this.str_Name = strName;
-    };
-
+    }
     //Getters
-    this.getLoopStart = function() {
+    getLoopStart() {
         return this.f_StartTime;
-    };
-    this.getLoopEnd = function() {
+    }
+    getLoopEnd() {
         return this.f_EndTime;
-    };
-    this.getStackable = function() {
+    }
+    getStackable() {
         return this.b_Stackable;
-    };
-    this.getChecked = function() {
+    }
+    getChecked() {
         return this.b_Checked;
-    };
-    this.getName = function() {
+    }
+    getName() {
         return this.str_Name;
-    };
-
-    this.toggleChecked = function() {
+    }
+    toggleChecked() {
         let bWasChecked = this.b_Checked;
         this.b_Checked = !bWasChecked;
         return this.b_Checked;
-    };
-    this.validate = function() {
+    }
+    validate() {
         if (this.f_EndTime < this.f_StartTime + 0.1) {
             return false;
         }
         return true;
-    };
-    this.getDefaultName = function() {
+    }
+    getDefaultName() {
         return this.f_StartTime.toFixed(2) + ' - ' + this.f_EndTime.toFixed(2);
-    };
+    }
+
 }

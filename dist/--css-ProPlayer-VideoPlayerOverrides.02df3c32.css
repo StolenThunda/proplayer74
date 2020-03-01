@@ -1,0 +1,51 @@
+.mejs__controls 
+{
+	display: none !important;
+}
+.mejs__container, .mejs__inner, .mejs__overlay, video, .mejs__poster
+{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mejs__poster
+{
+  background-size: contain !important;
+}
+.mejs__container.audioPlayer
+{
+  background: url("https://cdn.texasbluesalley.com/styles/WaveformHuge.jpg") center center no-repeat !important;
+  background-size: contain !important;
+}
+
+
+
+
+#mediaPlayerWrapper.youtube .mejs__overlay.mejs__layer.mejs__overlay-play,
+#mediaPlayerWrapper.youtube #videoPlayer-iframe-overlay
+{
+  pointer-events: auto;
+}
+
+#mediaPlayerWrapper.youtube iframe#videoPlayer_youtube_iframe
+{
+  pointer-events: auto; 
+}
+
+#mediaPlayerWrapper.youtube.paused .mejs__overlay.mejs__layer.mejs__overlay-play,
+#mediaPlayerWrapper.youtube.paused #videoPlayer-iframe-overlay
+{
+  pointer-events: none;
+}
+
+
+#mediaPlayerWrapper.youtube.paused .mejs__overlay.mejs__layer.mejs__overlay-play
+{
+	display: none;
+}
+#mediaPlayerWrapper.youtube.paused iframe#videoPlayer_youtube_iframe
+{
+  pointer-events: all; 
+}
+
+/*# sourceMappingURL=/--css-ProPlayer-VideoPlayerOverrides.02df3c32.css.map */

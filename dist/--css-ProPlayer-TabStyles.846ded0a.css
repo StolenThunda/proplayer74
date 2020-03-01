@@ -1,0 +1,244 @@
+/*****************************************
+*************  Sidebar Tabs	 ************
+*****************************************/ 
+ul.tabs, 
+ul.tabs > li > a,
+ul.tabs > li > a:hover,
+ul.tabs > li.is-active > a,
+.tabs-content
+{
+	background: none;
+	border: none;
+	color: white;
+	padding: 0;
+	margin: 0;
+}
+
+ul.tabs
+{
+	float: none;
+	display: block;
+	list-style: none;
+	font-size: 0px;
+	border-bottom: 1px solid #555 !important;
+	z-index: 10;
+	width: 100%;
+}
+
+ul.tabs.centered
+{
+	text-align: center;
+}
+
+ul.tabs > li.tabs-title
+{
+	font-size: 1em;
+	line-height: 1em;
+	height: auto;
+	text-align: center;
+	float: none;
+	display: inline-block;
+}
+
+
+ul.tabs > li.tabs-title > a, 
+ul.tabs > li.tabs-title > a:hover
+{
+  padding: 0 1rem;
+  outline: none;
+  display: inline-block;
+  width: 100%;
+  line-height: 2.5em;
+  text-align: center;
+  font-size: .9rem;
+  background: #2c2c2c;
+  color: #00aaff;
+  margin: 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+ul.tabs > li.tabs-title > a:hover
+{
+	background: #444;
+	color: white;
+}
+ul.tabs li.tabs-title.is-active a,
+ul.tabs li.tabs-title.is-active a:hover
+{
+  color: white;
+  background: #555;
+}
+
+
+
+/********* Default Tabs Content **************/
+
+.tabs-content
+{
+	width: 100%;
+}
+
+/********** Narrow Tabs *************/
+ul.tabs.narrow > li.tabs-title > a
+{
+    padding-left: .75rem;
+    padding-right: .75rem;
+}
+
+
+
+/*******  Tabs *****************/
+ul.tabs.content-tabs > li.tabs-title > a,
+ul.tabs.content-tabs > li.tabs-title > a:hover
+{
+	font-family: Oswald, Open Sans, Sans-serif;
+	font-weight: 600;	 
+	font-size: .75rem;
+	letter-spacing: .02em;
+	line-height: 1em;
+	padding: 1em 1em;
+	margin: 0 .15em;
+	text-transform: uppercase;
+	outline: none;
+	position: relative;
+	border-radius: .5em .5em 0 0;
+	outline: none;
+	white-space: nowrap;	
+}
+ul.tabs.content-tabs > li.tabs-title:first-child > a
+{
+  margin-left: 0;
+}
+ul.tabs.content-tabs > li.tabs-title:last-child > a
+{
+  margin-right: 0;
+}
+
+
+/***** Sidebar Main Tabs *******/
+
+ul.tabs.sidebar-tabs
+{
+  position: absolute;
+  top: 0;	
+  background: #464646;
+}
+
+ul.tabs.sidebar-tabs li.tabs-title
+{
+	width: 20%;
+	display: none;
+}
+
+ul.tabs.sidebar-tabs li.tabs-title.enabled
+{
+	display: inline-block;
+}
+
+
+ul.tabs.sidebar-tabs > li > a, 
+ul.tabs.sidebar-tabs > li > a:hover
+{
+	padding: 0;
+	font-size: 1.1rem;
+	line-height: 2.5rem;
+	background: none;
+}
+
+
+.tabs-content.sidebar-tabs-content
+{
+  z-index: 8;
+  position: absolute;
+  top: 2.4rem;
+  bottom: 0;
+  overflow: auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+.tabs-content.sidebar-tabs-content .tabs-panel
+{
+  padding: 0 0 0 0;
+  border: none;
+}
+
+ul.tabs.sidebar-panel-tabs
+{
+}
+ul.tabs.sidebar-panel-tabs li.tabs-title
+{
+	width: 50%;
+}
+ul.tabs.sidebar-panel-tabs.triple li.tabs-title
+{
+	width: 33.333%;
+}
+ul.tabs.sidebar-panel-tabs li.tabs-title.is-active a
+{
+	background: #444;
+}
+
+ul.tabs.sidebar-panel-tabs > li.tabs-title > a,
+ul.tabs.sidebar-panel-tabs > li.tabs-title > a:hover
+{
+	line-height: 1em;
+	white-space: nowrap;
+	padding: 1em .25em;
+}
+
+
+/******* Short Tabs ***********/
+/*
+	ul.tabs.dark.short-tabs
+{
+}
+
+ul.tabs.dark.short-tabs > li > a
+{
+	font-family: inherit;
+	line-height: 1em;
+	white-space: nowrap;
+	padding: 1em 1em;
+	font-size: .85rem;
+	text-transform: none;
+	color: #0af;
+	font-weight: 600;	 
+}
+
+ul.tabs.dark.short-tabs > li.is-active > a
+{
+	color: white;
+	font-weight: 700;
+	background: #444;
+}
+
+
+ul.tabs.dark.video-tabs > li > a:before
+{
+	font-family: FontAwesome;
+	content: "\f16a";
+	display: inline-block;
+	font-size: 1.33em;
+	margin-right: .25em;
+	position: relative;
+	top: .12rem;
+	
+}
+ul.tabs.dark.video-tabs > li.is-active > a:before
+{
+	content: "\f16a";
+}
+
+
+ul.tabs.dark.lighter > li > a
+{
+	background: #363636;
+}
+
+*/
+
+/*# sourceMappingURL=/--css-ProPlayer-TabStyles.846ded0a.css.map */
