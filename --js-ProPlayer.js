@@ -1,36 +1,86 @@
 /*jslint this:true, white:true */
-function ProPlayer() {
-    'use strict';
-    this.gc_BranchPath = '/' + '{branch_path}';
-    this.theMobileDetect = new MobileDetect(window.navigator.userAgent);
-
-    // Top Level Objects
-    this.browserTool = new ProPlayerBrowser("contentBrowser");
-    this.favoritesManager = new ProPlayerFavoritesManager("favoritesList");
-    this.historyManager = new ProPlayerHistoryManager("historyList");
-    this.commentsManager = new ProPlayerCommentsManager("cmtList");
-    this.loopsManager = new ProPlayerLoopsManager();
-    this.userDataManager = new ProPlayerUserDataManager();
-    this.thePackage = new ProPlayerPackage();
-    this.theSegment = new ProPlayerSegment();
-    this.theEngine = null;
-    this.packageOverviewTemplate = '';
-    this.strFavoritesListWrapperID = "favoritesList";
-    this.strCommentsListWrapperID = "cmtList";
-    this.spinnerDiv = '<div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>';
-    this.bPackageDataLoadingStarted = false;
-    this.bPackageDataLoadingFinished = false;
-    this.bSegmentDataLoadingStarted = false;
-    this.bSegmentDataLoadingFinished = false;
-    this.b_LoadingFinished = false;
-    this.b_UpdateURL = false;
-    this.b_KeepSidebarOpen = false;
-    this.n_SidebarToggleTimerID = -1;
+/*jslint this:true, white:true */
+import {
+    ProPlayerBrowser
+} from "./--js-ProPlayerBrowser";
+import {
+    ProPlayerFavoritesManager
+} from "./--js-ProPlayerFavoritesManager";
+import {
+    ProPlayerHistoryManager
+} from "./--js-ProPlayerHistoryManager";
+import {
+    ProPlayerCommentsManager
+} from "./--js-ProPlayerCommentManager";
+import {
+    InstantLoop,
+    ProPlayerLoopsManager
+} from "./--js-ProPlayerLoopsManager";
+import {
+    ProPlayerUserDataManager
+} from "./--js-ProPlayerUserDataManager";
+import {
+    ProPlayerPackage
+} from "./--js-ProPlayerPackage";
+import {
+    ProPlayerSegment
+} from "./--js-ProPlayerSegment";
+import {
+    gc_BranchPath
+} from "./globals";
+export class ProPlayer {
+    constructor() {
+        'use strict'
+        this.theMobileDetect = new MobileDetect(window.navigator.userAgent);
+        // Top Level Objects
+        this.browserTool = new ProPlayerBrowser("contentBrowser")
+        this.favoritesManager = new ProPlayerFavoritesManager("favoritesList")
+        this.historyManager = new ProPlayerHistoryManager("historyList")
+        this.commentsManager = new ProPlayerCommentsManager("cmtList")
+        this.loopsManager = new ProPlayerLoopsManager
+        this.userDataManager = new ProPlayerUserDataManager()
+        this.thePackage = new ProPlayerPackage()
+        this.theSegment = new ProPlayerSegment()
+        this.theEngine = null
+        this.packageOverviewTemplate = ''
+        this.strFavoritesListWrapperID = "favoritesList"
+        this.strCommentsListWrapperID = "cmtList"
+        this.spinnerDiv = '<div class="spinner"><i class="fa fa-spinner fa-spin"></i></div>'
+        this.bPackageDataLoadingStarted = false
+        this.bPackageDataLoadingFinished = false
+        this.bSegmentDataLoadingStarted = false
+        this.bSegmentDataLoadingFinished = false
+        this.b_LoadingFinished = false
+        this.b_UpdateURL = false
+        this.b_KeepSidebarOpen = false
+        this.n_SidebarToggleTimerID = -1;
+        window.addEventListener('onpopstate', (event) => {
+            //console.log(event.state);
+            let theState = event.state;
+            //console.log("Popping state: " + JSON.stringify(theState));
+            if (theState !== null) {
+                if (theState.type === "facebook" && theState.segment1 === "facebook" && theState.segment2 !== "" && theState.segment3 !== "") {
+                    thePlayer.openExternalFBVideo(theState.segment2, theState.segment3, false);
+                } else if (theState.type === "youtube" && theState.segment1 === "youtube" && theState.segment2 !== "") {
+                    thePlayer.openExternalYouTubeVideo(theState.segment2, false);
+                } else if (theState.type === "package" && theState.segment1 !== "" && theState.segment2 === "") {
+                    thePlayer.openPackage(theState.segment1, false);
+                } else if (theState.type === "package" && theState.segment1 !== "" && theState.segment2 !== "") {
+                    if (theState.segment1 === thePlayer.thePackage.getEntryID()) {
+                        thePlayer.openSegmentWithinCurrentPackage(theState.segment2, false);
+                    } else {
+                        thePlayer.openPackageWithSegment(theState.segment1, theState.segment2, false);
+                    }
+                } else if (theState.type === "empty") {
+                    thePlayer.initializeWithoutPackage(false);
+                }
+            }
+        });
+    }
     /******************************/
     /* Interface callback functions */
     /******************************/
-
-    this.initializeWithoutPackage = function(bUpdateURL) {
+    initializeWithoutPackage(bUpdateURL) {
         this.resetEverything();
         this.mediaLoadDefaultPage();
         this.closeSidebar();
@@ -47,38 +97,34 @@ function ProPlayer() {
             this.updateURL();
         }
     };
-
     /******************************/
     /***    All Reset Functions **/
     /******************************/
-
-    this.resetEverything = function() {
+    resetEverything() {
         //first shut everything down and reset everything.
         this.toolsCloseToolWindow();
         this.resetPackage();
         this.resetSegment();
         this.resetLoadingFlags();
-    };
-
-    this.resetLoadingFlags = function() {
+    }
+    resetLoadingFlags() {
         this.bPackageDataLoadingFinished = false;
         this.bSegmentDataLoadingFinished = false;
         this.bPackageDataLoadingStarted = false;
         this.bSegmentDataLoadingStarted = false;
         this.b_LoadingFinished = false;
         this.b_UpdateURL = false;
-    };
-    this.resetPackageTitle = function() {
+    }
+    resetPackageTitle() {
         this.pushPackageTitle("TXBA Pro Player");
         $("#proPlayerWrapper").toggleClass("has-info", false);
-    };
-
-    this.resetPlayerTitle = function() {
+    }
+    resetPlayerTitle() {
         this.resetPackageTitle("TXBA Pro Player");
         this.pushSegmentTitle("No Media Loaded");
         $("#proPlayerWrapper").toggleClass("has-info", false);
     };
-    this.resetPackage = function() {
+    resetPackage() {
         this.thePackage.resetAll();
         this.resetPackageSections();
         this.resetPackageTitle();
@@ -86,81 +132,68 @@ function ProPlayer() {
         this.closeInfoPane();
         this.commentsManager.reset();
         this.favoritesManager.reset();
-    };
-
-    this.resetPackageSections = function() {
+    }
+    resetPackageSections() {
         //console.log('Deleting segments list');
         $('#sectionList').empty();
         $('#sectionListEmpty').toggle(true);
-    };
-
-    this.resetSegment = function() {
-        if (typeof this.theEngine != "undefined") {
+    }
+    resetSegment() {
+        if (this.theEngine !== null) {
             this.theEngine.prepareForDestruction();
             delete this.theEngine;
         }
-
         this.theSegment.resetAll();
         this.userDataManager.resetAll();
         $('#mediaWrapper').empty();
         this.resetSegmentChapters();
         this.resetSegmentLoops();
         this.resetSegmentTitle();
-    };
-    this.resetSegmentChapters = function() {
+    }
+    resetSegmentChapters() {
         $('#chapterList').empty();
         $('#chapterListEmpty').text("No segment loaded.");
         $('#chapterListEmpty').toggle(true);
-    };
-
-    this.resetSegmentLoops = function() {
+    }
+    resetSegmentLoops() {
         this.loopsManager.resetAll();
-    };
-    this.resetSegmentTitle = function() {
+    }
+    resetSegmentTitle() {
         this.pushSegmentTitle("&nbsp;");
-    };
-    this.resetSelectedSegment = function() {
+    }
+    resetSelectedSegment() {
         $('.sidebar-list-item.segment.active').toggleClass('active', false);
-    };
-
-    this.resetPackageOverview = function() {
+    }
+    resetPackageOverview() {
         $('#packageOverviewWrapper').toggle(false);
         $('#packageOverviewWrapper').appendTo('body');
-
-    };
-
-    this.bailOut = function() {
+    }
+    bailOut() {
         // When loading encounters an error, this is where it comes back to
         // We reset everything and go back to the homescreen.
         if (this.thePackage.getErrorMessage() !== "") {
             alert(this.thePackage.getErrorMessage());
         }
         this.initializeWithoutPackage();
-    };
-
-
+    }
     /******************************************/
     /*********   All Opening Functions  ********/
     /*******************************************/
-
-
-    this.openPackage = function(strPackageID, bUpdateURL) {
+    openPackage(strPackageID, bUpdateURL) {
         this.resetEverything();
         this.b_UpdateURL = bUpdateURL;
         this.openSectionsSidebar();
         this.beginFetchPackageData(strPackageID);
         this.waitForPackageData(strPackageID);
-    };
-
-    this.openPackageWithSegment = function(strPackageID, strSegmentID, bUpdateURL) {
+    }
+    openPackageWithSegment(strPackageID, strSegmentID, bUpdateURL) {
         this.resetEverything();
         this.b_UpdateURL = bUpdateURL;
         this.beginFetchPackageData(strPackageID);
         this.beginFetchSegmentData(strSegmentID);
         this.waitForPackageAndSegmentData();
-    };
-
-    this.openSegmentWithinCurrentPackage = function(strSegmentID, bUpdateURL) {
+    }
+    openSegmentWithinCurrentPackage(strSegmentID, bUpdateURL) {
         //console.log("Opening segment: " + strSegmentID);
         this.resetPackageOverview();
         this.closeInfoPane();
@@ -169,34 +202,28 @@ function ProPlayer() {
         this.b_UpdateURL = bUpdateURL;
         this.beginFetchSegmentData(strSegmentID);
         this.waitForSegmentData();
-    };
-
-    this.openExternalYouTubeVideo = function(strYTCode, bUpdateURL) {
+    }
+    openExternalYouTubeVideo(strYTCode, bUpdateURL) {
         this.resetEverything();
         this.b_UpdateURL = bUpdateURL;
         this.beginFetchYouTubeData(strYTCode);
         this.waitForYouTubeData();
-    };
-
-    this.openExternalFBVideo = function(strFBUserID, strFBVideoID, bUpdateURL) {
+    }
+    openExternalFBVideo(strFBUserID, strFBVideoID, bUpdateURL) {
         //console.log("Opening FB Video for User/ID: " + strFBUserID + "," + strFBVideoID);
         this.resetEverything();
         this.b_UpdateURL = bUpdateURL;
         this.beginFetchFacebookData(strFBUserID, strFBVideoID);
         this.waitForFacebookData();
-    };
-
-
-    this.openExternalInstagramVideo = function(strInstagramID, bUpdateURL) {
+    }
+    openExternalInstagramVideo(strInstagramID, bUpdateURL) {
         //console.log("Opening FB Video for User/ID: " + strFBUserID + "," + strFBVideoID);
         this.resetEverything();
         this.b_UpdateURL = bUpdateURL;
         this.beginFetchInstagramData(strInstagramID);
         this.waitForInstagramData();
-    };
-
-
-    this.openUnknownPackageType = function(packageOptions, bUpdateURL) {
+    }
+    openUnknownPackageType(packageOptions, bUpdateURL) {
         if (packageOptions.type == "entry") {
             this.openPackage(packageOptions.packageID, bUpdateURL);
         } else if (packageOptions.type == "youtube") {
@@ -204,35 +231,32 @@ function ProPlayer() {
         } else if (packageOptions.type == "facebook") {
             this.openExternalFBVideo(packageOptions.fbUserID, packageOptions.fbVideoID, bUpdateURL);
         }
-    };
-
-
-    this.openUnknownPackageFromSegments = function(strSegment1, strSegment2, strSegment3, bUpdateURL) {
-            if (strSegment1 === "") {
-                this.initializeWithoutPackage(bUpdateURL);
-            } else if (strSegment1 == "youtube") {
-                this.openExternalYouTubeVideo(strSegment2, bUpdateURL);
-                this.openSidebar();
-            } else if (strSegment1 == "facebook") {
-                this.openExternalFBVideo(strSegment2, strSegment3, bUpdateURL);
+    }
+    openUnknownPackageFromSegments(strSegment1, strSegment2, strSegment3, bUpdateURL) {
+        if (strSegment1 === "") {
+            this.initializeWithoutPackage(bUpdateURL);
+        } else if (strSegment1 == "youtube") {
+            this.openExternalYouTubeVideo(strSegment2, bUpdateURL);
+            this.openSidebar();
+        } else if (strSegment1 == "facebook") {
+            this.openExternalFBVideo(strSegment2, strSegment3, bUpdateURL);
+            this.openSidebar();
+        } else {
+            if (strSegment2 !== "") {
+                this.openPackageWithSegment(strSegment1, strSegment2, bUpdateURL);
                 this.openSidebar();
             } else {
-                if (strSegment2 !== "") {
-                    this.openPackageWithSegment(strSegment1, strSegment2, bUpdateURL);
-                    this.openSidebar();
-                } else {
-                    this.openPackage(strSegment1, bUpdateURL);
-                    this.openSidebar();
-                }
+                this.openPackage(strSegment1, bUpdateURL);
+                this.openSidebar();
             }
-
-        };
-        /*****************************************
-         *************   Begin Loading Functions  ************
-         *****************************************/
-    this.beginFetchPackageData = function(strPackageID) {
+        }
+    }
+    /*****************************************
+     *************   Begin Loading Functions  ************
+     *****************************************/
+    beginFetchPackageData(strPackageID) {
         this.bPackageDataLoadingStarted = true;
-        $.get(gc_BranchPath + '/--ajax-get-package-info/' + strPackageID, function(data) {
+        $.get(gc_BranchPath + '/--ajax-get-package-info/' + strPackageID, function (data) {
             let tempData = jQuery.parseJSON(data);
             if (tempData.packageError === "") {
                 thePlayer.thePackage.setEntryID(tempData.packageID);
@@ -253,15 +277,13 @@ function ProPlayer() {
                 thePlayer.thePackage.setErrorMessage(tempData.packageError);
             }
         });
-
-    };
-
-    this.beginFetchSegmentData = function(strSegmentID) {
+    }
+    beginFetchSegmentData(strSegmentID) {
         //console.log("Beginning Fetch of segment data.");
         this.showMediaLoading();
         this.pushSelectedSegmentState(strSegmentID);
         this.bSegmentDataLoadingStarted = true;
-        $.get(gc_BranchPath + '/--ajax-get-segment-info/' + strSegmentID, function(data) {
+        $.get(gc_BranchPath + '/--ajax-get-segment-info/' + strSegmentID, function (data) {
             //console.log("Finished loading segment info;");
             let tempData = jQuery.parseJSON(data);
             //console.log(tempData);
@@ -285,15 +307,13 @@ function ProPlayer() {
             thePlayer.theSegment.setUserLoopsEntryIDsFromString(tempData.userLoopEntryIDs);
             thePlayer.theSegment.setIsLoaded(true);
             thePlayer.theSegment.inferMediaType();
-
             thePlayer.bSegmentDataLoadingFinished = true;
         });
-    };
-
-    this.beginFetchYouTubeData = function(strYTCode) {
+    }
+    beginFetchYouTubeData(strYTCode) {
         //segment info must be reset prior to calling this function.
         this.showMediaLoading();
-        $.get(gc_BranchPath + '/--ajax-get-yt-info/' + strYTCode, function(data) {
+        $.get(gc_BranchPath + '/--ajax-get-yt-info/' + strYTCode, function (data) {
             //console.log("Finished loading YT Info:");
             let tempData = jQuery.parseJSON(data);
             //console.log(tempData);
@@ -306,9 +326,8 @@ function ProPlayer() {
             thePlayer.theSegment.setIsLoaded(true);
             thePlayer.bSegmentDataLoadingFinished = true;
         });
-    };
-
-    this.beginFetchFacebookData = function(strFBUser, strFBCode) {
+    }
+    beginFetchFacebookData(strFBUser, strFBCode) {
         //segment info must be reset prior to calling this function.
         this.showMediaLoading();
         this.theSegment.setFacebookUser(strFBUser);
@@ -318,10 +337,8 @@ function ProPlayer() {
         this.theSegment.setIsLoaded(true);
         thePlayer.theSegment.inferMediaType();
         this.bSegmentDataLoadingFinished = true;
-    };
-
-
-    this.beginFetchInstagramData = function(strInstgramID) {
+    }
+    beginFetchInstagramData(strInstgramID) {
         //segment info must be reset prior to calling this function.
         this.showMediaLoading();
         this.theSegment.setInstagramID(strInstgramID);
@@ -330,14 +347,11 @@ function ProPlayer() {
         this.theSegment.setIsLoaded(true);
         thePlayer.theSegment.inferMediaType();
         this.bSegmentDataLoadingFinished = true;
-    };
-
-
+    }
     /*****************************************
      *************   WAITING FUNCTIONS  ************
      *****************************************/
-
-    this.waitForPackageData = function() {
+    waitForPackageData() {
         if (this.bPackageDataLoadingFinished) {
             if (!this.thePackage.getErrorMessage()) {
                 this.processOnlyNewPackageData();
@@ -345,19 +359,21 @@ function ProPlayer() {
                 this.bailOut();
             }
         } else {
-            setTimeout(function() { thePlayer.waitForPackageData(); }, 250);
+            setTimeout(function () {
+                thePlayer.waitForPackageData();
+            }, 250);
         }
-    };
-
-    this.waitForSegmentData = function() {
+    }
+    waitForSegmentData() {
         if (this.bSegmentDataLoadingFinished) {
             this.processOnlyNewSegmentData();
         } else {
-            setTimeout(function() { thePlayer.waitForSegmentData(); }, 250);
+            setTimeout(function () {
+                thePlayer.waitForSegmentData();
+            }, 250);
         }
-
-    };
-    this.waitForPackageAndSegmentData = function() {
+    }
+    waitForPackageAndSegmentData() {
         if (this.bPackageDataLoadingFinished && this.bSegmentDataLoadingFinished) {
             if (!this.thePackage.getErrorMessage()) {
                 this.processBothNewPackageAndSegmentData();
@@ -365,48 +381,48 @@ function ProPlayer() {
                 this.bailOut();
             }
         } else {
-            setTimeout(function() { thePlayer.waitForPackageAndSegmentData(); }, 250);
+            setTimeout(function () {
+                thePlayer.waitForPackageAndSegmentData();
+            }, 250);
         }
-
-    };
-
-    this.waitForYouTubeData = function() {
+    }
+    waitForYouTubeData() {
         if (this.bSegmentDataLoadingFinished) {
             //console.log("YouTube Data Loaded.");
             this.processNewYouTubeData();
         } else {
-            setTimeout(function() { thePlayer.waitForYouTubeData(); }, 250);
+            setTimeout(function () {
+                thePlayer.waitForYouTubeData();
+            }, 250);
         }
-    };
-
-
-    this.waitForFacebookData = function() {
+    }
+    waitForFacebookData() {
         if (this.bSegmentDataLoadingFinished) {
             this.processNewFacebookData();
         } else {
-            setTimeout(function() { thePlayer.waitForFacebookData(); }, 250);
+            setTimeout(function () {
+                thePlayer.waitForFacebookData();
+            }, 250);
         }
-    };
-
-    this.waitForInstagramData = function() {
+    }
+    waitForInstagramData() {
         if (this.bSegmentDataLoadingFinished) {
             this.processNewInstagramData();
         } else {
-            setTimeout(function() { thePlayer.waitForInstagramData(); }, 250);
+            setTimeout(function () {
+                thePlayer.waitForInstagramData();
+            }, 250);
         }
-    };
-    this.cleanUpLoading = function() {
+    }
+    cleanUpLoading() {
         this.pushHomeButtonState();
         this.pushFullscreenButtonState();
-
         if (this.isIOS()) {
             $('body').toggleClass('is-ios', true);
         }
-
         if (this.isSafari()) {
             $('body').toggleClass('is-safari', true);
         }
-
         if (this.isChrome()) {
             $('body').toggleClass('is-chrome', true);
         }
@@ -414,16 +430,13 @@ function ProPlayer() {
         if (this.b_UpdateURL) {
             this.updateURL();
         }
-    };
-
-
+    }
     /*****************************************/
     /******  New Data Processing Functions ***/
     /*****************************************/
-    this.processOnlyNewPackageData = function() {
+    processOnlyNewPackageData() {
         // This function should only be called when ONLY a new package is being
         // loaded.
-
         //First, if this package has a default segment, begin opening that so the media
         //can load while we're doing the rest.
         if (this.thePackage.getDefaultSegmentEntryID() !== "") {
@@ -433,7 +446,6 @@ function ProPlayer() {
             this.pushInfoPaneData();
             this.pushPackageOverviewData();
         }
-
         this.pushPackageSectionList();
         this.pushPackageTitle();
         this.pushInfoPaneData();
@@ -442,7 +454,6 @@ function ProPlayer() {
         this.favoritesManager.setNewPackageID(this.thePackage.getEntryID());
         this.favoritesManager.reloadFavorites();
         this.commentsManager.reloadComments();
-
         this.openSectionsSidebar();
         this.openFirstSection();
         this.cleanUpLoading();
@@ -450,13 +461,10 @@ function ProPlayer() {
         this.updateLocalHistory();
         this.updateURL();
         this.reattachKeyboardEvents();
-
-    };
-
-    this.processOnlyNewSegmentData = function() {
+    }
+    processOnlyNewSegmentData() {
         //console.log("Processing New Segment Data");
         this.processOnlyNewSegmentMedia();
-
         this.pushSelectedSegmentState();
         this.pushSegmentChapters();
         this.extractSegmentLoops();
@@ -464,75 +472,59 @@ function ProPlayer() {
         this.pushSegmentDownloadsMenu();
         this.pushFullscreenButtonState();
         this.pushInfoPaneData();
-
         this.enableSidebarTabs();
         this.mobileSidebarCheck();
         this.updateLocalHistory();
         this.cleanUpLoading();
-
         this.commentsManager.setNewSegmentID(this.theSegment.getEntryID());
         this.commentsManager.reloadComments();
-
         if (this.theSegment.allowUserData()) {
             this.userDataManager.setNewSegmentID(this.theSegment.getEntryID());
             this.userDataManager.loadUserDataForm();
         }
-    };
-
-    this.processBothNewPackageAndSegmentData = function() {
+    }
+    processBothNewPackageAndSegmentData() {
         // This function should only be called when processing BOTH
         // a new Package AND a new embedded Segment at the same time.
-
         //First, start loading the media so that can process while we do the rest.
         this.processOnlyNewSegmentMedia();
-
         //Update interface elements related to Package.
         this.pushPackageSectionList();
         this.pushPackageTitle();
         this.pushInfoPaneData();
-
         //Deal with comments.
         this.commentsManager.setNewPackageID(this.thePackage.getEntryID());
         this.commentsManager.setNewSegmentID(this.theSegment.getEntryID());
         this.commentsManager.reloadComments();
-
         //this function is called after package data has been loaded
         this.favoritesManager.setNewPackageID(this.thePackage.getEntryID());
         this.favoritesManager.reloadFavorites();
-
         //Now open the Sidebar
         this.openSectionsSidebar();
         this.openFirstSection();
-
         //Now do the segment stuff that doesn't overlap with package stuff.
-
         this.pushSelectedSegmentState();
         this.pushSegmentChapters();
         this.extractSegmentLoops();
         this.pushSegmentTitle();
         this.pushSegmentDownloadsMenu();
         this.pushFullscreenButtonState();
-
         this.updateLocalHistory();
         if (this.theSegment.allowUserData()) {
             this.userDataManager.setNewSegmentID(this.theSegment.getEntryID());
             this.userDataManager.loadUserDataForm();
         }
-
         this.cleanUpLoading();
         this.enableSidebarTabs();
-    };
-
-    this.processNewYouTubeData = function() {
+    }
+    processNewYouTubeData() {
         //console.log("Processing new YouTube Data");
         if (this.theSegment.getYTMatchingEntryID() !== "") {
             var matchingSegmentID = this.theSegment.getYTMatchingEntryID();
-
             //We just need to open the matching segment as a package, because
             // in the package loading code, the segment will set itself as
             // the default segment, and the package loading code will trigger
             // a load when it finds that data.
-
             //console.log("Matching Entry found for new YouTube Video");
             this.openPackage(matchingSegmentID, true);
         } else {
@@ -541,24 +533,20 @@ function ProPlayer() {
             this.loadSaveYouTubeInterface();
             this.enableSidebarTabs();
         }
-    };
-    this.processNewFacebookData = function() {
+    }
+    processNewFacebookData() {
         //console.log("Processing new Facebook Data");
         this.processOnlyNewSegmentData();
         this.enableSidebarTabs();
-    };
-
-    this.processNewInstagramData = function() {
+    }
+    processNewInstagramData() {
         //console.log("Processing new Facebook Data");
         this.processOnlyNewSegmentData();
         this.enableSidebarTabs();
-    };
-
-    this.processOnlyNewSegmentMedia = function() {
-
+    }
+    processOnlyNewSegmentMedia() {
         this.resetPackageOverview();
         let mediaType = this.theSegment.getPrimaryMediaType();
-
         //console.log("Processing new Segment Media:" + mediaType);
         switch (mediaType) {
             case "vimeo":
@@ -589,33 +577,24 @@ function ProPlayer() {
                 this.mediaLoadHTML();
                 break;
         }
-    };
-
-
-    this.extractSegmentLoops = function() {
+    }
+    extractSegmentLoops() {
         //loops manager is assumed to be reset by this point.
         this.loopsManager.createNewCollection("loopList", "system", false);
         this.loopsManager.addListToCollectionFromArray(this.theSegment.getLoopsArray(), "system");
     };
-
-
-
-
-
     /******************************/
     /* Interface Update Functions */
     /*****************************
      */
-
-    this.pushHomeButtonState = function() {
+    pushHomeButtonState() {
         if (this.thePackage.isLoaded() || this.theSegment.isLoaded()) {
             $('#resetPlayerButton').toggle(true);
         } else {
             $('#resetPlayerButton').toggle(false);
         }
-    };
-
-    this.pushPackageSectionList = function() {
+    }
+    pushPackageSectionList() {
         //console.log('Updating sections');
         this.spinner('#sectionList');
         var sections = this.thePackage.getSections();
@@ -649,9 +628,7 @@ function ProPlayer() {
         if (bUseSections) {
             segmentListString += '</ul>';
         }
-
         $('#sectionList').html(segmentListString);
-
         if (bUseSections) {
             //console.log('Setting up Accordion for the first time');
             $('#segmentListAccordion').foundation();
@@ -662,9 +639,8 @@ function ProPlayer() {
         } else {
             $('#sectionListEmpty').toggle(false);
         }
-    };
-
-    this.pushPackageTitle = function(strTitleOverride) {
+    }
+    pushPackageTitle(strTitleOverride) {
         if (typeof strTitleOverride != "undefined") {
             $('.packageTitle').html(strTitleOverride);
         } else if (this.thePackage.isLoaded()) {
@@ -674,31 +650,24 @@ function ProPlayer() {
             $('.packageTitle').html("TXBA Pro Player");
             $("#proPlayerWrapper").toggleClass("has-info", false);
         }
-    };
-
-
-    this.pushPackageOverviewData = function() {
+    }
+    pushPackageOverviewData() {
         $('#packageTitle').html("<h1>" + this.thePackage.getTitle() + "</h1>");
         $('#packageImage').html("<img class='bordered' src='" + this.thePackage.getImageURL() + "'/>");
         $('#packageDescription').html(this.thePackage.getDescription());
         $('#packageOverview').html(this.thePackage.getOverview());
         $('#packageOverviewWrapper').appendTo('#mediaWrapper');
         $('#packageOverviewWrapper').toggle(true);
-
-    };
-
-    this.pushSegmentTitle = function(strTitle) {
+    }
+    pushSegmentTitle(strTitle) {
         if (typeof strTitle != "undefined") {
             $('.segmentTitle').html(strTitle);
         } else {
             $('.segmentTitle').html(this.theSegment.getFullDisplayName());
             $("#proPlayerWrapper").toggleClass("has-info", true);
         }
-    };
-
-
-
-    this.pushInfoPaneData = function() {
+    }
+    pushInfoPaneData() {
         $("#proPlayerWrapper").toggleClass("has-info", true);
         $('#info-package-name').html(this.thePackage.getTitle());
         $('#info-segment-name').html(this.theSegment.getFullDisplayName());
@@ -710,36 +679,27 @@ function ProPlayer() {
             $('#info-package-description').html("");
             $('#info-segment-overview').html(this.theSegment.getDescription());
         }
-    };
-    this.pushSelectedSegmentState = function(nForceSegment) {
+    }
+    pushSelectedSegmentState(nForceSegment) {
         this.resetSelectedSegment();
-
         if (!nForceSegment && !this.theSegment.isLoaded()) {
             return;
         }
-
         var newSegmentElementID = '#segment-item-';
         if (nForceSegment) {
             newSegmentElementID += nForceSegment;
         } else if (this.theSegment.isLoaded()) {
             newSegmentElementID += this.theSegment.getEntryID();
         }
-
         //console.log("Setting active segment ID: " + newSegmentElementID);
         $(newSegmentElementID).toggleClass('active', true);
-
         var parentElement = $(newSegmentElementID).closest('.accordion-content');
         var parentLink = $(newSegmentElementID).closest('.accordion-item');
         if (parentElement.length !== 0 && !$(parentLink).hasClass('is-active')) {
             $('#segmentListAccordion').foundation('toggle', parentElement);
         }
-    };
-
-
-
-
-
-    this.pushSegmentDownloadsMenu = function() {
+    }
+    pushSegmentDownloadsMenu() {
         $("#downloads-list").empty();
         if (this.theSegment.isLoaded() && this.theSegment.getMP3Filename() !== "") {
             $("#downloadsToggle").toggle(true);
@@ -751,10 +711,8 @@ function ProPlayer() {
         } else {
             $("#downloadsToggle").toggle(false);
         }
-
     }
-
-    this.pushFullscreenButtonState = function() {
+    pushFullscreenButtonState() {
         if (this.theSegment.isLoaded() &&
             (this.theSegment.getVimeoCode() !== "" ||
                 this.theSegment.getYouTubeCode() !== "" ||
@@ -764,9 +722,8 @@ function ProPlayer() {
         } else {
             $("#fullscreenButton").toggle(false);
         }
-    };
-
-    this.pushSegmentChapters = function() {
+    }
+    pushSegmentChapters() {
         if (!this.theSegment.isLoaded()) {
             $('#chapterListEmpty').text("No segment loaded.");
             $('#chapterListEmpty').toggle(true);
@@ -784,137 +741,107 @@ function ProPlayer() {
                 chapterItem += '</a></li>';
                 $('#chapterList').append(chapterItem);
             }
-
         }
-    };
-
-
-
-
-
-    this.getEngineLoop = function() {
+    }
+    getEngineLoop() {
         if (typeof this.theEngine !== "undefined" && this.theEngine.getLoopDefined()) {
             return new InstantLoop("", this.theEngine.getLoopStart(), this.theEngine.getLoopEnd());
         } else {
             return null;
         }
-    };
+    }
     /*****************************************
      ********  Media Loading Functions	******
      *****************************************/
-    this.mediaLoadDefaultPage = function() {
+    mediaLoadDefaultPage() {
         $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-default-page');
-
-    };
-    this.mediaLoadVimeo = function(nVimeoID) {
-        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/vimeo/' + nVimeoID, function() {
+    }
+    mediaLoadVimeo(nVimeoID) {
+        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/vimeo/' + nVimeoID, function () {
             thePlayer.reattachKeyboardEvents();
         });
-    };
-    this.mediaLoadYouTube = function(strYouTubeCode) {
+    }
+    mediaLoadYouTube(strYouTubeCode) {
         this.showMediaLoading();
-        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/youtube/' + strYouTubeCode, function() {
+        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/youtube/' + strYouTubeCode, function () {
             thePlayer.reattachKeyboardEvents();
         });
-
-    };
-
-    this.mediaLoadFacebook = function(strFacebookUser, strFacebookCode) {
+    }
+    mediaLoadFacebook(strFacebookUser, strFacebookCode) {
         //console.log("About to load FB video for user/id: " + strFacebookUser + "," + strFacebookCode);
         this.showMediaLoading();
-        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/facebook/' + strFacebookUser + '/' + strFacebookCode, function() {
+        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/facebook/' + strFacebookUser + '/' + strFacebookCode, function () {
             thePlayer.reattachKeyboardEvents();
         });
-
-    };
-
-    this.mediaLoadInstagram = function(strInstagramID) {
+    }
+    mediaLoadInstagram(strInstagramID) {
         //console.log("About to load FB video for user/id: " + strFacebookUser + "," + strFacebookCode);
         this.showMediaLoading();
-        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/instagram/' + strInstagramID, function() {
+        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/instagram/' + strInstagramID, function () {
             thePlayer.reattachKeyboardEvents();
         });
-
-    };
-
-    this.mediaLoadMP3 = function(strMP3Filename) {
-        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/audio/' + strMP3Filename, function() {
+    }
+    mediaLoadMP3(strMP3Filename) {
+        $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-media/audio/' + strMP3Filename, function () {
             thePlayer.reattachKeyboardEvents();
         });
-
-    };
-    this.mediaLoadSoundSlice = function(strSoundSliceCode) {
+    }
+    mediaLoadSoundSlice(strSoundSliceCode) {
         $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-soundslice/' + strSoundSliceCode);
     }
-    this.mediaLoadPDFViewer = function(strPDFFilename) {
+    mediaLoadPDFViewer(strPDFFilename) {
         //console.log('Trying to load ' + strPDFFilename );
         $('#mediaWrapper').load(gc_BranchPath + '/--ajax-load-pdf/' + strPDFFilename);
-    };
-
-    this.mediaLoadURL = function(theURL) {
+    }
+    mediaLoadURL(theURL) {
         var contentString = "<iframe id='content-frame' src='";
         contentString += decodeURIComponent(theURL) + "' frameBorder='0'></iframe>";
         $('#mediaWrapper').html(contentString);
-    };
-
-    this.mediaLoadHTML = function() {
+    }
+    mediaLoadHTML() {
         var contentString = "<div class='media-content-wrapper'>";
         contentString += this.theSegment.getHTMLContent();
         contentString += "</div>";
         $('#mediaWrapper').html(contentString);
-    };
-
-
-    this.triggerSaveUserData = function() {
+    }
+    triggerSaveUserData() {
         this.loopsManager.savingUserData();
         this.userDataManager.saveUserData();
-    };
-
-
+    }
     /**********************************/
     /*** Chapter And Loop Related Functions ***/
     /**********************************/
-
-    this.chapterSelected = function(sender, nChapterIndex) {
+    chapterSelected(sender, nChapterIndex) {
         var theChapter = this.theSegment.getChaptersArray()[nChapterIndex];
         //console.log('Chapter Selected: ' + nChapterIndex);
         //console.log( this.theSegment.chapters[ nChapterIndex] );
-
         //console.log( "Calling engine gotoChapter" );
         this.loopsManager.clearAllActiveLoops();
-
-
         var chapterParentItemID = '#chapterItem-' + nChapterIndex;
         $(chapterParentItemID).toggleClass('active', true);
-
         this.theEngine.goToChapter(theChapter[1]);
-        window.setTimeout(function() {
+        window.setTimeout(function () {
             $(".sidebar-list-item.chapter.active").toggleClass('active', false);
         }, 200);
-    };
-
-
-
-    this.engineLoopHasChanged = function() {
+    }
+    engineLoopHasChanged() {
         this.loopsManager.pushUserLoopInterfaceState();
-    };
+    }
     /*****************************************
      *************	Tool Window Functions ************
      *****************************************/
-
-    this.toolsShowBrowser = function() {
+    toolsShowBrowser() {
         this.closeInfoPane();
         //console.log('Opening Browser');
         if (typeof this.theEngine !== "undefined") {
             this.theEngine.stopPlayback();
         }
-
         if (thePlayer.browserTool.b_BrowserLoaded === true) {
             $('#browser-wrapper').appendTo('#toolWindowInnerWrapper');
             $('#browser-wrapper').toggle(true);
             this.browserTool.reloadResultsFavoritesForms();
         } else {
-            $('#toolWindowInnerWrapper').load(gc_BranchPath + '/--ajax-browser', function() {
+            $('#toolWindowInnerWrapper').load(gc_BranchPath + '/--ajax-browser', function () {
                 thePlayer.browserTool.b_BrowserLoaded = true;
                 thePlayer.browserTool.browserReset();
             });
@@ -922,49 +849,41 @@ function ProPlayer() {
         $('#toolWindowTitle').text('Browser');
         $('#toolWindowOuterWrapper').data('tool', 'browser');
         $('#toolWindowOuterWrapper').toggle(true);
-    };
-
-    this.toolsShowTuner = function() {
+    }
+    toolsShowTuner() {
         this.closeInfoPane();
         if (typeof this.theEngine !== "undefined") {
             this.theEngine.stopPlayback();
         }
-
         var contentString = "<iframe src='/dev/tuner'></iframe>";
         $('#toolWindowInnerWrapper').html(contentString);
         $('#toolWindowTitle').text('Tuner');
         $('#toolWindowOuterWrapper').data('tool', 'tuner');
         $('#toolWindowOuterWrapper').toggle(true);
-    };
-
-    this.toolsShowSpiderTool = function() {
+    }
+    toolsShowSpiderTool() {
         this.closeInfoPane();
         if (typeof this.theEngine !== "undefined") {
             this.theEngine.stopPlayback();
         }
-
         var contentString = "<iframe src='/dev/spider'></iframe>";
         $('#toolWindowInnerWrapper').html(contentString);
         $('#toolWindowTitle').text('Spider Drills Tool');
         $('#toolWindowOuterWrapper').data('tool', 'spider');
         $('#toolWindowOuterWrapper').toggle(true);
-    };
-
-    this.toolsShowFretboardTool = function() {
+    }
+    toolsShowFretboardTool() {
         this.closeInfoPane();
         if (typeof this.theEngine !== "undefined") {
             this.theEngine.stopPlayback();
         }
-
         var contentString = "<iframe src='/dev/fretboard'></iframe>";
         $('#toolWindowInnerWrapper').html(contentString);
         $('#toolWindowTitle').text('Fretboard Tool');
         $('#toolWindowOuterWrapper').data('tool', 'fretboard');
-
         $('#toolWindowOuterWrapper').toggle(true);
-    };
-
-    this.toolsCloseToolWindow = function() {
+    }
+    toolsCloseToolWindow() {
         $('#toolWindowOuterWrapper').toggle(false);
         if ($('#toolWindowOuterWrapper').data('tool') == "browser") {
             $('#browser-wrapper').toggle(false);
@@ -973,27 +892,33 @@ function ProPlayer() {
         }
         $('#toolWindowInnerWrapper').empty();
         $('#toolWindowTitle').text('');
-
-    };
-
-
+    }
     /**********************************/
     /*** From here on down, it's a mishmosh of functions ***/
     /**********************************/
-
-
-    this.getSegmentClass = function(theSegment) {
-        if (theSegment.segmentVimeoCode !== '' || theSegment.segmentYouTubeCode !== '') { return "video"; } else if (theSegment.segmentMP3Filename !== '') { return "audio"; } else if (theSegment.segmentSoundSliceCode !== '') { return "tablature"; } else if (theSegment.segmentPDFCode !== '') { return "pdf"; } else if (theSegment.segmentURL !== '') { return "url"; } else if (theSegment.segmentGPXFilename !== '') { return "gpx"; } else { return "html"; }
+    getSegmentClass(theSegment) {
+        if (theSegment.segmentVimeoCode !== '' || theSegment.segmentYouTubeCode !== '') {
+            return "video";
+        } else if (theSegment.segmentMP3Filename !== '') {
+            return "audio";
+        } else if (theSegment.segmentSoundSliceCode !== '') {
+            return "tablature";
+        } else if (theSegment.segmentPDFCode !== '') {
+            return "pdf";
+        } else if (theSegment.segmentURL !== '') {
+            return "url";
+        } else if (theSegment.segmentGPXFilename !== '') {
+            return "gpx";
+        } else {
+            return "html";
+        }
     }
-
-
     /*****************************************
      ********* Window Related Stuff	   ************
      *****************************************/
-    this.toggleSidebar = function() {
+    toggleSidebar() {
         clearTimeout(this.n_SidebarToggleTimerID);
         $('#proPlayerWrapper').toggleClass("sidebar-closed");
-
         if ($('#proPlayerWrapper').hasClass('sidebar-closed')) {
             //in all cases, if (after toggling) the sidebar is closed
             //we turn off the keep sidebar open flag so that the side hover
@@ -1001,10 +926,8 @@ function ProPlayer() {
             this.b_KeepSidebarOpen = false;
             $('#proPlayerWrapper').toggleClass('sidebar-sticky', false);
         }
-
-    };
-
-    this.toggleSidebarButtonCallback = function() {
+    }
+    toggleSidebarButtonCallback() {
         if ($('#proPlayerWrapper').hasClass('sidebar-closed')) {
             //BEFORE toggling, if the sidebar is close, we enable the
             //keep open flag so that hovinger will be disabled. We only
@@ -1013,85 +936,70 @@ function ProPlayer() {
             $('#proPlayerWrapper').toggleClass('sidebar-sticky', true);
         }
         this.toggleSidebar();
-
-    };
-    this.openSidebar = function() {
+    }
+    openSidebar() {
         $('#proPlayerWrapper').toggleClass("sidebar-closed", false);
-    };
-
-    this.closeSidebar = function() {
+    }
+    closeSidebar() {
         $('#proPlayerWrapper').toggleClass("sidebar-closed", true);
-    };
-
-    this.enableSidebarTabs = function() {
+    }
+    enableSidebarTabs() {
         //console.log("Enabling sidebar tabs");
         $('#sectionsTab').toggleClass('enabled', this.thePackage.isLoaded());
         $('#chaptersTab').toggleClass('enabled', this.theSegment.allowChapters());
         $('#loopsTab').toggleClass('enabled', this.theSegment.allowLoops());
         $('#commentsTab').toggleClass('enabled', this.thePackage.isLoaded());
         $("#importTab").toggleClass('enabled', this.theSegment.allowImport());
-
         $('#sidebarPanelTabs li.enabled:first a').trigger('click');
-    };
-    this.toggleKeyboardShortcuts = function() {
+    }
+    toggleKeyboardShortcuts() {
         $("#keyboardShortcuts").toggle();
         $("#keyboardShortcutsButton").toggleClass('active');
-    };
-
-    this.openFirstSection = function() {
+    }
+    openFirstSection() {
         var sectionAccordionItems = $('#segmentListAccordion .accordion-content');
         if (typeof sectionAccordionItems !== "undefined" && sectionAccordionItems.length > 0) {
             $('#segmentListAccordion').foundation('toggle', $(sectionAccordionItems[0]));
         }
-    };
-
-    this.openSectionsSidebar = function() {
+    }
+    openSectionsSidebar() {
         this.openSidebar();
         $('#sidebarPanelTabs').foundation('selectTab', 'segmentsPanel');
-    };
-
-    this.openChaptersSidebar = function() {
+    }
+    openChaptersSidebar() {
         this.openSidebar();
         $('#sidebarPanelTabs').foundation('selectTab', 'chaptersPanel');
-    };
-
-    this.openLoopsSidebar = function() {
+    }
+    openLoopsSidebar() {
         this.openSidebar();
         $('#sidebarPanelTabs').foundation('selectTab', 'loopsPanel');
-    };
-
-    this.showLoopsSidebarList = function(nListIndex) {
+    }
+    showLoopsSidebarList(nListIndex) {
         this.openLoopsSidebar();
         let listTab = $('#loopListsTabsContent').children('.tabs-panel')[nListIndex];
         let tabID = $(listTab).attr('id');
         $('#loopsPanelTabs').foundation('selectTab', tabID);
-    };
-    this.openFavoritesSidebar = function() {
+    }
+    openFavoritesSidebar() {
         this.openSidebar();
         $('#sidebarPanelTabs').foundation('selectTab', 'favoritesPanel');
-    };
-
-
-    this.openCommentsSidebar = function() {
+    }
+    openCommentsSidebar() {
         this.openSidebar();
         $('#sidebarPanelTabs').foundation('selectTab', 'commentsPanel');
-    };
-
-    this.mobileSidebarCheck = function() {
+    }
+    mobileSidebarCheck() {
         if (!Foundation.MediaQuery.atLeast('large')) {
             this.toggleSidebar();
         }
-    };
-    this.updateURL = function() {
+    }
+    updateURL() {
         let theURL = "/watch/";
         let theState = {};
         let theTitle = "";
-
         let currentState = history.state;
         let bPushNewState = true;
-
         //First, check if we're pushing the same state that we already have loaded.
-
         //console.log("Checking: " + JSON.stringify(currentState));
         if (currentState !== null) {
             if (currentState.type == "package" &&
@@ -1112,7 +1020,6 @@ function ProPlayer() {
                 bPushNewState = false;
             }
         }
-
         if (bPushNewState) {
             if (this.thePackage.isLoaded()) {
                 theState.type = "package";
@@ -1141,7 +1048,6 @@ function ProPlayer() {
                     theState.segment2 = this.theSegment.getFacebookUser();
                     theState.segment3 = this.theSegment.getFacebookVideoCode();
                     theTitle = "Facebook Video";
-
                     theURL += theState.segment1 + "/" + theState.segment2 + "/" + theState.segment3;
                 }
             } else {
@@ -1151,43 +1057,18 @@ function ProPlayer() {
                 theState.type = "empty";
                 theTitle = "TXBA Pro Player";
             }
-
             //console.log("Pushing: " + JSON.stringify(theState));
             //console.log("Title is: " + theTitle);
             history.pushState(theState, theTitle, theURL);
         }
     }
 
-    window.onpopstate = function(event) {
-        //console.log(event.state);
-        let theState = event.state;
-        //console.log("Popping state: " + JSON.stringify(theState));
-        if (theState !== null) {
-            if (theState.type === "facebook" && theState.segment1 === "facebook" && theState.segment2 !== "" && theState.segment3 !== "") {
-                thePlayer.openExternalFBVideo(theState.segment2, theState.segment3, false)
-            } else if (theState.type === "youtube" && theState.segment1 === "youtube" && theState.segment2 !== "") {
-                thePlayer.openExternalYouTubeVideo(theState.segment2, false);
-            } else if (theState.type === "package" && theState.segment1 !== "" && theState.segment2 === "") {
-                thePlayer.openPackage(theState.segment1, false);
-            } else if (theState.type === "package" && theState.segment1 !== "" && theState.segment2 !== "") {
-                if (theState.segment1 === thePlayer.thePackage.getEntryID()) {
-                    thePlayer.openSegmentWithinCurrentPackage(theState.segment2, false);
-                } else {
-                    thePlayer.openPackageWithSegment(theState.segment1, theState.segment2, false);
-                }
-            } else if (theState.type === "empty") {
-                thePlayer.initializeWithoutPackage(false);
-            }
-        }
-    };
-
-    this.setupMobileiOS = function() {
-
+    setupMobileiOS() {
         if (isIOS()) {
             var viewportmeta = document.querySelector('meta[name="viewport"]');
             if (viewportmeta) {
                 viewportmeta.content = 'width=device-width, minimum-scale=1.0, maximum-scale=1.0';
-                document.body.addEventListener('gesturestart', function() {
+                document.body.addEventListener('gesturestart', function () {
                     viewportmeta.content = 'width=device-width, minimum-scale=.6, maximum-scale=1.6';
                 }, false);
             }
@@ -1195,40 +1076,30 @@ function ProPlayer() {
         if (isIPhone()) {
             $('.not-on-iPhones').toggle(false);
         }
-
     }
-
-
-
-
-    this.isIOS = function() {
+    isIOS() {
         return (this.theMobileDetect.is('iphone') || this.theMobileDetect.is('ipad') || this.theMobileDetect.is('ipod'));
-    };
-
-    this.isIPhone = function() {
+    }
+    isIPhone() {
         return (this.theMobileDetect.is('iphone') || this.theMobileDetect.is('ipod'));
-    };
-
-    this.isIE = function() {
+    }
+    isIE() {
         strUserAgent = window.navigator.userAgent;
         return ((strUserAgent.search('Trident') > -1) || (strUserAgent.search('Edge') > -1));
-    };
-
-    this.isSafari = function() {
+    }
+    isSafari() {
         strUserAgent = window.navigator.userAgent;
         return ((strUserAgent.search('Safari') > -1) && (strUserAgent.search('Chrome') == -1));
-    };
-
-    this.isChrome = function() {
+    }
+    isChrome() {
         strUserAgent = window.navigator.userAgent;
         return (strUserAgent.search('Chrome') > -1);
-    };
-    this.isWindows10 = function() {
+    }
+    isWindows10() {
         strUserAgent = window.navigator.userAgent;
         return (strUserAgent.search('Windows NT 10') > -1);
-    };
-
-    this.getChannelTypeString = function(strChannelShortName) {
+    }
+    getChannelTypeString(strChannelShortName) {
         var strType = 'Item';
         switch (strChannelShortName) {
             case 'pro_player_packages':
@@ -1247,128 +1118,150 @@ function ProPlayer() {
                 break;
         }
         return strType;
-    };
-
-    this.fullscreenToggle = function() {
+    }
+    fullscreenToggle() {
         if (typeof this.theEngine !== "undefined") {
             this.theEngine.MediaPlayer.enterFullScreen();
         } else if (this.theSegment.getPrimaryMediaType() === "soundslice") {
             $('iframe#ssembed')[0].requestFullscreen();
         }
-    };
-
-    this.spinner = function(elementID) {
+    }
+    spinner(elementID) {
         //console.log('Activating spinner on ' + elementID);
         var strSpinner = "<div id='spinner'><i class='fa fa-spinner fa-spin fa-2x'></i></div>";
         $(elementID).html(strSpinner);
-    };
-
-    this.closeBrowserRequested = function() {
+    }
+    closeBrowserRequested() {
         this.toolsCloseToolWindow();
         this.favoritesManager.fullRefresh();
-    };
-
-
-    this.updateLocalHistory = function() {
-
+    }
+    updateLocalHistory() {
         if (this.thePackage.isLoaded() && this.theSegment.isLoaded() && this.theSegment.getSegmentType() !== "other") {
             //console.log('Updating history');
-            this.historyManager.addHistoryItem(this.thePackage.getEntryID(), this.theSegment.getEntryID(),
-                this.thePackage.getTitle(), this.thePackage.getChannelName(),
-                this.theSegment.getFullDisplayName(), 'entry');
+            this.historyManager.addHistoryItem(this.thePackage.getEntryID(), this.theSegment.getEntryID(), this.thePackage.getTitle(), this.thePackage.getChannelName(), this.theSegment.getFullDisplayName(), 'entry');
         }
-    };
-
-
-    this.toggleInfoPane = function() {
+    }
+    toggleInfoPane() {
         if (this.theSegment.isLoaded() || this.thePackage.isLoaded()) {
             $('#infoPane').slideToggle();
         }
-
-    };
-    this.showInfoPane = function() {
+    }
+    showInfoPane() {
         if (this.theSegment.isLoaded() || this.thePackage.isLoaded()) {
             $('#infoPane').toggle(true);
         }
-    };
-
-    this.closeInfoPane = function() {
+    }
+    closeInfoPane() {
         $('#infoPane').toggle(false);
-    };
-    this.showMediaLoading = function() {
+    }
+    showMediaLoading() {
         this.resetPackageOverview();
         $('#mediaWrapper').html(this.spinnerDiv);
-    };
-
-    this.triggerNextLoop = function() {
+    }
+    triggerNextLoop() {
         let listIndex = this.loopsManager.activateNextLoop();
-
         if (listIndex > -1 && this.isSidebarOpen()) {
             this.showLoopsSidebarList(listIndex);
         }
-    };
-
-    this.triggerPreviousLoop = function() {
+    }
+    triggerPreviousLoop() {
         let listIndex = this.loopsManager.activatePreviousLoop();
         if (listIndex > -1 && this.isSidebarOpen()) {
             this.showLoopsSidebarList(listIndex);
         }
-    };
-
-    this.isSidebarOpen = function() {
+    }
+    isSidebarOpen() {
         return !$("#proPlayerWrapper").hasClass('sidebar-closed');
-    };
-
-    this.reattachKeyboardEvents = function() {
+    }
+    reattachKeyboardEvents() {
         //console.log('Reattaching Mouse Events');
-        Mousetrap.bind('s', function() { thePlayer.toggleSidebar(); });
-
+        Mousetrap.bind('s', function () {
+            thePlayer.toggleSidebar();
+        });
         if (this.thePackage.isLoaded()) {
-            Mousetrap.bind('1', function() { thePlayer.openSectionsSidebar(); });
-            Mousetrap.bind('5', function() { thePlayer.openCommentsSidebar(); });
+            Mousetrap.bind('1', function () {
+                thePlayer.openSectionsSidebar();
+            });
+            Mousetrap.bind('5', function () {
+                thePlayer.openCommentsSidebar();
+            });
         }
-
         if (this.theSegment.allowChapters()) {
-            Mousetrap.bind('2', function() { thePlayer.openChaptersSidebar(); });
+            Mousetrap.bind('2', function () {
+                thePlayer.openChaptersSidebar();
+            });
         }
         if (this.theSegment.allowLoops()) {
-            Mousetrap.bind('3', function() { thePlayer.openLoopsSidebar(); });
-            Mousetrap.bind('j', function() { thePlayer.triggerNextLoop(); });
-            Mousetrap.bind('k', function() { thePlayer.triggerPreviousLoop(); });
+            Mousetrap.bind('3', function () {
+                thePlayer.openLoopsSidebar();
+            });
+            Mousetrap.bind('j', function () {
+                thePlayer.triggerNextLoop();
+            });
+            Mousetrap.bind('k', function () {
+                thePlayer.triggerPreviousLoop();
+            });
         }
-
-        Mousetrap.bind('4', function() { thePlayer.openFavoritesSidebar(); });
-        Mousetrap.bind('?', function() { thePlayer.toggleKeyboardShortcuts(); });
-
-
+        Mousetrap.bind('4', function () {
+            thePlayer.openFavoritesSidebar();
+        });
+        Mousetrap.bind('?', function () {
+            thePlayer.toggleKeyboardShortcuts();
+        });
         if (typeof this.theEngine !== "undefined") {
-            Mousetrap.bind('space', function() { thePlayer.theEngine.onButtonTogglePlayback(); });
-            Mousetrap.bind('right', function() { thePlayer.theEngine.onButtonPlaybackForward1(); });
-            Mousetrap.bind('left', function() { thePlayer.theEngine.onButtonPlaybackRewind1(); });
-            Mousetrap.bind('alt+right', function() { thePlayer.theEngine.onButtonPlaybackForward5(); });
-            Mousetrap.bind('alt+left', function() { thePlayer.theEngine.onButtonPlaybackRewind5(); });
-
-            Mousetrap.bind('i', function() { thePlayer.theEngine.onButtonRestartLoop(); });
-
-            Mousetrap.bind('shift+right', function() { thePlayer.theEngine.onButtonPlaybackForwardPoint5(); });
-            Mousetrap.bind('shift+left', function() { thePlayer.theEngine.onButtonPlaybackRewindPoint5(); });
-
-            Mousetrap.bind('shift+up', function() { thePlayer.theEngine.onButtonPlaybackRestart(); });
-            Mousetrap.bind('a', function() { thePlayer.theEngine.onButtonSetLoopStart(); });
-            Mousetrap.bind('b', function() { thePlayer.theEngine.onButtonSetLoopEnd(); });
-            Mousetrap.bind('l', function() { thePlayer.theEngine.onButtonToggleLooping(); });
-            Mousetrap.bind('s+up', function() { thePlayer.theEngine.increasePlaybackRate(); });
-            Mousetrap.bind('s+down', function() { thePlayer.theEngine.decreasePlaybackRate(); });
-            Mousetrap.bind('z', function() { thePlayer.theEngine.toggleZoomEnabled(); });
-            Mousetrap.bind('/', function() { thePlayer.theEngine.toggleVideoControls(); });
-            $("#playback-play").keydown(function(event) {
+            Mousetrap.bind('space', function () {
+                thePlayer.theEngine.onButtonTogglePlayback();
+            });
+            Mousetrap.bind('right', function () {
+                thePlayer.theEngine.onButtonPlaybackForward1();
+            });
+            Mousetrap.bind('left', function () {
+                thePlayer.theEngine.onButtonPlaybackRewind1();
+            });
+            Mousetrap.bind('alt+right', function () {
+                thePlayer.theEngine.onButtonPlaybackForward5();
+            });
+            Mousetrap.bind('alt+left', function () {
+                thePlayer.theEngine.onButtonPlaybackRewind5();
+            });
+            Mousetrap.bind('i', function () {
+                thePlayer.theEngine.onButtonRestartLoop();
+            });
+            Mousetrap.bind('shift+right', function () {
+                thePlayer.theEngine.onButtonPlaybackForwardPoint5();
+            });
+            Mousetrap.bind('shift+left', function () {
+                thePlayer.theEngine.onButtonPlaybackRewindPoint5();
+            });
+            Mousetrap.bind('shift+up', function () {
+                thePlayer.theEngine.onButtonPlaybackRestart();
+            });
+            Mousetrap.bind('a', function () {
+                thePlayer.theEngine.onButtonSetLoopStart();
+            });
+            Mousetrap.bind('b', function () {
+                thePlayer.theEngine.onButtonSetLoopEnd();
+            });
+            Mousetrap.bind('l', function () {
+                thePlayer.theEngine.onButtonToggleLooping();
+            });
+            Mousetrap.bind('s+up', function () {
+                thePlayer.theEngine.increasePlaybackRate();
+            });
+            Mousetrap.bind('s+down', function () {
+                thePlayer.theEngine.decreasePlaybackRate();
+            });
+            Mousetrap.bind('z', function () {
+                thePlayer.theEngine.toggleZoomEnabled();
+            });
+            Mousetrap.bind('/', function () {
+                thePlayer.theEngine.toggleVideoControls();
+            });
+            $("#playback-play").keydown(function (event) {
                 event.preventDefault();
             });
         }
-
-
-        $("body").keydown(function(event) {
-
+        $("body").keydown(function (event) {
             //console.log('Body received key: ' + event.which);
             //console.log(event);
             if (event.which === 32 && (event.target.nodeName === "BODY" || event.target.nodeName === "A")) {
@@ -1376,67 +1269,54 @@ function ProPlayer() {
             }
         });
     }
-
-    this.convertOldCookies = function() {
+    convertOldCookies() {
         //Resolution
         var savedResolution = Cookies.get('resolution');
         if (typeof savedResolution != "undefined") {
             localStorage.setItem('proPlayerResolution', savedResolution);
             Cookies.remove('resolution');
         }
-
         var savedVolume = Cookies.get('volume');
         if (typeof savedVolume != "undefined") {
             localStorage.setItem('proPlayerVolume', savedVolume);
             Cookies.remove('volume');
         }
-
         var savedFlip = Cookies.get('playerFlipped');
         if (typeof savedFlip != "undefined") {
             localStorage.setItem('proPlayerFlipped', savedFlip);
             Cookies.remove('playerFlipped');
         }
-
-
         var savedHistory = Cookies.getJSON('proPlayerHistory');
         if (typeof savedHistory != "undefined") {
             localStorage.setItem('proPlayerHistory', JSON.stringify(savedHistory));
             Cookies.remove('proPlayerHistory');
         }
-
         Cookies.remove('packageResumeItems');
         Cookies.remove('savedResumeItems');
         Cookies.remove('recentlyViewed');
         Cookies.remove('savedPlaybackPositions');
-
-    };
-
-    this.showPlayerError = function() {
+    }
+    showPlayerError() {
         //console.log("Player Error");
-    };
-
-
+    }
     /*****************************************
      *************   External Video Code  ************
      *****************************************/
-    this.loadSaveYouTubeInterface = function() {
-        $('#saveYTSegmentFormWrapper').load(gc_BranchPath + '/--ajax-load-save-YT-segment-form', function() {
+    loadSaveYouTubeInterface() {
+        $('#saveYTSegmentFormWrapper').load(gc_BranchPath + '/--ajax-load-save-YT-segment-form', function () {
             thePlayer.pushLoadYTInfo();
-        })
-    };
-
-    this.pushLoadYTInfo = function() {
+        });
+    }
+    pushLoadYTInfo() {
         $("form#saveYouTubeSegmentForm input[name=title]").val("YouTube: " + this.theSegment.getYouTubeCode());
         $("form#saveYouTubeSegmentForm input[name=cf_media_display_name]").val(this.theSegment.getFullDisplayName());
         $("form#saveYouTubeSegmentForm input[name=cf_media_yt_code]").val(this.theSegment.getYouTubeCode());
         $("form#saveYouTubeSegmentForm input[name=cf_media_short_description]").val(this.theSegment.getDescription());
-    };
-
-    this.submitSaveYouTubeForm = function() {
+    }
+    submitSaveYouTubeForm() {
         let theName = $("form#saveYouTubeSegmentForm input[name=title]").val();
         let theDisplayName = $("form#saveYouTubeSegmentForm input[name=cf_media_display_name]").val();
         let theYTCode = $("form#saveYouTubeSegmentForm input[name=cf_media_yt_code]").val();
-
         if (theName !== "" && theDisplayName !== "" && theYTCode !== "") {
             var theForm = $("form#saveYouTubeSegmentForm");
             formData = $(theForm).serialize();
@@ -1446,23 +1326,18 @@ function ProPlayer() {
                     url: $(theForm).attr('action'),
                     data: formData
                 })
-                .done(function(response) {
+                .done(function (response) {
                     //console.log(response);
                     $('#saveYTSegmentFormWrapper').empty();
                     thePlayer.reloadYouTube();
                 });
-
-
         }
-    };
-
-    this.reloadYouTube = function() {
+    }
+    reloadYouTube() {
         this.openExternalYouTubeVideo(this.theSegment.getYouTubeCode(), false);
-    };
-
-    this.showYouTubeLinkPrompt = function() {
+    }
+    showYouTubeLinkPrompt() {
         var url = prompt("Enter the YouTube Video Link");
-
         if (typeof url !== "undefined" || url !== '') {
             var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
             var match = url.match(regExp);
@@ -1472,34 +1347,26 @@ function ProPlayer() {
                 alert('The YouTube link provided was not valid.');
             }
         }
-    };
-
-    this.showFacebookLinkPrompt = function() {
+    }
+    showFacebookLinkPrompt() {
         var url = prompt("Enter the Facebook Video Link");
-
         if (typeof url !== "undefined" || url !== '') {
             var regExp = /^(?:(?:https?:)?\/\/)?(?:www\.)?facebook\.com\/([a-zA-Z0-9\.]+)\/videos\/(?:[a-zA-Z0-9\.]+\/)?([0-9]+)/;
-
             var match = url.match(regExp);
             //console.log(match);
-
             if (match) {
                 this.openExternalFBVideo(match[1], match[2]);
             } else {
                 alert('The Facebook Video link provided was not valid.');
             }
         }
-    };
-
-    this.showInstagramLinkPrompt = function() {
+    }
+    showInstagramLinkPrompt() {
         var url = prompt("Enter the Instagram Video Link");
-
         if (typeof url !== "undefined" || url !== '') {
             var regExp = /^(?:https?:\/\/(?:www\.)?)?instagram\.com(?:\/p\/(\w+)\/?)/;
-
             var match = url.match(regExp);
             //console.log(match);
-
             if (match) {
                 this.openExternalInstagramVideo(match[1]);
             } else {
@@ -1507,29 +1374,24 @@ function ProPlayer() {
             }
         }
     }
-
-    this.testFetchYouTubeData = function(strYTCode) {
-        $.get(gc_BranchPath + '/--ajax-get-yt-info/' + strYTCode, function(data) {
+    testFetchYouTubeData(strYTCode) {
+        $.get(gc_BranchPath + '/--ajax-get-yt-info/' + strYTCode, function (data) {
             var theData = jQuery.parseJSON(data);
             //console.log(theData);
         });
-
-    };
-
-    this.startSidebarToggleHover = function() {
+    }
+    startSidebarToggleHover() {
         if (!this.b_KeepSidebarOpen) {
-            this.n_SidebarToggleTimerID = setTimeout(function() {
+            this.n_SidebarToggleTimerID = setTimeout(function () {
                 thePlayer.toggleSidebar();
             }, 250);
         }
-    };
-
-    this.cancelSidebarToggleHover = function() {
+    }
+    cancelSidebarToggleHover() {
         clearTimeout(this.n_SidebarToggleTimerID);
         n_SidebarToggleTimerID = -1;
-    };
-
-    this.enginePlaybackToggled = function(bIsPlaying) {
+    }
+    enginePlaybackToggled(bIsPlaying) {
         $('#mediaPlayerWrapper').toggleClass('paused', !bIsPlaying);
         $('#mediaPlayerWrapper').toggleClass('playing', bIsPlaying);
     };

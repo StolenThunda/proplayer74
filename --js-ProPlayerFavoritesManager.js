@@ -1,4 +1,4 @@
-function ProPlayerFavoritesManager( parentDivID )
+export function ProPlayerFavoritesManager( parentDivID )
 {
  	this.n_PackageID = 0;
 	this.str_FavoritesListWrapperID = "#" + parentDivID;
@@ -6,7 +6,8 @@ function ProPlayerFavoritesManager( parentDivID )
 	this.b_FilterComments = false;
 	this.b_FavoritesLoadedOnce = false;
 	this.b_Initialized = false;
-	this.str_ReloadPath = gc_BranchPath + '/--ajax-load-favorites-list/';
+	// this.str_ReloadPath = gc_BranchPath + '/--ajax-load-favorites-list/';
+	this.str_ReloadPath = '/--ajax-load-favorites-list/';
 	
 	this.reset = function()
 	{

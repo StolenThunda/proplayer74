@@ -1,4 +1,4 @@
-function ProPlayerHistoryManager( strHistoryListWrapperID )
+export function ProPlayerHistoryManager( strHistoryListWrapperID )
 {
 		this.str_ActiveSegmentTitle = "";
 		this.str_ActiveSegmentURL = "";

@@ -1,4 +1,4 @@
-function ProPlayerBrowser( strWrapperDiv )
+export function ProPlayerBrowser( strWrapperDiv )
 {
 	this.b_BrowserLoaded = false;
 	this.strBrowserWrapperID = "#" + strWrapperDiv;
@@ -697,7 +697,7 @@ function ProPlayerBrowser( strWrapperDiv )
 		
 }
 
-function BrowserFilterSectionList( browserTool )
+export function BrowserFilterSectionList( browserTool )
 {
 	this.theBrowser = browserTool;
 	this.a_Sections = [];
@@ -764,7 +764,7 @@ function BrowserFilterSectionList( browserTool )
 
 
 
-function BrowserFilterSection()
+export function BrowserFilterSection()
 {
 	this.str_SectionID = "";
 	this.str_SectionType = "";

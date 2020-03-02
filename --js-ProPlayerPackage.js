@@ -1,4 +1,4 @@
-function ProPlayerPackage()
+export function ProPlayerPackage()
 {
 	
 	this.str_PackageType = ""; // must be "entry" or "other"

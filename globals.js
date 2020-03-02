@@ -1,0 +1,1 @@
+export const gc_BranchPath = '/' + '{branch_path}';

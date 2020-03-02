@@ -1,4 +1,4 @@
-function ProPlayerCommentsManager( parentWraperDivID )
+export function ProPlayerCommentsManager( parentWraperDivID )
 {
 		this.n_SegmentID = 0;
 	 	this.n_PackageID = 0;

@@ -1,4 +1,4 @@
-function ProPlayerEngine()
+export function ProPlayerEngine()
 {
 /*****************************************
 ************* Global Variables  ************

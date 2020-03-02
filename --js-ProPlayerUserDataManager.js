@@ -1,4 +1,4 @@
-function ProPlayerUserDataManager()
+export function ProPlayerUserDataManager()
 {
 	
 	this.n_SegmentID = -1;

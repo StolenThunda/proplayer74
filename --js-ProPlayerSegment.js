@@ -1,4 +1,4 @@
-function ProPlayerSegment()
+export function ProPlayerSegment()
 {
 	this.b_IsLoaded = false;
 	this.str_Title = "";

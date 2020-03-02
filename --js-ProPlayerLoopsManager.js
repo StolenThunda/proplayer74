@@ -1,4 +1,4 @@
-function ProPlayerLoopsManager()
+export function ProPlayerLoopsManager()
 {
 	this.a_Collections = [];
 	this.n_LastActiveCollectionID = -1;
@@ -271,7 +271,7 @@ function ProPlayerLoopsManager()
 }
 
 
-function ProPlayerLoopsCollection( nCollectionID, strListWrapperID, strCollectionRole, bEditable )
+export function ProPlayerLoopsCollection( nCollectionID, strListWrapperID, strCollectionRole, bEditable )
 {
 	this.str_UIWrapperID = '#' + strListWrapperID;
 	this.b_Editable = bEditable;
@@ -560,7 +560,7 @@ function ProPlayerLoopsCollection( nCollectionID, strListWrapperID, strCollectio
 
 
 
-function ProPlayerLoopsList( nCollectionID, nListID, strListTitle )
+export function ProPlayerLoopsList( nCollectionID, nListID, strListTitle )
 {
 	this.a_Loops = [];
 	this.n_CollectionID = nCollectionID;
@@ -1066,7 +1066,7 @@ function ProPlayerLoopsList( nCollectionID, nListID, strListTitle )
 	
 }
 
-function InstantLoop( strName, fStartTime, fStopTime )
+export function InstantLoop( strName, fStartTime, fStopTime )
 {
 	this.str_Name = strName;
 	this.f_StartTime = parseFloat(fStartTime);
